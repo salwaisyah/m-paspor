@@ -28,36 +28,92 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'justify',
   },
-  termsAndConditionsDetailWrapper: {
+  termsAndConditionsDetailInfoContainer: {
+    marginTop: 24,
+    marginBottom: 32,
     marginHorizontal: 16,
-    marginVertical: 32,
+    gap: 24,
   },
-  content: {
-    padding: 16,
-    paddingBottom: 32,
+  titleListContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 16,
   },
-  heading: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 6,
-    color: '#222',
+  titleListNumber: {
+    color: Colors.secondary30.color,
+    ...FontFamily.notoSansSemiBold,
+    fontSize: 12,
   },
-  subheading: {
-    fontSize: 15,
-    fontWeight: '600',
-    marginTop: 10,
-    color: '#444',
+  titleListDesc: {
+    color: Colors.secondary30.color,
+    ...FontFamily.notoSansSemiBold,
+    flex: 1,
+    fontSize: 12,
   },
-  bullet: {
-    fontSize: 14,
-    marginLeft: 12,
-    marginBottom: 4,
-    color: '#333',
+  AlphabetListWrapper: {
+    gap: 8,
   },
-  paragraph: {
-    fontSize: 14,
-    marginBottom: 8,
-    color: '#333',
+  AlphabetListContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    marginStart: 18,
+  },
+  AlphabetList: {
+    ...FontFamily.notoSansRegular,
+    fontSize: 12,
+  },
+  AlphabetListDesc: {
+    flex: 1,
+    ...FontFamily.notoSansRegular,
+    fontSize: 12,
+  },
+  bodyTextContainer: {
+    marginStart: 18,
+  },
+  bodyText: {
+    fontSize: 12,
+    ...FontFamily.notoSansRegular,
+  },
+  bulletListWrapper: {
+    marginTop: 8,
+    gap: 8,
+  },
+  firstBulletListContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    marginStart: 36,
+  },
+  bulletList: {
+    ...FontFamily.notoSansRegular,
+    fontSize: 12,
+  },
+  bulletListDesc: {
+    ...FontFamily.notoSansRegular,
+    fontSize: 12,
+    flex: 1,
+  },
+  numberListWrapper: {
+    marginTop: 8,
+    gap: 8,
+  },
+  numberListContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    marginStart: 32,
+  },
+  numberList: {
+    fontSize: 12,
+    ...FontFamily.notoSansRegular,
+  },
+  numberListDesc: {
+    fontSize: 12,
+    ...FontFamily.notoSansRegular,
+    flex: 1,
+  },
+  secondBulletListContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    marginStart: 48,
   },
 });
 
