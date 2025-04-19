@@ -1,12 +1,20 @@
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useEffect, useRef, useState} from 'react';
-import {Pressable, Text, View, TextInput, Keyboard} from 'react-native';
+import {
+  Pressable,
+  Text,
+  View,
+  TextInput,
+  Keyboard,
+  StatusBar,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {RootStackParamList} from '../../navigation/type';
 import styles from './styles';
 import {Button} from 'react-native-paper';
 import OTPTextInput from '../../components/OTPTextInput';
+import Colors from '../../../assets/styles/Colors';
 
 type AccountVerificationScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -50,6 +58,10 @@ function AccountVerificationScreen() {
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        backgroundColor={Colors.neutral100.color}
+        barStyle="dark-content"
+      />
       <View style={styles.appBarContainer}>
         <Pressable onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} style={styles.arrowBackIcon} />

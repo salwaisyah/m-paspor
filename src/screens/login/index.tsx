@@ -1,5 +1,12 @@
 import React from 'react';
-import {Image, Pressable, ScrollView, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
+} from 'react-native';
 import styles from './styles';
 import {Button} from 'react-native-paper';
 import TextInputComponent from '../../components/TextInput';
@@ -7,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/type';
+import Colors from '../../../assets/styles/Colors';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -19,6 +27,10 @@ function LoginScreen() {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar
+        backgroundColor={Colors.secondary60.color}
+        barStyle="light-content"
+      />
       <Image source={welcomeImage} style={styles.welcomeImage} />
       <View style={styles.contentContainer}>
         <Text style={styles.welcomeText}>
@@ -27,16 +39,21 @@ function LoginScreen() {
         <View style={styles.textInputContainer}>
           <TextInputComponent title="Email" placeholder="Masukkan Email" />
           <TextInputComponent
-            title="Password"
-            placeholder="Masukkan Password"
-            isPassword={true}
+            title="Kata Sandi"
+            placeholder="Masukkan Kata Sandi"
+            isPassword
           />
         </View>
         <Text style={styles.forgotPasswordText}>Lupa kata sandi?</Text>
         <Button
           style={styles.loginButton}
           mode="contained"
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() =>
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'NavigationRoute'}],
+            })
+          }>
           Masuk
         </Button>
         <View style={styles.registerAccountContainer}>

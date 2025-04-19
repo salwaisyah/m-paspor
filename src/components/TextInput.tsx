@@ -8,6 +8,11 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 
+type DropdownItem = {
+  label: string;
+  value: string | number;
+};
+
 interface TextInputComponentProps {
   title?: string;
   placeholder?: string;
@@ -15,12 +20,12 @@ interface TextInputComponentProps {
   isRequired?: boolean;
   isDate?: boolean;
   isDropdown?: boolean;
+  dropdownItemData?: DropdownItem[];
+  isDisabled?: boolean;
+  supportText?: string;
+  containerHeight?: any;
+  isMultiline?: boolean;
 }
-
-const genderData = [
-  {label: 'Laki-Laki', value: '1'},
-  {label: 'Perempuan', value: '2'},
-];
 
 const TextInputComponent: React.FC<TextInputComponentProps> = ({
   title,
@@ -29,6 +34,11 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
   isRequired = false,
   isDate = false,
   isDropdown = false,
+  dropdownItemData,
+  isDisabled = false,
+  supportText,
+  containerHeight,
+  isMultiline = false,
 }) => {
   const [secureText, setSecureText] = useState(isPassword);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -36,13 +46,11 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
   const [showPicker, setShowPicker] = useState(false);
   const [genderValue, setGenderValue] = useState(null);
 
-  const renderGenderItem = (item: any) => {
-    return (
-      <View style={styles.genderItem}>
-        <Text style={styles.genderTextItem}>{item.label}</Text>
-      </View>
-    );
-  };
+  const inputStyle = [
+    styles.containerBackground,
+    styles.placeholderText,
+    containerHeight && {height: containerHeight},
+  ];
 
   const handleDateChange = (event: any, date?: Date) => {
     if (event.type === 'dismissed') {
@@ -60,6 +68,14 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
     }
   };
 
+  const renderDropdownItem = (item: any) => {
+    return (
+      <View style={styles.dropdownItem}>
+        <Text style={styles.dropdownTextItem}>{item.label}</Text>
+      </View>
+    );
+  };
+
   const renderInput = () => {
     if (isDropdown) {
       return (
@@ -75,17 +91,17 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
             placeholderStyle={styles.placeholderDropdownStyle}
             selectedTextStyle={styles.selectedTextStyle}
             iconStyle={styles.iconStyle}
-            data={genderData}
+            data={dropdownItemData ?? []}
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder="Jenis Kelamin"
+            placeholder={placeholder}
             value={genderValue}
             onChange={item => {
               setGenderValue(item.value);
             }}
             renderRightIcon={() => <Icon name="arrow-drop-down" size={20} />}
-            renderItem={renderGenderItem}
+            renderItem={renderDropdownItem}
           />
         </View>
       );
@@ -102,7 +118,7 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
             <TextInput
               mode="outlined"
               placeholder={placeholder}
-              style={[styles.containerBackground, styles.placeholderText]}
+              style={inputStyle}
               theme={{roundness: 12}}
               placeholderTextColor={Colors.primary60.color}
               editable={false}
@@ -134,11 +150,12 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
         <TextInput
           mode="outlined"
           placeholder={placeholder}
-          style={[styles.containerBackground, styles.placeholderText]}
+          style={inputStyle}
           theme={{roundness: 12}}
           placeholderTextColor={Colors.primary60.color}
           activeOutlineColor={Colors.primary10.color}
           secureTextEntry={secureText}
+          disabled={isDisabled}
           right={
             isPassword ? (
               <TextInput.Icon
@@ -148,8 +165,9 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
               />
             ) : null
           }
-          multiline={false}
+          multiline={isMultiline}
         />
+        {supportText && <Text style={[styles.supportText]}>{supportText}</Text>}
       </View>
     );
   };
@@ -179,16 +197,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     ...FontFamily.notoSansRegular,
   },
-  genderItem: {
-    padding: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  genderTextItem: {
-    flex: 1,
-    fontSize: 13,
-  },
   dropdown: {
     marginTop: 8,
     backgroundColor: 'white',
@@ -211,6 +219,24 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 20,
     height: 20,
+  },
+  dropdownItem: {
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  dropdownTextItem: {
+    flex: 1,
+    fontSize: 13,
+  },
+  supportText: {
+    marginTop: 8,
+    ...FontFamily.notoSansRegular,
+    fontSize: 10,
+    textAlign: 'right',
+    includeFontPadding: false,
+    color: Colors.neutral70.color,
   },
 });
 

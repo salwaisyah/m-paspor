@@ -1,10 +1,11 @@
 import React from 'react';
-import {Pressable, ScrollView, Text, View} from 'react-native';
+import {Pressable, ScrollView, StatusBar, Text, View} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {RootStackParamList} from '../../navigation/type';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
+import Colors from '../../../assets/styles/Colors';
 
 type TermsAndConditionsScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -16,6 +17,10 @@ function TermsAndConnditionsScreen() {
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        backgroundColor={Colors.neutral100.color}
+        barStyle="dark-content"
+      />
       <View style={styles.appBarContainer}>
         <Pressable onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} style={styles.arrowBackIcon} />

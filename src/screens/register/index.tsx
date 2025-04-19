@@ -1,6 +1,6 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
-import {Pressable, ScrollView, Text, View} from 'react-native';
+import {Pressable, ScrollView, StatusBar, Text, View} from 'react-native';
 import {RootStackParamList} from '../../navigation/type';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -8,6 +8,7 @@ import styles from './styles';
 import TextInputComponent from '../../components/TextInput';
 import {Button, Checkbox} from 'react-native-paper';
 import Colors from '../../../assets/styles/Colors';
+import genderData from '../../model/DropdownData/GenderData';
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -20,6 +21,10 @@ function RegisterScreen() {
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        backgroundColor={Colors.neutral100.color}
+        barStyle="dark-content"
+      />
       <View style={styles.appBarContainer}>
         <Pressable onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} style={styles.arrowBackIcon} />
@@ -55,6 +60,7 @@ function RegisterScreen() {
                 placeholder="Jenis Kelamin"
                 isRequired
                 isDropdown
+                dropdownItemData={genderData}
               />
             </View>
           </View>

@@ -11,6 +11,8 @@ import EditProfileScreen from '../screens/editProfile';
 import CloseAccountScreen from '../screens/closeAccount';
 import {RootStackParamList} from './type';
 import TermsAndConnditionsScreen from '../screens/termsAndConditions';
+import NavigationRouteScreen from '../screens/navigationRoute';
+import SetPasswordScreen from '../screens/setPassword';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -35,6 +37,11 @@ function RootStack() {
       <Stack.Screen
         name="TermsAndConditions"
         component={TermsAndConnditionsScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="NavigationRoute"
+        component={NavigationRouteScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -65,6 +72,11 @@ function RootStack() {
       <Stack.Screen
         name="CloseAccount"
         component={CloseAccountScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SetPassword"
+        component={SetPasswordScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -1,5 +1,6 @@
 export type RootStackParamList = {
   Login: undefined;
+  NavigationRoute: undefined;
   Home: undefined;
   Register: undefined;
   AccountVerification: undefined;
@@ -9,4 +10,5 @@ export type RootStackParamList = {
   Profile: undefined;
   EditProfile: undefined;
   CloseAccount: undefined;
+  SetPassword: undefined;
 };
