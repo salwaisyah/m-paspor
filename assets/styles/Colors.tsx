@@ -35,7 +35,7 @@ const Colors = StyleSheet.create({
     color: '#4F97AB',
   },
   secondary50: {
-    color: '#7BB1C0,',
+    color: '#7BB1C0',
   },
   secondary60: {
     color: '#A7CBD5',

@@ -7,11 +7,11 @@ import {RootStackParamList} from '../../navigation/type';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 import TextInputComponent from '../../components/TextInput';
-import genderData from '../../model/DropdownData/GenderData';
-import provinceData from '../../model/DropdownData/ProvinceData';
-import cityData from '../../model/DropdownData/CityData';
-import districtData from '../../model/DropdownData/DistrictData';
-import postalCodeData from '../../model/DropdownData/PostalCodeData';
+import genderData from '../../data/DropdownData/GenderData';
+import provinceData from '../../data/DropdownData/ProvinceData';
+import cityData from '../../data/DropdownData/CityData';
+import districtData from '../../data/DropdownData/DistrictData';
+import postalCodeData from '../../data/DropdownData/PostalCodeData';
 import {Button} from 'react-native-paper';
 
 type EditProfileScreenNavigationProp = NativeStackNavigationProp<

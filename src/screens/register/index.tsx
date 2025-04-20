@@ -8,7 +8,7 @@ import styles from './styles';
 import TextInputComponent from '../../components/TextInput';
 import {Button, Checkbox} from 'react-native-paper';
 import Colors from '../../../assets/styles/Colors';
-import genderData from '../../model/DropdownData/GenderData';
+import genderData from '../../data/DropdownData/GenderData';
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
