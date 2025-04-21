@@ -1,6 +1,9 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import Colors from '../../../assets/styles/Colors';
 import FontFamily from '../../../assets/styles/FontFamily';
+
+const {width} = Dimensions.get('window');
+const ITEM_WIDTH = width * 0.8;
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +28,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondary30.color,
     height: 245,
     alignItems: 'center',
+  },
+  itemContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  item: {
+    width: ITEM_WIDTH,
+    height: 200,
+    borderRadius: 20,
+    backgroundColor: Colors.secondary70.color,
   },
   serviceContainer: {
     marginVertical: 12,
@@ -82,6 +95,19 @@ const styles = StyleSheet.create({
   },
   flatllistGap: {
     height: 8,
+  },
+  indicatorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 4,
+    marginBottom: 12,
+  },
+  indicatorInactive: {
+    height: 8,
+    width: 8,
+    borderRadius: 4,
+    backgroundColor: Colors.neutral100.color,
+    marginHorizontal: 4,
   },
 });
 
