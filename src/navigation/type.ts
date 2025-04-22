@@ -1,3 +1,5 @@
+import {PassportAppointmentData} from '../model/model';
+
 export type RootStackParamList = {
   Login: undefined;
   NavigationRoute: undefined;
@@ -11,4 +13,9 @@ export type RootStackParamList = {
   EditProfile: undefined;
   CloseAccount: undefined;
   SetPassword: undefined;
+  RegularPassport: undefined;
+  ExpressPassport: undefined;
+  Guidebook: undefined;
+  EazyPassport: undefined;
+  ApplicationDetail: {data: PassportAppointmentData};
 };

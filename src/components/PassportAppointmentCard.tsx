@@ -6,7 +6,7 @@ import Colors from '../../assets/styles/Colors';
 
 type PassportAppointmentCardProps = {
   applicantName: string;
-  applicantCount: number;
+  applicantCode: string;
   appointmentDate: string;
   appointmentTime: string;
   serviceUnit: string;
@@ -53,7 +53,7 @@ const renderStatusContent = (status: string) => {
 
 const PassportAppointmentCard: React.FC<PassportAppointmentCardProps> = ({
   applicantName,
-  applicantCount,
+  applicantCode,
   appointmentDate,
   appointmentTime,
   serviceUnit,
@@ -64,9 +64,7 @@ const PassportAppointmentCard: React.FC<PassportAppointmentCardProps> = ({
       <View style={styles.topCardContainer}>
         <View style={styles.topCardContentTextWrapper}>
           <Text style={styles.applicantNameText}>{applicantName}</Text>
-          <Text style={styles.applicantCountText}>
-            {applicantCount} Pemohon
-          </Text>
+          <Text style={styles.applicantCodeText}>{applicantCode}</Text>
         </View>
         <Icon name="menu-right" size={24} />
       </View>
@@ -139,7 +137,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: Colors.secondary30.color,
   },
-  applicantCountText: {
+  applicantCodeText: {
     fontSize: 12,
     ...FontFamily.notoSansRegular,
     color: Colors.primary30.color,

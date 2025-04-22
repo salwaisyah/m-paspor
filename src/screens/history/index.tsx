@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, StatusBar, Text, View} from 'react-native';
+import {FlatList, Pressable, StatusBar, Text, View} from 'react-native';
 import styles from './styles';
 import Colors from '../../../assets/styles/Colors';
 import passportAppointmentData from '../../data/History/PassportAppointmentData';
@@ -52,14 +52,22 @@ function HistoryScreen() {
         <FlatList
           data={passportAppointmentData}
           renderItem={({item}) => (
-            <PassportAppointmentCard
-              applicantName={item.applicantName}
-              applicantCount={item.applicantCount}
-              appointmentDate={item.appointmentDate}
-              appointmentTime={item.appointmentTime}
-              serviceUnit={item.serviceUnit}
-              status={item.status}
-            />
+            <Pressable
+              onPress={() =>
+                navigation.navigate('ApplicationDetail', {data: item})
+              }
+              style={({pressed}) => ({
+                transform: [{scale: pressed ? 0.975 : 1}],
+              })}>
+              <PassportAppointmentCard
+                applicantName={item.applicantName}
+                applicantCode={item.applicantCode}
+                appointmentDate={item.appointmentDate}
+                appointmentTime={item.appointmentTime}
+                serviceUnit={item.serviceUnit}
+                status={item.status}
+              />
+            </Pressable>
           )}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={ItemSeparator}

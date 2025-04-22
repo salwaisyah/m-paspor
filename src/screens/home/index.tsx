@@ -130,27 +130,55 @@ const RenderContent = () => {
         <Text style={styles.serviceText}>Layanan</Text>
         <View style={styles.serviceOptionWrapper}>
           <View style={styles.serviceOptionContainer}>
-            <View style={styles.serviceIcon}>
+            <Pressable
+              onPress={() => navigation.navigate('RegularPassport')}
+              style={({pressed}) => [
+                styles.serviceIcon,
+                {
+                  transform: [{scale: pressed ? 0.925 : 1}],
+                },
+              ]}>
               <RegularPassportIcon />
-            </View>
+            </Pressable>
             <Text style={styles.serviceDesc}>Paspor Reguler</Text>
           </View>
           <View style={styles.serviceOptionContainer}>
-            <View style={styles.serviceIcon}>
+            <Pressable
+              onPress={() => navigation.navigate('ExpressPassport')}
+              style={({pressed}) => [
+                styles.serviceIcon,
+                {
+                  transform: [{scale: pressed ? 0.925 : 1}],
+                },
+              ]}>
               <ExpressPassportIcon />
-            </View>
+            </Pressable>
             <Text style={styles.serviceDesc}>Paspor Percepatan</Text>
           </View>
           <View style={styles.serviceOptionContainer}>
-            <View style={styles.serviceIcon}>
+            <Pressable
+              onPress={() => navigation.navigate('Guidebook')}
+              style={({pressed}) => [
+                styles.serviceIcon,
+                {
+                  transform: [{scale: pressed ? 0.925 : 1}],
+                },
+              ]}>
               <GuidebookIcon />
-            </View>
+            </Pressable>
             <Text style={styles.serviceDesc}>Buku Panduan</Text>
           </View>
           <View style={styles.serviceOptionContainer}>
-            <View style={styles.serviceIcon}>
+            <Pressable
+              onPress={() => navigation.navigate('EazyPassport')}
+              style={({pressed}) => [
+                styles.serviceIcon,
+                {
+                  transform: [{scale: pressed ? 0.925 : 1}],
+                },
+              ]}>
               <EazyPassportIcon />
-            </View>
+            </Pressable>
             <Text style={styles.serviceDesc}>EAZY Pasport</Text>
           </View>
         </View>
@@ -168,16 +196,24 @@ const RenderContent = () => {
         </View>
         <View style={styles.cardWrapper}>
           <FlatList
-            data={passportAppointmentData.slice(0, 2)}
+            data={passportAppointmentData.slice(-2)}
             renderItem={({item}) => (
-              <PassportAppointmentCard
-                applicantName={item.applicantName}
-                applicantCount={item.applicantCount}
-                appointmentDate={item.appointmentDate}
-                appointmentTime={item.appointmentTime}
-                serviceUnit={item.serviceUnit}
-                status={item.status}
-              />
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('ApplicationDetail', {data: item})
+                }
+                style={({pressed}) => ({
+                  transform: [{scale: pressed ? 0.975 : 1}],
+                })}>
+                <PassportAppointmentCard
+                  applicantName={item.applicantName}
+                  applicantCode={item.applicantCode}
+                  appointmentDate={item.appointmentDate}
+                  appointmentTime={item.appointmentTime}
+                  serviceUnit={item.serviceUnit}
+                  status={item.status}
+                />
+              </Pressable>
             )}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={ItemSeparator}
