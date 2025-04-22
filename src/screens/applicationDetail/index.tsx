@@ -72,7 +72,7 @@ const renderApplicantDetailContent = () => {
         <View style={styles.applicantDetailTextContentWrapper}>
           <Text style={styles.applicantDetailTextTitle}>Jenis Paspor</Text>
           <Text style={styles.applicantDetailTextDesc}>
-            {data.applicationDetails.applicationType}
+            {data.applicationDetails.passportType}
           </Text>
         </View>
       </View>
