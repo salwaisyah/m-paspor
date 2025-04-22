@@ -37,10 +37,9 @@ function CloseAccountScreen() {
       <PaperProvider>
         <View style={styles.contentContainer}>
           <StatusBar
-            backgroundColor={visible ? '#ADADAF' : Colors.neutral100.color}
+            backgroundColor={visible ? Colors.primary30.color : Colors.primary30.color}
             barStyle={visible ? 'light-content' : 'dark-content'}
           />
-
           <View>
             <View style={styles.appBarContainer}>
               <Icon

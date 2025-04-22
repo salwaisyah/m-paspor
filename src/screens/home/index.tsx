@@ -36,7 +36,11 @@ const data = [1, 2, 3, 4];
 
 const ItemSeparator = () => <View style={styles.flatllistGap} />;
 
-const RenderContent = () => {
+type RenderContentProps = {
+  showDialog: () => void;
+};
+
+const RenderContent = ({showDialog}: RenderContentProps) => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -131,7 +135,7 @@ const RenderContent = () => {
         <View style={styles.serviceOptionWrapper}>
           <View style={styles.serviceOptionContainer}>
             <Pressable
-              onPress={() => navigation.navigate('RegularPassport')}
+              onPress={showDialog}
               style={({pressed}) => [
                 styles.serviceIcon,
                 {
@@ -224,13 +228,18 @@ const RenderContent = () => {
   );
 };
 
-function HomeScreen() {
+type HomeScreenProps = {
+  showDialog: () => void;
+};
+
+function HomeScreen({showDialog}: HomeScreenProps) {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+
   return (
     <View style={styles.container}>
       <StatusBar
         backgroundColor={Colors.secondary30.color}
-        barStyle="light-content"
+        barStyle={'light-content'}
       />
       <View style={styles.appBarContainer}>
         <Text style={styles.appBarTitle}>Halo, X!</Text>
@@ -241,7 +250,10 @@ function HomeScreen() {
           onPress={() => navigation.navigate('Notification')}
         />
       </View>
-      <FlatList data={[{}]} renderItem={() => <RenderContent />} />
+      <FlatList
+        data={[{}]}
+        renderItem={() => <RenderContent showDialog={showDialog} />}
+      />
     </View>
   );
 }

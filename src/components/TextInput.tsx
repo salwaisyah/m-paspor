@@ -123,8 +123,9 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
               placeholderTextColor={Colors.primary60.color}
               editable={false}
               value={formattedDate}
-              right={<TextInput.Icon icon="calendar" />}
+              right={<TextInput.Icon icon="calendar" color='#48454E' />}
               multiline={false}
+              textColor='#48454E'
             />
           </Pressable>
           {showPicker && (
@@ -166,6 +167,7 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
             ) : null
           }
           multiline={isMultiline}
+          textColor='#48454E'
         />
         {supportText && <Text style={[styles.supportText]}>{supportText}</Text>}
       </View>
@@ -196,6 +198,7 @@ const styles = StyleSheet.create({
   placeholderText: {
     fontSize: 13,
     ...FontFamily.notoSansRegular,
+    includeFontPadding: false,
   },
   dropdown: {
     marginTop: 8,
@@ -205,16 +208,18 @@ const styles = StyleSheet.create({
     paddingStart: 16,
     paddingEnd: 8,
     borderWidth: 1,
-    borderColor: Colors.primary40.color,
+    borderColor: '#98989A',
   },
   placeholderDropdownStyle: {
     fontSize: 13,
     ...FontFamily.notoSansRegular,
+    includeFontPadding: false,
     color: Colors.primary60.color,
   },
   selectedTextStyle: {
     fontSize: 13,
     ...FontFamily.notoSansRegular,
+    includeFontPadding: false,
   },
   iconStyle: {
     width: 20,

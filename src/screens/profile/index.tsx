@@ -55,6 +55,7 @@ function ProfileScreen() {
           icon="pencil-outline"
           mode="contained"
           style={styles.sectionButtonStyle}
+          textColor={Colors.neutral100.color}
           onPress={() => navigation.navigate('EditProfile')}>
           Edit Profil
         </Button>
@@ -62,6 +63,7 @@ function ProfileScreen() {
           icon="lock-outline"
           mode="contained"
           style={styles.sectionButtonStyle}
+          textColor={Colors.neutral100.color}
           onPress={() => navigation.navigate('SetPassword')}>
           Atur Kata Sandi
         </Button>

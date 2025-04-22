@@ -49,11 +49,9 @@ function RootStack() {
         component={NavigationRouteScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{headerShown: false}}
-      />
+      <Stack.Screen name="Home" options={{headerShown: false}}>
+        {() => <HomeScreen showDialog={() => console.log('Show dialog!')} />}
+      </Stack.Screen>
       <Stack.Screen
         name="History"
         component={HistoryScreen}
