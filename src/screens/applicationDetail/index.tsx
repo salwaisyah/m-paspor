@@ -7,12 +7,131 @@ import Colors from '../../../assets/styles/Colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/type';
-import {Divider} from 'react-native-paper';
+import {Button, Divider} from 'react-native-paper';
 
 type ApplicationDetailScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'ApplicationDetail'
 >;
+
+const renderApplicantDetailContent = () => {
+  const route = useRoute();
+  const {data} = route.params as {data: PassportAppointmentData};
+
+  return (
+    <View style={styles.applicantDetailContentContainer}>
+      <View style={styles.applicantDetailTextContentWrapper}>
+        <Text style={styles.applicantDetailTextTitle}>Pemohon</Text>
+        <Text
+          style={[
+            styles.applicantDetailTextDesc,
+            {textTransform: 'uppercase', textAlign: 'right'},
+          ]}>
+          {data.applicantName}
+        </Text>
+      </View>
+      <View style={styles.applicantDetailTextContentWrapper}>
+        <Text style={styles.applicantDetailTextTitle}>Kode Permohonan</Text>
+        <Text style={[styles.applicantDetailTextDesc, {textAlign: 'right'}]}>
+          {data.applicantCode}
+        </Text>
+      </View>
+      <View style={styles.applicantDetailContentChildContainer}>
+        <View style={styles.applicantDetailTextContentWrapper}>
+          <Text style={styles.applicantDetailTextTitle}>NIK</Text>
+          <Text style={styles.applicantDetailTextDesc}>
+            {data.applicationDetails.nationalIdNumber}
+          </Text>
+        </View>
+        <View style={styles.applicantDetailTextContentWrapper}>
+          <Text style={styles.applicantDetailTextTitle}>Jenis Kelamin</Text>
+          <Text style={styles.applicantDetailTextDesc}>
+            {data.applicationDetails.gender}
+          </Text>
+        </View>
+        <View style={styles.applicantDetailTextContentWrapper}>
+          <Text style={styles.applicantDetailTextTitle}>Jenis Permohonan</Text>
+          <Text style={styles.applicantDetailTextDesc}>
+            {data.applicationDetails.applicationType}
+          </Text>
+        </View>
+        <View style={styles.applicantDetailTextContentWrapper}>
+          <Text style={styles.applicantDetailTextTitle}>
+            Alasan Penggantian
+          </Text>
+          <Text style={styles.applicantDetailTextDesc}>
+            {data.applicationDetails.replacementReason}
+          </Text>
+        </View>
+        <View style={styles.applicantDetailTextContentWrapper}>
+          <Text style={styles.applicantDetailTextTitle}>Tujuan Permohonan</Text>
+          <Text style={styles.applicantDetailTextDesc}>
+            {data.applicationDetails.applicationPurpose}
+          </Text>
+        </View>
+        <View style={styles.applicantDetailTextContentWrapper}>
+          <Text style={styles.applicantDetailTextTitle}>Jenis Paspor</Text>
+          <Text style={styles.applicantDetailTextDesc}>
+            {data.applicationDetails.applicationType}
+          </Text>
+        </View>
+      </View>
+      <Divider />
+      {data.status === 'Sudah Terbayar' ? (
+        <>
+          <View style={styles.applicantDetailBottomContentWrapper}>
+            <Text style={styles.applicantDetailBottomText}>Biaya</Text>
+            <View style={styles.applicantDetailFeeContentWrapper}>
+              <Text style={styles.applicantDetailBottomText}>
+                {data.applicationDetails.fee}
+              </Text>
+              <Icon
+                name="check-circle"
+                size={18}
+                color={Colors.indicatorGreen.color}
+              />
+            </View>
+          </View>
+          <Button
+            mode="contained"
+            style={styles.applicantDetailContentChildButton}
+            onPress={() => {}}>
+            Lanjut Pembayaran
+          </Button>
+        </>
+      ) : data.status === 'Permohonan Kadaluarsa' ? (
+        <View style={styles.applicantDetailBottomContentWrapper}>
+          <Text style={styles.applicantDetailBottomText}>Biaya</Text>
+          <Text style={styles.applicantDetailBottomText}>
+            {data.applicationDetails.fee}
+          </Text>
+        </View>
+      ) : (
+        <>
+          <View style={styles.applicantDetailBottomContentWrapper}>
+            <Text style={styles.applicantDetailBottomText}>Biaya</Text>
+            <View style={styles.applicantDetailFeeContentWrapper}>
+              <Text style={styles.applicantDetailBottomText}>
+                {data.applicationDetails.fee}
+              </Text>
+              <Icon
+                name="clock"
+                size={18}
+                color={Colors.indicatorOrange.color}
+              />
+            </View>
+          </View>
+          <Button
+            mode="contained"
+            style={styles.applicantDetailContentChildButton}
+            onPress={() => {}}>
+            Lihat Persyaratan
+          </Button>
+        </>
+      )}
+    </View>
+  );
+};
 
 const renderStatusContent = (status: string) => {
   const statusConfig: {
@@ -128,7 +247,20 @@ function ApplicationDetailScreen() {
             </View>
           </View>
           <Divider />
+          <View style={styles.midTextContentContainer}>
+            <View style={styles.midTextContentWrapper}>
+              <Text style={styles.midTextContentTitle}>Tanggal Pengajuan</Text>
+              <Text style={styles.midTextContentData}>
+                {data.submissionDate}
+              </Text>
+            </View>
+            <View style={styles.midTextContentWrapper}>
+              <Text style={styles.midTextContentTitle}>Kode Layanan</Text>
+              <Text style={styles.midTextContentData}>{data.serviceCode}</Text>
+            </View>
+          </View>
         </View>
+        <View>{renderApplicantDetailContent()}</View>
       </ScrollView>
     </View>
   );

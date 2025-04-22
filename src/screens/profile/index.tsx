@@ -27,7 +27,7 @@ function ProfileScreen() {
       </View>
       <View style={styles.topContainer}>
         <Image source={placeholderProfileImage} style={styles.profileImage} />
-        <Text style={styles.accountName}>Salwa Aisyah Adhani</Text>
+        <Text style={styles.accountName}>X</Text>
         <Text style={styles.accountNumber}>3271234560009123456</Text>
       </View>
       <View style={styles.sectionProfileField}>

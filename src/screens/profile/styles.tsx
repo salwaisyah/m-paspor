@@ -17,13 +17,15 @@ const styles = StyleSheet.create({
     color: Colors.neutral100.color,
     ...FontFamily.notoSansExtraBold,
     fontSize: 28,
-    marginStart: 16,
     marginVertical: 14,
+    includeFontPadding: false,
   },
   appBarContainer: {
-    height: 64,
+    height: 72,
     backgroundColor: Colors.secondary30.color,
     justifyContent: 'center',
+    paddingHorizontal: 16,
+    alignContent: 'center',
   },
   profileImage: {
     height: 125,

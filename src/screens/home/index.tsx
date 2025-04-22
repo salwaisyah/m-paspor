@@ -233,7 +233,7 @@ function HomeScreen() {
         barStyle="light-content"
       />
       <View style={styles.appBarContainer}>
-        <Text style={styles.appBarTitle}>Halo, Salwa!</Text>
+        <Text style={styles.appBarTitle}>Halo, X!</Text>
         <Icon
           name="bell-outline"
           size={24}

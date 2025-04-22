@@ -15,9 +15,10 @@ const styles = StyleSheet.create({
     ...FontFamily.notoSansExtraBold,
     fontSize: 28,
     marginVertical: 14,
+    includeFontPadding: false,
   },
   appBarContainer: {
-    height: 64,
+    height: 72,
     backgroundColor: Colors.secondary30.color,
     justifyContent: 'space-between',
     alignItems: 'center',

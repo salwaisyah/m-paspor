@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
     paddingVertical: 16,
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     borderRadius: 8,
   },
   statusContentContainer: {
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
   midTextTitle: {
     ...FontFamily.notoSansExtraBold,
     fontSize: 18,
-    marginVertical: 12,
+    marginTop: 16,
     color: Colors.primary30.color,
   },
   midIconContainer: {
     gap: 8,
-    marginVertical: 8,
+    marginVertical: 12,
   },
   midIconContentWrapper: {
     flexDirection: 'row',
@@ -76,6 +76,80 @@ const styles = StyleSheet.create({
     ...FontFamily.notoSansRegular,
     color: Colors.primary30.color,
     flex: 1,
+  },
+  midTextContentWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  midTextContentContainer: {
+    marginTop: 12,
+    gap: 12,
+  },
+  midTextContentTitle: {
+    fontSize: 12,
+    ...FontFamily.notoSansRegular,
+    includeFontPadding: false,
+    color: Colors.primary30.color,
+  },
+  midTextContentData: {
+    fontSize: 12,
+    ...FontFamily.notoSansSemiBold,
+    includeFontPadding: false,
+    color: Colors.primary30.color,
+  },
+  applicantDetailContentContainer: {
+    borderRadius: 16,
+    backgroundColor: Colors.neutral100.color,
+    borderWidth: 1,
+    borderColor: Colors.primary70.color,
+    margin: 12,
+    padding: 16,
+    gap: 8,
+  },
+  applicantDetailTextContentWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  applicantDetailTextTitle: {
+    fontSize: 12,
+    ...FontFamily.notoSansRegular,
+    includeFontPadding: false,
+    color: Colors.primary30.color,
+    flex: 1,
+  },
+  applicantDetailTextDesc: {
+    fontSize: 12,
+    ...FontFamily.notoSansBold,
+    includeFontPadding: false,
+    color: Colors.primary30.color,
+    flex: 1.2,
+  },
+  applicantDetailContentChildContainer: {
+    padding: 16,
+    borderWidth: 1,
+    marginVertical: 8,
+    borderColor: Colors.primary70.color,
+    borderRadius: 8,
+    gap: 12,
+  },
+  applicantDetailBottomContentWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  applicantDetailFeeContentWrapper: {
+    flexDirection: 'row',
+    gap: 4,
+    alignItems: 'center',
+  },
+  applicantDetailBottomText: {
+    fontSize: 14,
+    ...FontFamily.notoSansBold,
+    color: Colors.primary30.color,
+  },
+  applicantDetailContentChildButton: {
+    marginTop: 8,
+    backgroundColor: Colors.primary30.color,
   },
 });
 

@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   appBarContainer: {
-    height: 64,
+    height: 72,
     backgroundColor: Colors.secondary30.color,
     justifyContent: 'center',
   },
   appBarNavBackContainer: {
-    height: 64,
+    height: 72,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.secondary30.color,
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
   },
   cardWrapper: {
     margin: 16,
-    marginBottom: 165,
-    marginTop: -69,
+    marginBottom: 172,
+    marginTop: -85,
   },
   flatllistGap: {
     height: 8,
