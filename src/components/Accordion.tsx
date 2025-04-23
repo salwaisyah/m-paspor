@@ -15,7 +15,12 @@ const Accordion: React.FC<AccordionProps> = ({title, children}) => {
   return (
     <View>
       <Pressable
-        style={styles.accordionContainer}
+        style={({pressed}) => ({
+          transform: [{scale: pressed ? 0.99 : 1}],
+          flexDirection: 'row',
+          paddingVertical: 12,
+          justifyContent: 'space-between',
+        })}
         onPress={() => setExpanded(!expanded)}>
         <Text style={styles.accordionTitle}>{title}</Text>
         <Icon
@@ -30,11 +35,6 @@ const Accordion: React.FC<AccordionProps> = ({title, children}) => {
 };
 
 const styles = StyleSheet.create({
-  accordionContainer: {
-    flexDirection: 'row',
-    paddingVertical: 12,
-    justifyContent: 'space-between',
-  },
   accordionTitle: {
     ...FontFamily.notoSansBold,
     includeFontPadding: false,

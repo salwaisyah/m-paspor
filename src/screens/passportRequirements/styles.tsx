@@ -23,6 +23,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.neutral100.color,
   },
+  contentContainer: {
+    marginTop: 4,
+    marginHorizontal: 16,
+    marginBottom: 24,
+    gap: 12,
+  },
+  textContentDesc: {
+    flex: 1,
+    color: Colors.primary30.color,
+    ...FontFamily.notoSansRegular,
+    fontSize: 12,
+    textAlign: 'justify',
+    includeFontPadding: false,
+    lineHeight: 24,
+  },
+  listFlex: {
+    flex: 0,
+  },
+  alphabetListWrapper: {
+    marginStart: 16,
+  },
+  textContentWrapper: {
+    flexDirection: 'row',
+    gap: 6,
+  },
 });
 
 export default styles;
