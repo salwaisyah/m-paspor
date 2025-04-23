@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     gap: 8,
-    margin: 16
+    margin: 16,
   },
   textDesc: {
     ...FontFamily.notoSansRegular,

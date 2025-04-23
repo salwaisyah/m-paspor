@@ -26,24 +26,25 @@ const styles = StyleSheet.create({
   textContentContainer: {
     marginTop: 4,
     marginHorizontal: 16,
+    marginBottom: 16,
     gap: 4,
   },
   textContentWrapper: {
     flexDirection: 'row',
-    gap: 6
+    gap: 6,
   },
   textContentStyle: {
     ...FontFamily.notoSansRegular,
     includeFontPadding: false,
     color: Colors.primary30.color,
     fontSize: 12,
-    lineHeight: 20,
+    lineHeight: 24,
     textAlign: 'justify',
   },
   textContentAlphabetListContainer: {
     marginStart: 16,
     gap: 4,
-  }
+  },
 });
 
 export default styles;
