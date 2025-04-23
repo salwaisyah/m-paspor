@@ -87,7 +87,7 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
             </View>
           )}
           <Dropdown
-            style={styles.dropdown}
+            style={[styles.dropdown, isDisabled && styles.outlineColorDisabled]}
             placeholderStyle={styles.placeholderDropdownStyle}
             selectedTextStyle={styles.selectedTextStyle}
             iconStyle={styles.iconStyle}
@@ -100,6 +100,7 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
             onChange={item => {
               setGenderValue(item.value);
             }}
+            disable={isDisabled}
             renderRightIcon={() => <Icon name="arrow-drop-down" size={20} />}
             renderItem={renderDropdownItem}
           />
@@ -114,18 +115,19 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
             {title && <Text style={styles.title}>{title}</Text>}
             {isRequired && <Text style={styles.required}>*</Text>}
           </View>
-          <Pressable onPress={() => setShowPicker(true)}>
+          <Pressable onPress={() => !isDisabled && setShowPicker(true)}>
             <TextInput
               mode="outlined"
               placeholder={placeholder}
-              style={inputStyle}
+              style={[inputStyle, isDisabled && styles.outlineColorDisabled]}
               theme={{roundness: 12}}
               placeholderTextColor={Colors.primary60.color}
               editable={false}
               value={formattedDate}
-              right={<TextInput.Icon icon="calendar" color='#48454E' />}
+              right={<TextInput.Icon icon="calendar" color="#48454E" />}
               multiline={false}
-              textColor='#48454E'
+              textColor="#48454E"
+              disabled={isDisabled}
             />
           </Pressable>
           {showPicker && (
@@ -151,7 +153,7 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
         <TextInput
           mode="outlined"
           placeholder={placeholder}
-          style={inputStyle}
+          style={[inputStyle, isDisabled && styles.outlineColorDisabled]}
           theme={{roundness: 12}}
           placeholderTextColor={Colors.primary60.color}
           activeOutlineColor={Colors.primary10.color}
@@ -167,7 +169,7 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
             ) : null
           }
           multiline={isMultiline}
-          textColor='#48454E'
+          textColor="#48454E"
         />
         {supportText && <Text style={[styles.supportText]}>{supportText}</Text>}
       </View>
@@ -242,6 +244,12 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     includeFontPadding: false,
     color: Colors.neutral70.color,
+  },
+  outlineColorDisabled: {
+    backgroundColor: '#F8F9FE',
+    borderWidth: 1,
+    borderRadius: 12,
+    borderColor: '#e3e3e5',
   },
 });
 

@@ -45,6 +45,12 @@ const styles = StyleSheet.create({
     color: Colors.primary30.color,
     includeFontPadding: false,
   },
+  questionnaireDataSecondary: {
+    ...FontFamily.notoSansBold,
+    fontSize: 12,
+    color: Colors.secondary30.color,
+    includeFontPadding: false,
+  },
   dialogContainer: {
     backgroundColor: 'white',
     elevation: 0,
@@ -90,7 +96,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.neutral100.color,
     padding: 16,
   },
-  nationalIdImage: {
+  documentImage: {
+    alignItems: 'center',
+    justifyContent: 'center',
     marginVertical: 16,
     height: 350,
     backgroundColor: Colors.primary70.color,
@@ -99,10 +107,10 @@ const styles = StyleSheet.create({
   subStepButtonContainer: {
     gap: 16,
   },
-  subStepButtonActive: {
+  subStepButtonContained: {
     backgroundColor: Colors.primary30.color,
   },
-  subStepButtonInActive: {
+  subStepButtonOutlined: {
     borderColor: Colors.primary30.color,
   },
   subStepTextWrapper: {
@@ -121,15 +129,15 @@ const styles = StyleSheet.create({
     ...FontFamily.notoSansRegular,
     lineHeight: 20,
   },
-  nationalIdImageContainer: {
+  documentImageContainer: {
     alignItems: 'center',
   },
-  nationalIdImageCropped: {
+  documentImageCropped: {
     marginBottom: 16,
     width: 225,
     height: 140,
     backgroundColor: Colors.primary70.color,
-    borderRadius: 20,
+    borderRadius: 8,
   },
   subStepTextInputContainer: {
     gap: 16,
@@ -159,6 +167,100 @@ const styles = StyleSheet.create({
     padding: 16,
     marginVertical: 16,
     gap: 16,
+    backgroundColor: Colors.neutral100.color,
+  },
+  documentImageSupportText: {
+    ...FontFamily.notoSansRegular,
+    color: Colors.neutral100.color,
+    includeFontPadding: false,
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  textInputBulletTextWrapper: {
+    flexDirection: 'row',
+    gap: 6,
+  },
+  textInputSupportText: {
+    fontSize: 10,
+    ...FontFamily.notoSansRegular,
+    color: '#8F9098',
+  },
+  sectionButtonWrapper: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  buttonContainedSecondary: {
+    flex: 1,
+    backgroundColor: Colors.secondary30.color,
+  },
+  subStepSectionButtonContainer: {
+    marginBottom: 24,
+    gap: 16,
+  },
+  subStepSectionButtonTextTitle: {
+    marginBottom: 8,
+    fontSize: 12,
+    includeFontPadding: false,
+    ...FontFamily.notoSansBold,
+    color: Colors.primary30.color,
+    flex: 1,
+  },
+  subStepSectionButtonTextWrapper: {
+    flexDirection: 'row',
+  },
+  subStepCheckWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  applicantDetailContentContainer: {
+    borderRadius: 16,
+    backgroundColor: Colors.neutral100.color,
+    borderWidth: 1,
+    borderColor: Colors.primary70.color,
+    marginVertical: 12,
+    padding: 16,
+    gap: 8,
+  },
+  applicantDetailTextContentWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  applicantDetailTopContentWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  applicantDetailIconContentWrapper: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  applicantDetailTextTitle: {
+    fontSize: 12,
+    ...FontFamily.notoSansRegular,
+    includeFontPadding: false,
+    color: Colors.primary30.color,
+    flex: 1,
+  },
+  applicantDetailTextDesc: {
+    fontSize: 12,
+    ...FontFamily.notoSansBold,
+    includeFontPadding: false,
+    color: Colors.primary30.color,
+    flex: 1.2,
+  },
+  applicantDetailContentChildContainer: {
+    padding: 16,
+    borderWidth: 1,
+    marginVertical: 8,
+    borderColor: Colors.primary70.color,
+    borderRadius: 8,
+    gap: 12,
+  },
+  applicantDetailBottomContentWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

@@ -24,7 +24,7 @@ const StepIndicator = ({currentStep, totalSteps, completedSteps}: any) => {
         const textStyle = isCompleted
           ? FontFamily.notoSansBold
           : isCurrent
-          ? FontFamily.notoSansRegular
+          ? FontFamily.notoSansSemiBold
           : FontFamily.notoSansRegular;
 
         return (
