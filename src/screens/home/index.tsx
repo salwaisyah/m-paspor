@@ -8,6 +8,7 @@ import {
   Animated,
   Dimensions,
   Pressable,
+  Image,
 } from 'react-native';
 import Colors from '../../../assets/styles/Colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -27,109 +28,131 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
   'Home'
 >;
 
-const {width} = Dimensions.get('window');
-const ITEM_WIDTH = width * 0.8;
-const ITEM_SPACING = (width - ITEM_WIDTH) / 2;
-const FIRST_ITEM_SPACING = 16;
-
-const data = [1, 2, 3, 4];
-
 const ItemSeparator = () => <View style={styles.flatllistGap} />;
 
 type RenderContentProps = {
   showDialog: () => void;
 };
 
-const RenderContent = ({showDialog}: RenderContentProps) => {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+const RenderBanner = () => {
+  const {width} = Dimensions.get('window');
+  const ITEM_WIDTH = width * 0.8;
+  const ITEM_SPACING = (width - ITEM_WIDTH) / 2;
+  const FIRST_ITEM_SPACING = 16;
   const scrollX = useRef(new Animated.Value(0)).current;
+  const data = [
+    {
+      id: '1',
+      image: require('../../../assets/images/banner01PengajuanPaspor.png'),
+    },
+    {
+      id: '2',
+      image: require('../../../assets/images/banner02Panduan.png'),
+    },
+    {
+      id: '3',
+      image: require('../../../assets/images/banner03EazyPassport.png'),
+    },
+  ];
 
   return (
     <>
-      <View style={styles.topContainer}>
-        <Animated.FlatList
-          data={data}
-          keyExtractor={item => item.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          snapToInterval={ITEM_WIDTH}
-          decelerationRate="fast"
-          bounces={false}
-          ListHeaderComponent={<View style={{width: FIRST_ITEM_SPACING}} />}
-          ListFooterComponent={<View style={{width: ITEM_SPACING}} />}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {x: scrollX}}}],
-            {useNativeDriver: true},
-          )}
-          scrollEventThrottle={16}
-          renderItem={({index}) => {
-            const inputRange = [
-              (index - 1) * ITEM_WIDTH,
-              index * ITEM_WIDTH,
-              (index + 1) * ITEM_WIDTH,
-            ];
+      <Animated.FlatList
+        data={data}
+        keyExtractor={item => item.toString()}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={ITEM_WIDTH}
+        decelerationRate="fast"
+        bounces={false}
+        ListHeaderComponent={<View style={{width: FIRST_ITEM_SPACING}} />}
+        ListFooterComponent={<View style={{width: ITEM_SPACING}} />}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {x: scrollX}}}],
+          {useNativeDriver: true},
+        )}
+        scrollEventThrottle={16}
+        renderItem={({item, index}) => {
+          const inputRange = [
+            (index - 1) * ITEM_WIDTH,
+            index * ITEM_WIDTH,
+            (index + 1) * ITEM_WIDTH,
+          ];
 
-            const scale = scrollX.interpolate({
-              inputRange,
-              outputRange: [0.875, 1, 0.875],
-              extrapolate: 'clamp',
-            });
+          const scale = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.875, 1, 0.875],
+            extrapolate: 'clamp',
+          });
 
-            const opacity = scrollX.interpolate({
-              inputRange,
-              outputRange: [0.5, 1, 0.5],
-              extrapolate: 'clamp',
-            });
+          const opacity = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.5, 1, 0.5],
+            extrapolate: 'clamp',
+          });
 
-            return (
-              <Animated.View
-                style={[
-                  styles.itemContainer,
-                  {
-                    transform: [{scale}],
-                    opacity,
-                  },
-                ]}>
-                <View style={styles.item} />
-              </Animated.View>
-            );
-          }}
-        />
-        <View style={styles.indicatorContainer}>
-          {data.map((_, i) => {
-            const inputRange = [
-              (i - 1) * ITEM_WIDTH,
-              i * ITEM_WIDTH,
-              (i + 1) * ITEM_WIDTH,
-            ];
-
-            const dotOpacity = scrollX.interpolate({
-              inputRange,
-              outputRange: [0.3, 1, 0.3],
-              extrapolate: 'clamp',
-            });
-
-            const dotScale = scrollX.interpolate({
-              inputRange,
-              outputRange: [0.8, 1.2, 0.8],
-              extrapolate: 'clamp',
-            });
-
-            return (
-              <Animated.View
-                key={i}
-                style={[
-                  styles.indicatorInactive,
-                  {
-                    opacity: dotOpacity,
-                    transform: [{scale: dotScale}],
-                  },
-                ]}
+          return (
+            <Animated.View
+              style={[
+                styles.itemContainer,
+                {
+                  transform: [{scale}],
+                  opacity,
+                },
+              ]}>
+              <Image
+                source={item.image}
+                style={styles.item}
+                resizeMode="cover"
               />
-            );
-          })}
-        </View>
+            </Animated.View>
+          );
+        }}
+      />
+      <View style={styles.indicatorContainer}>
+        {data.map((_, i) => {
+          const inputRange = [
+            (i - 1) * ITEM_WIDTH,
+            i * ITEM_WIDTH,
+            (i + 1) * ITEM_WIDTH,
+          ];
+
+          const dotOpacity = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.3, 1, 0.3],
+            extrapolate: 'clamp',
+          });
+
+          const dotScale = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.8, 1.2, 0.8],
+            extrapolate: 'clamp',
+          });
+
+          return (
+            <Animated.View
+              key={i}
+              style={[
+                styles.indicatorInactive,
+                {
+                  opacity: dotOpacity,
+                  transform: [{scale: dotScale}],
+                },
+              ]}
+            />
+          );
+        })}
       </View>
+    </>
+  );
+};
+
+const RenderContent = ({showDialog}: RenderContentProps) => {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+
+  return (
+    <>
+      <View style={styles.topContainer}>{RenderBanner()}</View>
       <View style={styles.serviceContainer}>
         <Text style={styles.serviceText}>Layanan</Text>
         <View style={styles.serviceOptionWrapper}>
@@ -229,7 +252,7 @@ const RenderContent = ({showDialog}: RenderContentProps) => {
 };
 
 type HomeScreenProps = {
-  showDialog: () => void;
+  readonly showDialog: () => void;
 };
 
 function HomeScreen({showDialog}: HomeScreenProps) {
