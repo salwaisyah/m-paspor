@@ -17,6 +17,7 @@ type ApplicationDetailScreenNavigationProp = NativeStackNavigationProp<
 const renderApplicantDetailContent = () => {
   const route = useRoute();
   const {data} = route.params as {data: PassportAppointmentData};
+  const navigation = useNavigation<ApplicationDetailScreenNavigationProp>();
 
   return (
     <View style={styles.applicantDetailContentContainer}>
@@ -96,7 +97,14 @@ const renderApplicantDetailContent = () => {
             mode="contained"
             style={styles.applicantDetailContentChildButton}
             onPress={() => {}}>
-            Lanjut Pembayaran
+            Download Surat Pengantar Menuju KANIM
+          </Button>
+          <Button
+            mode="outlined"
+            textColor={Colors.primary30.color}
+            style={styles.applicantDetailContentChildButtonOutlined}
+            onPress={() => navigation.navigate('SeeRequirements')}>
+            Lihat Persyaratan
           </Button>
         </>
       ) : data.status === 'Permohonan Kadaluarsa' ? (
@@ -125,7 +133,7 @@ const renderApplicantDetailContent = () => {
             mode="contained"
             style={styles.applicantDetailContentChildButton}
             onPress={() => {}}>
-            Lihat Persyaratan
+            Lanjut Pembayaran
           </Button>
         </>
       )}

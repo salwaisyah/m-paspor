@@ -14,10 +14,10 @@ export type RootStackParamList = {
   CloseAccount: undefined;
   SetPassword: undefined;
   RegularPassport: undefined;
-  ExpressPassport: undefined;
   Guidebook: undefined;
   EazyPassport: undefined;
   ApplicationDetail: {data: PassportAppointmentData};
   ApplicationGuide: undefined;
   PassportRequirements: undefined;
+  SeeRequirements: undefined;
 };

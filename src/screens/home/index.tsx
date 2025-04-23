@@ -148,7 +148,7 @@ const RenderContent = ({showDialog}: RenderContentProps) => {
           </View>
           <View style={styles.serviceOptionContainer}>
             <Pressable
-              onPress={() => navigation.navigate('ExpressPassport')}
+              onPress={showDialog}
               style={({pressed}) => [
                 styles.serviceIcon,
                 {

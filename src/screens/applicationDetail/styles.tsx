@@ -152,6 +152,10 @@ const styles = StyleSheet.create({
     marginTop: 8,
     backgroundColor: Colors.primary30.color,
   },
+  applicantDetailContentChildButtonOutlined: {
+    marginTop: 8,
+    borderColor: Colors.primary30.color,
+  },
 });
 
 export default styles;
