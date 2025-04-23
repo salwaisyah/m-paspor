@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     color: Colors.neutral100.color,
     ...FontFamily.notoSansRegular,
     fontSize: 22,
+    includeFontPadding: false,
     marginStart: 16,
   },
   appBarIcon: {

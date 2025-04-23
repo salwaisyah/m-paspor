@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     ...FontFamily.notoSansRegular,
     fontSize: 16,
     marginStart: 16,
+    includeFontPadding: false,
   },
   appBarIcon: {
     marginLeft: 16,

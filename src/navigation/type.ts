@@ -18,4 +18,6 @@ export type RootStackParamList = {
   Guidebook: undefined;
   EazyPassport: undefined;
   ApplicationDetail: {data: PassportAppointmentData};
+  ApplicationGuide: undefined;
+  PassportRequirements: undefined;
 };

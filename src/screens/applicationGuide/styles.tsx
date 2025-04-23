@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
-import FontFamily from '../../../assets/styles/FontFamily';
 import Colors from '../../../assets/styles/Colors';
+import FontFamily from '../../../assets/styles/FontFamily';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.neutral100.color,
   },
   appBarTitle: {
     color: Colors.secondary30.color,
@@ -21,16 +21,7 @@ const styles = StyleSheet.create({
     height: 64,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  setPasswordSectionFieldContainer: {
-    gap: 16,
-    marginTop: 16,
-    marginBottom: 32,
-    marginHorizontal: 16,
-  },
-  buttonSetPassword: {
-    marginHorizontal: 16,
-    backgroundColor: Colors.primary30.color,
+    backgroundColor: Colors.neutral100.color,
   },
 });
 

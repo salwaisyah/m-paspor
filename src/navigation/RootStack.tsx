@@ -18,6 +18,8 @@ import ExpressPassportScreen from '../screens/expressPassport';
 import GuidebookScreen from '../screens/guidebook';
 import EazyPassportScreen from '../screens/eazyPassport';
 import ApplicationDetailScreen from '../screens/applicationDetail';
+import PassportRequirementsScreen from '../screens/passportRequirements';
+import ApplicationGuideScreen from '../screens/applicationGuide';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -105,6 +107,16 @@ function RootStack() {
       <Stack.Screen
         name="ApplicationDetail"
         component={ApplicationDetailScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ApplicationGuide"
+        component={ApplicationGuideScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PassportRequirements"
+        component={PassportRequirementsScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

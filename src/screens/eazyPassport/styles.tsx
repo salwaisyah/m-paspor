@@ -16,12 +16,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     includeFontPadding: false,
     textAlign: 'justify',
+    lineHeight: 24,
   },
   appBarTitle: {
     color: Colors.neutral100.color,
     ...FontFamily.notoSansRegular,
     fontSize: 22,
     marginStart: 16,
+    includeFontPadding: false,
   },
   appBarIcon: {
     marginLeft: 16,
