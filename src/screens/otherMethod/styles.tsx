@@ -72,6 +72,11 @@ const styles = StyleSheet.create({
   paymentMethodOptionDataWrapper: {
     marginBottom: 4,
   },
+  buttonPayNow: {
+    backgroundColor: Colors.primary30.color,
+    marginHorizontal: 16,
+    marginBottom: 16,
+  },
 });
 
 export default styles;

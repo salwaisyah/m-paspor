@@ -1,5 +1,5 @@
 import {ScrollView, StatusBar, View} from 'react-native';
-import {Text} from 'react-native-paper';
+import {Text, Button} from 'react-native-paper';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../../../assets/styles/Colors';
@@ -200,6 +200,9 @@ function OtherMethodScreen() {
           </View>
         </View>
       </ScrollView>
+      <Button mode="contained" style={styles.buttonPayNow} onPress={() => {}}>
+        Bayar Sekarang
+      </Button>
     </View>
   );
 }
