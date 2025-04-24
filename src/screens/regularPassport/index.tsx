@@ -14,11 +14,10 @@ import Colors from '../../../assets/styles/Colors';
 import RadioButtonOptionComponent from '../../components/RadioButtonOption';
 import {RootStackParamList} from '../../navigation/type';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Button, Checkbox, PaperProvider} from 'react-native-paper';
+import {Button, PaperProvider} from 'react-native-paper';
 import StepIndicator from '../../components/StepIndicator';
 import TextInputComponent from '../../components/TextInput';
 import genderData from '../../data/DropdownData/GenderData';
-import civilStatusData from '../../data/DropdownData/CivilStatus';
 import DialogApplicationPassport from '../../components/dialog/DialogApplicationPassport';
 import DialogDontHaveYetPassport from '../../components/dialog/DialogDontHaveYetPassport';
 import DialogPassportInfo from '../../components/dialog/DialogPassportInfo';
@@ -26,174 +25,62 @@ import DialogLostOrDamagedPassport from '../../components/dialog/DialogLostOrDam
 import destinationCountryData from '../../data/DropdownData/DestinationCountryData';
 import familyRelationshipData from '../../data/DropdownData/FamilyRelationshipData';
 import FontFamily from '../../../assets/styles/FontFamily';
-import provinceData from '../../data/DropdownData/ProvinceData';
-import cityData from '../../data/DropdownData/CityData';
-import districtData from '../../data/DropdownData/DistrictData';
-import postalCodeData from '../../data/DropdownData/PostalCodeData';
 import passportAppointmentData from '../../data/History/PassportAppointmentData';
+import Step7Completion from './steps/Step7Completion/Step7Completion';
+import Step6Processing from './steps/Step6Processing/Step6Processing';
+import Step5Verification from './steps/Step5Verification/Step5Verification';
+import Step3Payment from './steps/Step3Payment/Step3Payment';
+
+// Data
+import civilStatusData from '../../data/DropdownData/CivilStatusData';
+import arrivalDateGuidelinesData from '../../data/Steps/ArrivalDateGuidelinesData';
+
+// Options Data
+import passportForOptions from '../../data/Options/PassportForOptions';
+import hasHadPassportBeforeOptions from '../../data/Options/HasHadPassportBeforeOptions';
+import previousPassportConditionOptions from '../../data/Options/PreviousPassportConditionOptions';
+import passportApplicationPurposeOptions from '../../data/Options/PassportApplicationPurposeOptions';
+import destinationCountryOptions from '../../data/Options/destinationCountryOptions';
+import durationAbroadOptions from '../../data/Options/DurationAbroadOptions';
+import destinationFamilyContactOptions from '../../data/Options/DestinationFamilyContactOptions';
+import Step4DataConfirmationSubStep2 from './steps/Step4DataConfirmation/Step4DataConfirmationSubStep2';
+import Step4DataConfirmationSubStep1 from './steps/Step4DataConfirmation/Step4DataConfirmationSubStep1';
 
 type RegularPassportScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'RegularPassport'
 >;
 
-const options = [
-  {
-    label: 'Dewasa',
-    description: 'WNI berusia di atas 17 tahun atau sudah menikah',
-    value: 'adult',
-  },
-  {
-    label: 'Anak',
-    description: 'WNI berusia di bawah 17 tahun dan belum menikah',
-    value: 'child',
-  },
-];
+type RenderApplicationStepsContentProps = {
+  step: number;
+  subStep: number;
+  setStep: (step: number) => void;
+  setSubStep: (subStep: number) => void;
+  selectedOption: string;
+  setSelectedOption: (val: string) => void;
+  checkedOption: boolean;
+  setCheckedOption: React.Dispatch<React.SetStateAction<boolean>>;
+  showDontHaveYetDialog: () => void;
+  showPassportInfoDialog: () => void;
+  showLostOrDamagedPassportDialog: () => void;
+};
 
-const hasHadPassportBeforeOptions = [
-  {
-    label: 'Belum',
-    description:
-      'Belum pernah memiliki paspor atau belum pernah mengajukan permohonan paspor',
-    value: 'not_yet',
-  },
-  {
-    label: 'Sudah',
-    description: '',
-    value: 'already',
-  },
-];
-
-const previousPassportConditionOptions = [
-  {
-    label: 'Habis masa berlaku',
-    description: 'null',
-    value: 'expired',
-  },
-  {
-    label: 'Penuh/Halaman Penuh',
-    description: 'null',
-    value: 'full_pages',
-  },
-  {
-    label: 'Hilang',
-    description: 'null',
-    value: 'lost',
-  },
-  {
-    label: 'Rusak',
-    description: 'null',
-    value: 'damaged',
-  },
-  {
-    label: 'Hilang karena keadaan kahar',
-    description: 'null',
-    value: 'lost_due_to_force_majeure',
-  },
-  {
-    label: 'Rusak karena keadaan kahar',
-    description: 'null',
-    value: 'damaged_due_to_force_majeure',
-  },
-];
-
-const passportApplicationPurposeOptions = [
-  {
-    label: 'Wisata',
-    description: 'null',
-    value: 'tourism',
-  },
-  {
-    label: 'Umroh',
-    description: 'null',
-    value: 'umrah',
-  },
-  {
-    label: 'Haji',
-    description: 'null',
-    value: 'hajj',
-  },
-  {
-    label: 'Bekerja Formal',
-    description: 'null',
-    value: 'formal_work',
-  },
-  {
-    label: 'Pekerja Imigran Indonesia (PMI)',
-    description: 'null',
-    value: 'indonesian_migrant_worker',
-  },
-  {
-    label: 'Belajar',
-    description: 'null',
-    value: 'study',
-  },
-  {
-    label: 'Berobat',
-    description: 'null',
-    value: 'medical',
-  },
-];
-
-const destinationCountryOptions = [
-  {
-    label: 'Saya belum memiliki negara tujuan',
-    description: 'null',
-    value: 'destination_country_not_set',
-  },
-];
-
-const durationAbroadOptions = [
-  {
-    label: '< 1 Bulan',
-    description: 'null',
-    value: 'less_than_1_month',
-  },
-  {
-    label: '< 6 Bulan',
-    description: 'null',
-    value: 'less_than_6_months',
-  },
-  {
-    label: '< 1 Tahun',
-    description: 'null',
-    value: 'less_than_1_year',
-  },
-  {
-    label: '< 5 Tahun',
-    description: 'null',
-    value: 'less_than_5_years',
-  },
-  {
-    label: '> 5 Tahun',
-    description: 'null',
-    value: 'more_than_5_years',
-  },
-];
-
-const familyContactNumberInDestinationCountryOptions = [
-  {
-    label: 'Saya tidak memiliki keluarga/kerabat di negara tujuan',
-    description: 'null',
-    value: 'no_family_in_destination_country',
-  },
-];
-
-const renderApplicationStepsContent = (
-  step: number,
-  subStep: number,
-  setStep: (step: number) => void,
-  setSubStep: (step: number) => void,
-  selectedOption: string,
-  setSelectedOption: (val: string) => void,
-  checkedOption: boolean,
-  setCheckedOption: React.Dispatch<React.SetStateAction<boolean>>,
-  showDontHaveYetDialog: () => void,
-  showPassportInfoDialog: () => void,
-  showLostOrDamagedPassportDialog: () => void,
+const RenderApplicationStepsContent = (
+  props: RenderApplicationStepsContentProps,
 ) => {
-  const lastAppointment =
-    passportAppointmentData[passportAppointmentData.length - 1];
+  const {
+    step,
+    subStep,
+    setStep,
+    setSubStep,
+    selectedOption,
+    setSelectedOption,
+    checkedOption,
+    setCheckedOption,
+    showDontHaveYetDialog,
+    showPassportInfoDialog,
+    showLostOrDamagedPassportDialog,
+  } = props;
 
   if (step === 1) {
     switch (subStep) {
@@ -880,7 +767,7 @@ const renderApplicationStepsContent = (
                   isDropdown
                   dropdownItemData={familyRelationshipData}
                 />
-                {familyContactNumberInDestinationCountryOptions.map(options => (
+                {destinationFamilyContactOptions.map(options => (
                   <RadioButtonOptionComponent
                     key={options.value}
                     label={options.label}
@@ -914,633 +801,104 @@ const renderApplicationStepsContent = (
     switch (subStep) {
       case 1:
         return (
-          <ScrollView>
-            <View style={styles.subStepContainer}>
-              <Pressable
-                onPress={() => {
-                  setStep(3);
-                }}
-                style={({pressed}) => [
-                  styles.subStepButtonBackWrapper,
-                  {
-                    transform: [{scale: pressed ? 0.99 : 1}],
-                    marginBottom: 8,
-                  },
-                ]}>
-                <Icon name="chevron-left" size={24} />
-                <Text style={styles.subStepButtonBackText}>Kembali</Text>
-              </Pressable>
-              <Text style={styles.subStepDesc}>
-                Data di bawah ini harus sesuai dengan keterangan pada KTP
-                pemohon. Data yang bertanda (
-                <Text style={{color: Colors.indicatorRed.color}}>*</Text>) wajib
-                diisi.
-              </Text>
-              <View
-                style={[
-                  styles.subStepQuestionnaireOptionContainer,
-                  {marginBottom: 0},
-                ]}>
-                <Text style={styles.questionnaireDataSecondary}>
-                  Alamat sesuai KTP
-                </Text>
-                <TextInputComponent
-                  title="Tanggal Dikeluarkan KTP"
-                  placeholder="DD/MM/YYYY"
-                  isRequired
-                  isDate
-                />
-                <TextInputComponent
-                  title="Kewarganegaraan"
-                  placeholder="Indonesia"
-                  isRequired
-                  isDisabled
-                />
-                <TextInputComponent
-                  title="Alamat Sesuai KTP"
-                  placeholder="Masukkan alamat sesuai KTP"
-                  isRequired
-                  supportText="0/100 karakter"
-                  containerHeight={90}
-                  isMultiline
-                />
-                <TextInputComponent
-                  title="Provinsi Sesuai KTP"
-                  placeholder="Cari Provinsi"
-                  isDropdown
-                  dropdownItemData={provinceData}
-                />
-                <TextInputComponent
-                  title="Kabupaten/Kota Sesuai KTP"
-                  placeholder="Cari Kabupaten/Kota"
-                  isDropdown
-                  dropdownItemData={cityData}
-                />
-                <TextInputComponent
-                  title="Kecamatan Sesuai KTP"
-                  placeholder="Cari Kecamatan"
-                  isDropdown
-                  dropdownItemData={districtData}
-                />
-                <TextInputComponent
-                  title="Kode Pos Sesuai KTP"
-                  placeholder="Cari Kode Pos"
-                  isDropdown
-                  dropdownItemData={postalCodeData}
-                />
-              </View>
-              <View
-                style={[
-                  styles.subStepQuestionnaireOptionContainer,
-                  {marginBottom: 32},
-                ]}>
-                <Text style={styles.questionnaireDataSecondary}>
-                  Alamat Sekarang (Domisili)
-                </Text>
-                <View style={styles.subStepCheckWrapper}>
-                  <Checkbox
-                    status={checkedOption ? 'checked' : 'unchecked'}
-                    color={Colors.secondary20.color}
-                    uncheckedColor={Colors.secondary20.color}
-                    onPress={() => setCheckedOption(prev => !prev)}
-                  />
-                  <Text style={styles.subStepDesc}>
-                    Alamat sekarang sesuai KTP
-                  </Text>
-                </View>
-                <TextInputComponent
-                  title="Alamat Sesuai Domisili"
-                  placeholder="Masukkan alamat sesuai Domisili"
-                  isRequired
-                  supportText="0/100 karakter"
-                  containerHeight={90}
-                  isMultiline
-                />
-                <TextInputComponent
-                  title="Provinsi Sesuai Domisili"
-                  placeholder="Cari Provinsi"
-                  isDropdown
-                  dropdownItemData={provinceData}
-                />
-                <TextInputComponent
-                  title="Kabupaten/Kota Sesuai Domisili"
-                  placeholder="Cari Kabupaten/Kota"
-                  isDropdown
-                  dropdownItemData={cityData}
-                />
-                <TextInputComponent
-                  title="Kecamatan Sesuai Domisili"
-                  placeholder="Cari Kecamatan"
-                  isDropdown
-                  dropdownItemData={districtData}
-                />
-                <TextInputComponent
-                  title="Kode Pos Sesuai Domisili"
-                  placeholder="Cari Kode Pos"
-                  isDropdown
-                  dropdownItemData={postalCodeData}
-                />
-              </View>
-              <Button
-                mode="contained"
-                onPress={() => {
-                  setStep(4), setSubStep(2);
-                }}
-                style={[styles.subStepButtonContained, {marginBottom: 8}]}
-                textColor={Colors.neutral100.color}>
-                Lanjut
-              </Button>
-            </View>
-          </ScrollView>
+          <Step4DataConfirmationSubStep1
+            setStep={setStep}
+            setSubStep={setSubStep}
+            checkedOption={checkedOption}
+            setCheckedOption={setCheckedOption}
+          />
         );
       case 2:
         return (
-          <ScrollView>
-            <View style={styles.subStepContainer}>
-              <Pressable
-                onPress={() => {
-                  setStep(4);
-                  setSubStep(1);
-                }}
-                style={({pressed}) => [
-                  styles.subStepButtonBackWrapper,
-                  {
-                    transform: [{scale: pressed ? 0.99 : 1}],
-                    marginBottom: 8,
-                  },
-                ]}>
-                <Icon name="chevron-left" size={24} />
-                <Text style={styles.subStepButtonBackText}>Kembali</Text>
-              </Pressable>
-              <Text style={styles.subStepDesc}>
-                Data di bawah ini harus sesuai dengan keterangan pada KTP
-                pemohon. Data yang bertanda (
-                <Text style={{color: Colors.indicatorRed.color}}>*</Text>) wajib
-                diisi.
-              </Text>
-              <View
-                style={[
-                  styles.subStepQuestionnaireOptionContainer,
-                  {marginBottom: 0},
-                ]}>
-                <Text style={styles.questionnaireDataSecondary}>
-                  Keterangan Pemohon
-                </Text>
-                <TextInputComponent
-                  title="Pekerjaan"
-                  placeholder="Pilih pekerjaan"
-                  isRequired
-                  isDropdown
-                />
-                <TextInputComponent
-                  title="Nomor Telepon"
-                  placeholder="Contoh: 08513456789"
-                  isRequired
-                />
-              </View>
-              <View
-                style={[
-                  styles.subStepQuestionnaireOptionContainer,
-                  {marginBottom: 0},
-                ]}>
-                <Text style={styles.questionnaireDataSecondary}>
-                  Keterangan Ibu Pemohon
-                </Text>
-                <TextInputComponent
-                  title="Nama Ibu"
-                  placeholder="Masukkan nama lengkap ibu"
-                  isRequired
-                />
-                <TextInputComponent
-                  title="Kewarganegaraan Ibu"
-                  placeholder="Pilih kewarganegaraan ibu"
-                  isRequired
-                  isDropdown
-                />
-                <TextInputComponent
-                  title="Alamat Ibu"
-                  placeholder="Masukkan alamat ibu"
-                  isRequired
-                  supportText="0/100 karakter"
-                  containerHeight={90}
-                  isMultiline
-                />
-              </View>
-              <View
-                style={[
-                  styles.subStepQuestionnaireOptionContainer,
-                  {marginBottom: 0},
-                ]}>
-                <Text style={styles.questionnaireDataSecondary}>
-                  Keterangan Ayah Pemohon (Opsional)
-                </Text>
-                <TextInputComponent
-                  title="Nama Ayah"
-                  placeholder="Masukkan nama lengkap ayah"
-                />
-                <TextInputComponent
-                  title="Kewarganegaraan Ayah"
-                  placeholder="Pilih kewarganegaraan ayah"
-                  isDropdown
-                />
-                <TextInputComponent
-                  title="Alamat Ayah"
-                  placeholder="Masukkan alamat ayah"
-                  supportText="0/100 karakter"
-                  containerHeight={90}
-                  isMultiline
-                />
-              </View>
-              <View
-                style={[
-                  styles.subStepQuestionnaireOptionContainer,
-                  {marginBottom: 32},
-                ]}>
-                <Text style={styles.questionnaireDataSecondary}>
-                  Keterangan Pasangan Pemohon (Opsional)
-                </Text>
-                <TextInputComponent
-                  title="Nama Pasangan"
-                  placeholder="Masukkan nama lengkap pasangan"
-                />
-                <TextInputComponent
-                  title="Kewarganegaraan Pasangan"
-                  placeholder="Pilih kewarganegaraan pasangan"
-                  isDropdown
-                />
-                <TextInputComponent
-                  title="Alamat Pasangan"
-                  placeholder="Masukkan alamat pasangan"
-                  supportText="0/100 karakter"
-                  containerHeight={90}
-                  isMultiline
-                />
-              </View>
-              <Button
-                mode="contained"
-                onPress={() => setStep(5)}
-                style={[styles.subStepButtonContained, {marginBottom: 8}]}
-                textColor={Colors.neutral100.color}>
-                Simpan Draft
-              </Button>
-            </View>
-          </ScrollView>
+          <Step4DataConfirmationSubStep2
+            setStep={setStep}
+            setSubStep={setSubStep}
+          />
         );
     }
   }
   switch (step) {
     case 3:
-      return (
-        <ScrollView>
-          <View style={styles.subStepContainer}>
-            <Pressable
-              onPress={() => {
-                setStep(2);
-                setSubStep(11);
-              }}
-              style={({pressed}) => [
-                styles.subStepButtonBackWrapper,
-                {
-                  transform: [{scale: pressed ? 0.99 : 1}],
-                  marginBottom: 8,
-                },
-              ]}>
-              <Icon name="chevron-left" size={24} />
-              <Text style={styles.subStepButtonBackText}>Kembali</Text>
-            </Pressable>
-            <View style={{marginBottom: 16, gap: 4}}>
-              <Text style={styles.subStepDesc}>
-                Layanan yang cocok untuk Anda adalah{' '}
-                <Text style={{...FontFamily.notoSansBold}}>
-                  Paspor Penggantian
-                </Text>
-                . Silakan unggah kelengkapan dokumen berikut.
-              </Text>
-              <View>
-                <View style={styles.textInputBulletTextWrapper}>
-                  <Text
-                    style={[
-                      styles.subStepDesc,
-                      {fontSize: 10, ...FontFamily.notoSansBold},
-                    ]}>
-                    •
-                  </Text>
-                  <Text
-                    style={[
-                      styles.subStepDesc,
-                      {fontSize: 10, ...FontFamily.notoSansBold},
-                    ]}>
-                    Unggah dokumen hanya bisa berbentuk JPG.{' '}
-                  </Text>
-                </View>
-                <View style={styles.textInputBulletTextWrapper}>
-                  <Text
-                    style={[
-                      styles.subStepDesc,
-                      {fontSize: 10, ...FontFamily.notoSansBold},
-                    ]}>
-                    •
-                  </Text>
-                  <Text
-                    style={[
-                      styles.subStepDesc,
-                      {fontSize: 10, ...FontFamily.notoSansBold},
-                    ]}>
-                    Data yang bertanda (
-                    <Text style={{color: Colors.indicatorRed.color}}>*</Text>)
-                    wajib diisi.
-                  </Text>
-                </View>
-              </View>
-            </View>
-            <View style={{marginBottom: 16, gap: 16}}>
-              <TextInputComponent
-                title="Nama Pemohon"
-                placeholder="Salwa Aisyah Adhani"
-                isRequired
-                isDisabled
-              />
-              <TextInputComponent
-                title="Tempat Lahir"
-                placeholder="Masukkan tempat lahir Anda"
-                isRequired
-              />
-              <View style={styles.subStepTextInputRowContainer}>
-                <View style={styles.subStepTextInputFlex}>
-                  <TextInputComponent
-                    title="Tanggal Lahir"
-                    placeholder="22/02/2002"
-                    isRequired
-                    isDate
-                    isDisabled
-                  />
-                </View>
-                <View style={styles.subStepTextInputFlex}>
-                  <TextInputComponent
-                    title="Jenis Kelamin"
-                    placeholder="Wanita"
-                    isRequired
-                    isDropdown
-                    isDisabled
-                    dropdownItemData={genderData}
-                  />
-                </View>
-              </View>
-            </View>
-            <View style={styles.subStepSectionButtonContainer}>
-              <View>
-                <Text style={styles.subStepSectionButtonTextTitle}>
-                  e-KTP{' '}
-                  <Text style={{color: Colors.indicatorRed.color}}>*</Text>
-                </Text>
-                <View style={styles.sectionButtonWrapper}>
-                  <Button
-                    icon="camera-outline"
-                    mode="contained"
-                    style={styles.buttonContainedSecondary}
-                    textColor={Colors.neutral100.color}
-                    labelStyle={{fontSize: 12}}>
-                    Foto Dokumen
-                  </Button>
-                  <Button
-                    icon="tray-arrow-up"
-                    mode="contained"
-                    style={styles.buttonContainedSecondary}
-                    textColor={Colors.neutral100.color}
-                    labelStyle={{fontSize: 12}}>
-                    Unggah Dokumen
-                  </Button>
-                </View>
-              </View>
-              <View>
-                <Text style={styles.subStepSectionButtonTextTitle}>
-                  Kartu Keluarga
-                </Text>
-                <View style={styles.sectionButtonWrapper}>
-                  <Button
-                    icon="camera-outline"
-                    mode="contained"
-                    style={styles.buttonContainedSecondary}
-                    textColor={Colors.neutral100.color}
-                    labelStyle={{fontSize: 12}}>
-                    Foto Dokumen
-                  </Button>
-                  <Button
-                    icon="tray-arrow-up"
-                    mode="contained"
-                    style={styles.buttonContainedSecondary}
-                    textColor={Colors.neutral100.color}
-                    labelStyle={{fontSize: 12}}>
-                    Unggah Dokumen
-                  </Button>
-                </View>
-              </View>
-              <View>
-                <View style={styles.subStepSectionButtonTextWrapper}>
-                  <Text style={styles.subStepSectionButtonTextTitle}>
-                    Akta kelahiran/ijazah/akta perkawinan/buku nikah/surat
-                    baptis
-                  </Text>
-                  <Icon
-                    name="information"
-                    size={24}
-                    color={Colors.primary30.color}
-                  />
-                </View>
-                <View style={styles.sectionButtonWrapper}>
-                  <Button
-                    icon="camera-outline"
-                    mode="contained"
-                    style={styles.buttonContainedSecondary}
-                    textColor={Colors.neutral100.color}
-                    labelStyle={{fontSize: 12}}>
-                    Foto Dokumen
-                  </Button>
-                  <Button
-                    icon="tray-arrow-up"
-                    mode="contained"
-                    style={styles.buttonContainedSecondary}
-                    textColor={Colors.neutral100.color}
-                    labelStyle={{fontSize: 12}}>
-                    Unggah Dokumen
-                  </Button>
-                </View>
-              </View>
-              <View>
-                <Text style={styles.subStepSectionButtonTextTitle}>
-                  Paspor Lama{' '}
-                  <Text style={{color: Colors.indicatorRed.color}}>*</Text>
-                </Text>
-                <View style={styles.sectionButtonWrapper}>
-                  <Button
-                    icon="camera-outline"
-                    mode="contained"
-                    style={styles.buttonContainedSecondary}
-                    textColor={Colors.neutral100.color}
-                    labelStyle={{fontSize: 12}}>
-                    Foto Dokumen
-                  </Button>
-                  <Button
-                    icon="tray-arrow-up"
-                    mode="contained"
-                    style={styles.buttonContainedSecondary}
-                    textColor={Colors.neutral100.color}
-                    labelStyle={{fontSize: 12}}>
-                    Unggah Dokumen
-                  </Button>
-                </View>
-              </View>
-            </View>
-            <Button
-              mode="contained"
-              onPress={() => {
-                setStep(4), setSubStep(1);
-              }}
-              style={styles.subStepButtonContained}
-              textColor={Colors.neutral100.color}>
-              Lanjut
-            </Button>
-          </View>
-        </ScrollView>
-      );
+      return <Step3Payment setStep={setStep} setSubStep={setSubStep} />;
     case 5:
       return (
-        <View style={styles.subStepContainer}>
-          <Text style={styles.subStepDesc}>
-            Data pemohon berikut tidak akan terhapus dan sudah tersimpan di
-            beranda. Silakan lanjut untuk memilih jenis paspor, lokasi dan
-            jadwal pengambilan, serta pembayaran.
-          </Text>
-          <View style={styles.applicantDetailContentContainer}>
-            <View style={styles.applicantDetailTopContentWrapper}>
-              <View style={{gap: 4}}>
-                <Text style={[styles.applicantDetailTextTitle, {flex: 0}]}>
-                  Pemohon
-                </Text>
-                <Text
-                  style={[
-                    styles.applicantDetailTextDesc,
-                    {textTransform: 'uppercase', flex: 0},
-                  ]}>
-                  {lastAppointment.applicantName}
-                </Text>
-              </View>
-              <View style={styles.applicantDetailIconContentWrapper}>
-                <Icon
-                  name="trash-can-outline"
-                  size={24}
-                  color={Colors.indicatorRed.color}
-                />
-                <Icon
-                  name="square-edit-outline"
-                  size={24}
-                  color={Colors.primary30.color}
-                />
-              </View>
-            </View>
-            <View style={styles.applicantDetailContentChildContainer}>
-              <View style={styles.applicantDetailTextContentWrapper}>
-                <Text style={styles.applicantDetailTextTitle}>NIK</Text>
-                <Text style={styles.applicantDetailTextDesc}>
-                  {lastAppointment.applicationDetails.nationalIdNumber}
-                </Text>
-              </View>
-              <View style={styles.applicantDetailTextContentWrapper}>
-                <Text style={styles.applicantDetailTextTitle}>
-                  Jenis Kelamin
-                </Text>
-                <Text style={styles.applicantDetailTextDesc}>
-                  {lastAppointment.applicationDetails.gender}
-                </Text>
-              </View>
-              <View style={styles.applicantDetailTextContentWrapper}>
-                <Text style={styles.applicantDetailTextTitle}>
-                  Jenis Permohonan
-                </Text>
-                <Text style={styles.applicantDetailTextDesc}>
-                  {lastAppointment.applicationDetails.applicationType}
-                </Text>
-              </View>
-              <View style={styles.applicantDetailTextContentWrapper}>
-                <Text style={styles.applicantDetailTextTitle}>
-                  Alasan Penggantian
-                </Text>
-                <Text style={styles.applicantDetailTextDesc}>
-                  {lastAppointment.applicationDetails.replacementReason}
-                </Text>
-              </View>
-              <View style={styles.applicantDetailTextContentWrapper}>
-                <Text style={styles.applicantDetailTextTitle}>
-                  Tujuan Permohonan
-                </Text>
-                <Text style={styles.applicantDetailTextDesc}>
-                  {lastAppointment.applicationDetails.applicationPurpose}
-                </Text>
-              </View>
-              <View style={styles.applicantDetailTextContentWrapper}>
-                <Text style={styles.applicantDetailTextTitle}>
-                  Jenis Paspor
-                </Text>
-                <Text style={styles.applicantDetailTextDesc}>
-                  {lastAppointment.applicationDetails.passportType}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.subStepButtonContainer, {marginTop: 12}]}>
-            <Button
-              mode="contained"
-              onPress={() => {
-                setStep(6);
-              }}
-              style={styles.subStepButtonContained}
-              textColor={Colors.neutral100.color}>
-              Lanjut
-            </Button>
-            <Button
-              mode="outlined"
-              onPress={() => {
-                setStep(4);
-                setSubStep(2);
-              }}
-              style={styles.subStepButtonOutlined}
-              textColor={Colors.primary30.color}>
-              Kembali
-            </Button>
-          </View>
-        </View>
+        <Step5Verification
+          setStep={setStep}
+          setSubStep={setSubStep}
+          passportAppointmentData={passportAppointmentData}
+        />
       );
     case 6:
       return (
-        <View>
-          <Button mode="contained" onPress={() => setStep(7)}>
-            Next
-          </Button>
-          <Button onPress={() => setStep(5)}>Back</Button>
-        </View>
+        <Step6Processing
+          setStep={setStep}
+          arrivalDateGuidelines={arrivalDateGuidelinesData}
+        />
       );
     case 7:
-      return (
-        <View>
-          <Button onPress={() => setStep(6)}>Back</Button>
-        </View>
-      );
+      return <Step7Completion setStep={setStep} />;
     default:
       return null;
   }
 };
 
+const AppBar = ({onBackPress}: {onBackPress: () => void}) => (
+  <View style={styles.appBarContainer}>
+    <Icon
+      name="arrow-left"
+      size={24}
+      style={styles.appBarIcon}
+      color={Colors.neutral100.color}
+      onPress={onBackPress}
+    />
+    <Text style={styles.appBarTitle}>Pengajuan Paspor Regular</Text>
+  </View>
+);
+
+const Questionnaire = ({
+  selectedOption,
+  setSelectedOption,
+  showDialog,
+  toggleApplicationStepsContent,
+}: {
+  selectedOption: string;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  showDialog: () => void;
+  toggleApplicationStepsContent: () => void;
+}) => (
+  <>
+    <Text style={styles.questionnaireTitle}>Kuesioner Layanan Permohonan</Text>
+    <View style={styles.questionnaireOptionContainer}>
+      <Text style={styles.questionnaireData}>Untuk siapa paspor ini?</Text>
+      {passportForOptions.map(option => (
+        <RadioButtonOptionComponent
+          key={option.value}
+          label={option.label}
+          description={option.description}
+          value={option.value}
+          selectedValue={selectedOption}
+          onSelect={value => {
+            setSelectedOption(value);
+            value === 'child' ? showDialog() : toggleApplicationStepsContent();
+          }}
+        />
+      ))}
+    </View>
+  </>
+);
+
 function RegularPassportScreen() {
   const navigation = useNavigation<RegularPassportScreenNavigationProp>();
+
+  // State management
   const [selectedOption, setSelectedOption] = useState('');
   const [checkedOption, setCheckedOption] = useState(false);
-
   const [showApplicationStepsContent, setShowApplicationStepsContent] =
     useState(false);
-
   const [step, setStep] = useState(1);
   const [subStep, setSubStep] = useState(1);
 
+  // Dialog visibility states
   const [visible, setVisible] = useState(false);
   const [visibleDontHaveYetDialog, setVisibleDontHaveYetDialog] =
     useState(false);
@@ -1551,6 +909,7 @@ function RegularPassportScreen() {
     setVisibleLostOrDamagedPassportDialog,
   ] = useState(false);
 
+  // Dialog visibility function
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
@@ -1577,6 +936,7 @@ function RegularPassportScreen() {
     7: 'Selesai',
   };
 
+  // Back handler for showing/hiding steps content
   useEffect(() => {
     if (showApplicationStepsContent) {
       const backAction = () => {
@@ -1593,6 +953,72 @@ function RegularPassportScreen() {
     }
   }, [showApplicationStepsContent]);
 
+  // Render steps or questionnaire
+  const renderApplicationStepsContent = showApplicationStepsContent ? (
+    <>
+      <View style={styles.applicationStepsContainer}>
+        <Text style={styles.stepTitle}>{stepTitles[step]}</Text>
+        <StepIndicator
+          currentStep={step}
+          totalSteps={7}
+          completedSteps={completedSteps}
+        />
+        <RenderApplicationStepsContent
+          step={step}
+          subStep={subStep}
+          setStep={setStep}
+          setSubStep={setSubStep}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          checkedOption={checkedOption}
+          setCheckedOption={setCheckedOption}
+          showDontHaveYetDialog={showDontHaveYetDialog}
+          showPassportInfoDialog={showPassportInfoDialog}
+          showLostOrDamagedPassportDialog={
+            showVisibleLostOrDamagedPassportDialog
+          }
+        />
+      </View>
+
+      {visibleDontHaveYetDialog && (
+        <DialogDontHaveYetPassport
+          visible={visibleDontHaveYetDialog}
+          onClose={hideDontHaveYetDialog}
+          onContinue={() => setSubStep(2)}
+        />
+      )}
+
+      {visiblePassportInfoDialog && (
+        <DialogPassportInfo
+          visible={visiblePassportInfoDialog}
+          onClose={hidePassportInfoDialog}
+        />
+      )}
+
+      {visibleLostOrDamagedPassportDialog && (
+        <DialogLostOrDamagedPassport
+          visible={visibleLostOrDamagedPassportDialog}
+          onBackToHome={() => {
+            navigation.goBack();
+          }}
+          onBackToFirstStep={() => {
+            setShowApplicationStepsContent(false);
+            setStep(1);
+            setSubStep(1);
+            hideVisibleLostOrDamagedPassportDialog();
+          }}
+        />
+      )}
+    </>
+  ) : (
+    <Questionnaire
+      selectedOption={selectedOption}
+      setSelectedOption={setSelectedOption}
+      showDialog={showDialog}
+      toggleApplicationStepsContent={() => setShowApplicationStepsContent(true)}
+    />
+  );
+
   return (
     <View style={styles.container}>
       <PaperProvider>
@@ -1607,102 +1033,16 @@ function RegularPassportScreen() {
           }
           barStyle="light-content"
         />
-        <View style={styles.appBarContainer}>
-          <Icon
-            name="arrow-left"
-            size={24}
-            style={styles.appBarIcon}
-            color={Colors.neutral100.color}
-            onPress={() => navigation.goBack()}
-          />
-          <Text style={styles.appBarTitle}>Pengajuan Paspor Regular</Text>
-        </View>
-        {showApplicationStepsContent ? (
-          <>
-            <View style={styles.applicationStepsContainer}>
-              <Text style={styles.stepTitle}>{stepTitles[step]}</Text>
-              <StepIndicator
-                currentStep={step}
-                totalSteps={7}
-                completedSteps={completedSteps}
-              />
-              {renderApplicationStepsContent(
-                step,
-                subStep,
-                setStep,
-                setSubStep,
-                selectedOption,
-                setSelectedOption,
-                checkedOption,
-                setCheckedOption,
-                showDontHaveYetDialog,
-                showPassportInfoDialog,
-                showVisibleLostOrDamagedPassportDialog,
-              )}
-            </View>
-            {visibleDontHaveYetDialog && (
-              <DialogDontHaveYetPassport
-                visible={visibleDontHaveYetDialog}
-                onClose={hideDontHaveYetDialog}
-                onContinue={() => setSubStep(2)}
-              />
-            )}
-            {visiblePassportInfoDialog && (
-              <DialogPassportInfo
-                visible={visiblePassportInfoDialog}
-                onClose={hidePassportInfoDialog}
-              />
-            )}
-            {visibleLostOrDamagedPassportDialog && (
-              <DialogLostOrDamagedPassport
-                visible={visibleLostOrDamagedPassportDialog}
-                onBackToHome={() => {
-                  navigation.goBack();
-                }}
-                onBackToFirstStep={() => {
-                  setShowApplicationStepsContent(false);
-                  setStep(1);
-                  setSubStep(1);
-                  hideVisibleLostOrDamagedPassportDialog();
-                }}
-              />
-            )}
-          </>
-        ) : (
-          <>
-            <Text style={styles.questionnaireTitle}>
-              Kuesioner Layanan Permohonan
-            </Text>
-            <View style={styles.questionnaireOptionContainer}>
-              <Text style={styles.questionnaireData}>
-                Untuk siapa paspor ini?
-              </Text>
-              {options.map(option => (
-                <RadioButtonOptionComponent
-                  key={option.value}
-                  label={option.label}
-                  description={option.description}
-                  value={option.value}
-                  selectedValue={selectedOption}
-                  onSelect={value => {
-                    setSelectedOption(value);
-                    value === 'child'
-                      ? showDialog()
-                      : setShowApplicationStepsContent(true);
-                  }}
-                />
-              ))}
-            </View>
-            <DialogApplicationPassport
-              visible={visible}
-              onClose={hideDialog}
-              onContinue={() => {
-                hideDialog();
-                setShowApplicationStepsContent(true);
-              }}
-            />
-          </>
-        )}
+        <AppBar onBackPress={() => navigation.goBack()} />
+        {renderApplicationStepsContent}
+        <DialogApplicationPassport
+          visible={visible}
+          onClose={hideDialog}
+          onContinue={() => {
+            hideDialog();
+            setShowApplicationStepsContent(true);
+          }}
+        />
       </PaperProvider>
     </View>
   );

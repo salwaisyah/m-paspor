@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     color: Colors.primary10.color,
     ...FontFamily.notoSansRegular,
     lineHeight: 20,
+    textAlign: 'justify',
   },
   documentImageContainer: {
     alignItems: 'center',
@@ -149,6 +150,13 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   subStepTextInputFlex: {
+    flex: 1,
+  },
+  subStepListTextRowContainer: {
+    flexDirection: 'row',
+    gap: 6,
+  },
+  subStepListTextFlex: {
     flex: 1,
   },
   subStepButtonBackWrapper: {
