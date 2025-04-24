@@ -20,6 +20,8 @@ import ApplicationDetailScreen from '../screens/applicationDetail';
 import PassportRequirementsScreen from '../screens/passportRequirements';
 import ApplicationGuideScreen from '../screens/applicationGuide';
 import SeeRequirementsScreen from '../screens/seeRequirements';
+import OtherMethodScreen from '../screens/otherMethod';
+import BillingCodeScreen from '../screens/billingCode';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -52,7 +54,7 @@ function RootStack() {
         options={{headerShown: false}}
       />
       <Stack.Screen name="Home" options={{headerShown: false}}>
-        {() => <HomeScreen showDialog={() => console.log('Show dialog!')} />}
+        {() => <HomeScreen showDialog={() => console.log('Show dialog!')} visible />}
       </Stack.Screen>
       <Stack.Screen
         name="History"
@@ -117,6 +119,16 @@ function RootStack() {
       <Stack.Screen
         name="SeeRequirements"
         component={SeeRequirementsScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="BillingCode"
+        component={BillingCodeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="OtherMethod"
+        component={OtherMethodScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

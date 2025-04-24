@@ -14,14 +14,14 @@ import Colors from '../../../assets/styles/Colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/type';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import RegularPassportIcon from '../../../assets/icons/regular_passport.svg';
 import ExpressPassportIcon from '../../../assets/icons/express_passport.svg';
 import GuidebookIcon from '../../../assets/icons/guidebook.svg';
 import EazyPassportIcon from '../../../assets/icons/eazy_passport.svg';
 import passportAppointmentData from '../../data/History/PassportAppointmentData';
 import PassportAppointmentCard from '../../components/PassportAppointmentCard';
-import {useRef} from 'react';
+import {useCallback, useRef} from 'react';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -59,7 +59,7 @@ const RenderBanner = () => {
     <>
       <Animated.FlatList
         data={data}
-        keyExtractor={item => item.toString()}
+        keyExtractor={item => item.id.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
         snapToInterval={ITEM_WIDTH}
@@ -253,15 +253,25 @@ const RenderContent = ({showDialog}: RenderContentProps) => {
 
 type HomeScreenProps = {
   readonly showDialog: () => void;
+  readonly visible: boolean;
 };
 
-function HomeScreen({showDialog}: HomeScreenProps) {
+function HomeScreen({showDialog, visible}: HomeScreenProps) {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBackgroundColor(
+        visible ? '#295E70' : Colors.secondary30.color,
+      );
+      StatusBar.setBarStyle('light-content');
+    }, [visible]),
+  );
 
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor={Colors.secondary30.color}
+        backgroundColor={visible ? '#295E70' : Colors.secondary30.color}
         barStyle={'light-content'}
       />
       <View style={styles.appBarContainer}>

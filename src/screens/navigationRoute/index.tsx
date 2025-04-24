@@ -12,7 +12,7 @@ import ProfileScreen from '../profile';
 import styles from './styles';
 import HomeScreen from '../home';
 import HistoryScreen from '../history';
-import {StatusBar, View} from 'react-native';
+import {View} from 'react-native';
 import {useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/type';
@@ -54,7 +54,7 @@ function NavigationRouteScreen() {
   const renderScene = ({route}: {route: {key: string}}) => {
     switch (route.key) {
       case 'home':
-        return <HomeScreen showDialog={showDialog} />;
+        return <HomeScreen showDialog={showDialog} visible={visible} />;
       case 'history':
         return <HistoryScreen />;
       case 'profile':

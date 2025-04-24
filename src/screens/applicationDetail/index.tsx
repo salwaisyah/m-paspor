@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, StatusBar, Text, View} from 'react-native';
 import styles from './styles';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -7,17 +7,89 @@ import Colors from '../../../assets/styles/Colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/type';
-import {Button, Divider} from 'react-native-paper';
+import {Button, Divider, PaperProvider} from 'react-native-paper';
+import DialogChoosePaymentMethod from '../../components/dialog/DialogChoosePaymentMethod';
 
 type ApplicationDetailScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'ApplicationDetail'
 >;
 
-const renderApplicantDetailContent = () => {
+const RenderStatusSection = (showDialog: () => void) => {
   const route = useRoute();
   const {data} = route.params as {data: PassportAppointmentData};
   const navigation = useNavigation<ApplicationDetailScreenNavigationProp>();
+
+  if (data.status === 'Sudah Terbayar') {
+    return (
+      <>
+        <View style={styles.applicantDetailBottomContentWrapper}>
+          <Text style={styles.applicantDetailBottomText}>Biaya</Text>
+          <View style={styles.applicantDetailFeeContentWrapper}>
+            <Text style={styles.applicantDetailBottomText}>
+              {data.applicationDetails.fee}
+            </Text>
+            <Icon
+              name="check-circle"
+              size={18}
+              color={Colors.indicatorGreen.color}
+            />
+          </View>
+        </View>
+        <Button
+          mode="contained"
+          style={styles.applicantDetailContentChildButton}
+          onPress={() => {}}
+          textColor={Colors.neutral100.color}>
+          Download Surat Pengantar Menuju KANIM
+        </Button>
+        <Button
+          mode="outlined"
+          textColor={Colors.primary30.color}
+          style={styles.applicantDetailContentChildButtonOutlined}
+          onPress={() => navigation.navigate('SeeRequirements')}>
+          Lihat Persyaratan
+        </Button>
+      </>
+    );
+  }
+
+  if (data.status === 'Permohonan Kadaluarsa') {
+    return (
+      <View style={styles.applicantDetailBottomContentWrapper}>
+        <Text style={styles.applicantDetailBottomText}>Biaya</Text>
+        <Text style={styles.applicantDetailBottomText}>
+          {data.applicationDetails.fee}
+        </Text>
+      </View>
+    );
+  }
+
+  return (
+    <>
+      <View style={styles.applicantDetailBottomContentWrapper}>
+        <Text style={styles.applicantDetailBottomText}>Biaya</Text>
+        <View style={styles.applicantDetailFeeContentWrapper}>
+          <Text style={styles.applicantDetailBottomText}>
+            {data.applicationDetails.fee}
+          </Text>
+          <Icon name="clock" size={18} color={Colors.indicatorOrange.color} />
+        </View>
+      </View>
+      <Button
+        mode="contained"
+        style={styles.applicantDetailContentChildButton}
+        onPress={showDialog}
+        textColor={Colors.neutral100.color}>
+        Lanjut Pembayaran
+      </Button>
+    </>
+  );
+};
+
+const RenderApplicantDetailContent = (showDialog: () => void) => {
+  const route = useRoute();
+  const {data} = route.params as {data: PassportAppointmentData};
 
   return (
     <View style={styles.applicantDetailContentContainer}>
@@ -26,14 +98,18 @@ const renderApplicantDetailContent = () => {
         <Text
           style={[
             styles.applicantDetailTextDesc,
-            {textTransform: 'uppercase', textAlign: 'right'},
+            styles.applicantDetailTexDescName,
           ]}>
           {data.applicantName}
         </Text>
       </View>
       <View style={styles.applicantDetailTextContentWrapper}>
         <Text style={styles.applicantDetailTextTitle}>Kode Permohonan</Text>
-        <Text style={[styles.applicantDetailTextDesc, {textAlign: 'right'}]}>
+        <Text
+          style={[
+            styles.applicantDetailTextDesc,
+            styles.applicantDetailTexDescCode,
+          ]}>
           {data.applicantCode}
         </Text>
       </View>
@@ -78,65 +154,7 @@ const renderApplicantDetailContent = () => {
         </View>
       </View>
       <Divider />
-      {data.status === 'Sudah Terbayar' ? (
-        <>
-          <View style={styles.applicantDetailBottomContentWrapper}>
-            <Text style={styles.applicantDetailBottomText}>Biaya</Text>
-            <View style={styles.applicantDetailFeeContentWrapper}>
-              <Text style={styles.applicantDetailBottomText}>
-                {data.applicationDetails.fee}
-              </Text>
-              <Icon
-                name="check-circle"
-                size={18}
-                color={Colors.indicatorGreen.color}
-              />
-            </View>
-          </View>
-          <Button
-            mode="contained"
-            style={styles.applicantDetailContentChildButton}
-            onPress={() => {}}>
-            Download Surat Pengantar Menuju KANIM
-          </Button>
-          <Button
-            mode="outlined"
-            textColor={Colors.primary30.color}
-            style={styles.applicantDetailContentChildButtonOutlined}
-            onPress={() => navigation.navigate('SeeRequirements')}>
-            Lihat Persyaratan
-          </Button>
-        </>
-      ) : data.status === 'Permohonan Kadaluarsa' ? (
-        <View style={styles.applicantDetailBottomContentWrapper}>
-          <Text style={styles.applicantDetailBottomText}>Biaya</Text>
-          <Text style={styles.applicantDetailBottomText}>
-            {data.applicationDetails.fee}
-          </Text>
-        </View>
-      ) : (
-        <>
-          <View style={styles.applicantDetailBottomContentWrapper}>
-            <Text style={styles.applicantDetailBottomText}>Biaya</Text>
-            <View style={styles.applicantDetailFeeContentWrapper}>
-              <Text style={styles.applicantDetailBottomText}>
-                {data.applicationDetails.fee}
-              </Text>
-              <Icon
-                name="clock"
-                size={18}
-                color={Colors.indicatorOrange.color}
-              />
-            </View>
-          </View>
-          <Button
-            mode="contained"
-            style={styles.applicantDetailContentChildButton}
-            onPress={() => {}}>
-            Lanjut Pembayaran
-          </Button>
-        </>
-      )}
+      {RenderStatusSection(showDialog)}
     </View>
   );
 };
@@ -199,77 +217,101 @@ function ApplicationDetailScreen() {
 
   const navigation = useNavigation<ApplicationDetailScreenNavigationProp>();
 
+  const [visible, setVisible] = useState(false);
+
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
+
   return (
     <View style={styles.container}>
-      <StatusBar
-        backgroundColor={Colors.secondary30.color}
-        barStyle="light-content"
-      />
-      <View style={styles.appBarContainer}>
-        <Icon
-          name="arrow-left"
-          size={24}
-          style={styles.appBarIcon}
-          color={Colors.neutral100.color}
-          onPress={() => navigation.goBack()}
+      <PaperProvider>
+        <StatusBar
+          backgroundColor={visible ? '#295e70' : Colors.secondary30.color}
+          barStyle="light-content"
         />
-        <Text style={styles.appBarTitle}>Detail Permohonan</Text>
-      </View>
-      <ScrollView>
-        <View style={styles.topContainer} />
-        <View style={styles.statusContentContainer}>
-          {renderStatusContent(data.status)}
+        <View style={styles.appBarContainer}>
+          <Icon
+            name="arrow-left"
+            size={24}
+            style={styles.appBarIcon}
+            color={Colors.neutral100.color}
+            onPress={() => navigation.goBack()}
+          />
+          <Text style={styles.appBarTitle}>Detail Permohonan</Text>
         </View>
-        <View style={styles.midContainer}>
-          <Text style={styles.midTextTitle}>Jadwal Kedatangan</Text>
-          <View style={styles.midIconContainer}>
-            <View style={styles.midIconContentWrapper}>
-              <Icon
-                name="calendar-today"
-                size={24}
-                color={Colors.secondary30.color}
-              />
-              <Text style={styles.midIconContentTextStyle}>
-                {data.appointmentDate}
-              </Text>
+        <ScrollView>
+          <View style={styles.topContainer} />
+          <View style={styles.statusContentContainer}>
+            {renderStatusContent(data.status)}
+          </View>
+          <View style={styles.midContainer}>
+            <Text style={styles.midTextTitle}>Jadwal Kedatangan</Text>
+            <View style={styles.midIconContainer}>
+              <View style={styles.midIconContentWrapper}>
+                <Icon
+                  name="calendar-today"
+                  size={24}
+                  color={Colors.secondary30.color}
+                />
+                <Text style={styles.midIconContentTextStyle}>
+                  {data.appointmentDate}
+                </Text>
+              </View>
+              <View style={styles.midIconContentWrapper}>
+                <Icon
+                  name="clock-outline"
+                  size={24}
+                  color={Colors.secondary30.color}
+                />
+                <Text style={styles.midIconContentTextStyle}>
+                  {data.appointmentTime}
+                </Text>
+              </View>
+              <View style={styles.midIconContentWrapper}>
+                <Icon
+                  name="map-marker-outline"
+                  size={24}
+                  color={Colors.secondary30.color}
+                />
+                <Text style={styles.midIconContentTextStyle}>
+                  {data.serviceUnit}
+                </Text>
+              </View>
             </View>
-            <View style={styles.midIconContentWrapper}>
-              <Icon
-                name="clock-outline"
-                size={24}
-                color={Colors.secondary30.color}
-              />
-              <Text style={styles.midIconContentTextStyle}>
-                {data.appointmentTime}
-              </Text>
-            </View>
-            <View style={styles.midIconContentWrapper}>
-              <Icon
-                name="map-marker-outline"
-                size={24}
-                color={Colors.secondary30.color}
-              />
-              <Text style={styles.midIconContentTextStyle}>
-                {data.serviceUnit}
-              </Text>
+            <Divider />
+            <View style={styles.midTextContentContainer}>
+              <View style={styles.midTextContentWrapper}>
+                <Text style={styles.midTextContentTitle}>
+                  Tanggal Pengajuan
+                </Text>
+                <Text style={styles.midTextContentData}>
+                  {data.submissionDate}
+                </Text>
+              </View>
+              <View style={styles.midTextContentWrapper}>
+                <Text style={styles.midTextContentTitle}>Kode Layanan</Text>
+                <Text style={styles.midTextContentData}>
+                  {data.serviceCode}
+                </Text>
+              </View>
             </View>
           </View>
-          <Divider />
-          <View style={styles.midTextContentContainer}>
-            <View style={styles.midTextContentWrapper}>
-              <Text style={styles.midTextContentTitle}>Tanggal Pengajuan</Text>
-              <Text style={styles.midTextContentData}>
-                {data.submissionDate}
-              </Text>
-            </View>
-            <View style={styles.midTextContentWrapper}>
-              <Text style={styles.midTextContentTitle}>Kode Layanan</Text>
-              <Text style={styles.midTextContentData}>{data.serviceCode}</Text>
-            </View>
-          </View>
-        </View>
-        <View>{renderApplicantDetailContent()}</View>
-      </ScrollView>
+          <View>{RenderApplicantDetailContent(showDialog)}</View>
+        </ScrollView>
+        {visible && (
+          <DialogChoosePaymentMethod
+            visible={visible}
+            onBillingCodePress={() => {
+              navigation.navigate('BillingCode');
+              hideDialog();
+            }}
+            onOtherMethodPress={() => {
+              navigation.navigate('OtherMethod');
+              hideDialog();
+            }}
+          />
+        )}
+      </PaperProvider>
     </View>
   );
 }

@@ -6,10 +6,15 @@ import FontFamily from '../../assets/styles/FontFamily';
 
 type AccordionProps = {
   title: string;
+  titleRegular?: boolean;
   children: ReactNode;
 };
 
-const Accordion: React.FC<AccordionProps> = ({title, children}) => {
+const Accordion: React.FC<AccordionProps> = ({
+  title,
+  titleRegular = false,
+  children,
+}) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -22,7 +27,14 @@ const Accordion: React.FC<AccordionProps> = ({title, children}) => {
           justifyContent: 'space-between',
         })}
         onPress={() => setExpanded(!expanded)}>
-        <Text style={styles.accordionTitle}>{title}</Text>
+        <Text
+          style={
+            titleRegular
+              ? styles.accordionTitleRegular
+              : styles.accordionTitleBold
+          }>
+          {title}
+        </Text>
         <Icon
           name={expanded ? 'chevron-up' : 'chevron-down'}
           size={24}
@@ -35,8 +47,14 @@ const Accordion: React.FC<AccordionProps> = ({title, children}) => {
 };
 
 const styles = StyleSheet.create({
-  accordionTitle: {
+  accordionTitleBold: {
     ...FontFamily.notoSansBold,
+    includeFontPadding: false,
+    fontSize: 14,
+    color: Colors.secondary30.color,
+  },
+  accordionTitleRegular: {
+    ...FontFamily.notoSansRegular,
     includeFontPadding: false,
     fontSize: 14,
     color: Colors.secondary30.color,

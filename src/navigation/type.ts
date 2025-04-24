@@ -20,4 +20,6 @@ export type RootStackParamList = {
   ApplicationGuide: undefined;
   PassportRequirements: undefined;
   SeeRequirements: undefined;
+  OtherMethod: undefined;
+  BillingCode: undefined;
 };

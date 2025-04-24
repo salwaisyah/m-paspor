@@ -126,6 +126,13 @@ const styles = StyleSheet.create({
     color: Colors.primary30.color,
     flex: 1.2,
   },
+  applicantDetailTexDescName: {
+    textTransform: 'uppercase',
+    textAlign: 'right',
+  },
+  applicantDetailTexDescCode: {
+    textAlign: 'right',
+  },
   applicantDetailContentChildContainer: {
     padding: 16,
     borderWidth: 1,
