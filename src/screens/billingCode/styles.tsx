@@ -92,6 +92,22 @@ const styles = StyleSheet.create({
   paymentMethodOptionAccordionContainer: {
     marginStart: 24,
   },
+  textContentWrapper: {
+    flexDirection: 'row',
+    gap: 6,
+  },
+  textContentDesc: {
+    flex: 1,
+    color: Colors.primary30.color,
+    ...FontFamily.notoSansRegular,
+    fontSize: 12,
+    textAlign: 'justify',
+    includeFontPadding: false,
+    lineHeight: 24,
+  },
+  listFlex: {
+    flex: 0,
+  },
 });
 
 export default styles;
