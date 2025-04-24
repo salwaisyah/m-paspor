@@ -265,15 +265,16 @@ function HomeScreen({showDialog, visible}: HomeScreenProps) {
         visible ? '#295E70' : Colors.secondary30.color,
       );
       StatusBar.setBarStyle('light-content');
+
+      return () => {
+        StatusBar.setBackgroundColor(Colors.secondary30.color);
+        StatusBar.setBarStyle('light-content');
+      };
     }, [visible]),
   );
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        backgroundColor={visible ? '#295E70' : Colors.secondary30.color}
-        barStyle={'light-content'}
-      />
       <View style={styles.appBarContainer}>
         <Text style={styles.appBarTitle}>Halo, X!</Text>
         <Icon

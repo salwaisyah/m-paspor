@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FlatList, Pressable, StatusBar, Text, View} from 'react-native';
 import styles from './styles';
 import Colors from '../../../assets/styles/Colors';
 import passportAppointmentData from '../../data/History/PassportAppointmentData';
 import PassportAppointmentCard from '../../components/PassportAppointmentCard';
-import {useNavigation, useNavigationState} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useNavigationState,
+} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RootStackParamList} from '../../navigation/type';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -25,12 +29,20 @@ function HistoryScreen() {
 
   const showNavBackAppBar = previousRoute === 'NavigationRoute';
 
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBackgroundColor(Colors.secondary30.color);
+      StatusBar.setBarStyle('light-content');
+
+      return () => {
+        StatusBar.setBackgroundColor(Colors.secondary30.color);
+        StatusBar.setBarStyle('light-content');
+      };
+    }, []),
+  );
+
   return (
     <View style={styles.container}>
-      <StatusBar
-        backgroundColor={Colors.secondary30.color}
-        barStyle="light-content"
-      />
       {showNavBackAppBar ? (
         <View style={styles.appBarNavBackContainer}>
           <Icon

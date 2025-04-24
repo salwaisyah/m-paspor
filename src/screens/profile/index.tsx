@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Image, StatusBar, Text, View} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -6,7 +6,7 @@ import Colors from '../../../assets/styles/Colors';
 import {Button} from 'react-native-paper';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/type';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -16,12 +16,20 @@ type ProfileScreenNavigationProp = NativeStackNavigationProp<
 function ProfileScreen() {
   const placeholderProfileImage = require('../../../assets/images/placeholderProfileImage.png');
   const navigation = useNavigation<ProfileScreenNavigationProp>();
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBackgroundColor(Colors.secondary30.color);
+      StatusBar.setBarStyle('light-content');
+
+      return () => {
+        StatusBar.setBackgroundColor(Colors.secondary30.color);
+        StatusBar.setBarStyle('light-content');
+      };
+    }, []),
+  );
   return (
     <View style={styles.container}>
-      <StatusBar
-        backgroundColor={Colors.secondary30.color}
-        barStyle="light-content"
-      />
       <View style={styles.appBarContainer}>
         <Text style={styles.appBarTitle}>Profil</Text>
       </View>
