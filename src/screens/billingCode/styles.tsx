@@ -108,6 +108,9 @@ const styles = StyleSheet.create({
   listFlex: {
     flex: 0,
   },
+  paymentMethodOptionDataWrapper: {
+    marginBottom: 8,
+  },
 });
 
 export default styles;

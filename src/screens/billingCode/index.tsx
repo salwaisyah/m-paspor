@@ -13,6 +13,137 @@ type BillingCodeScreenNavigationProp = NativeStackNavigationProp<
   'BillingCode'
 >;
 
+const atmDataList = [
+  {
+    title: 'BCA',
+    steps: [
+      'Pembayaran',
+      'MPN / Pajak',
+      'Penerimaan Negara',
+      'Masukkan Kode Billing',
+    ],
+  },
+  {
+    title: 'BNI',
+    steps: [
+      'Menu Lainnya',
+      'Pembayaran',
+      'Pajak/Penerimaan Negara',
+      'PajaK/PNBP/BEA & CUKAI',
+      'Masukkan Kode Billing',
+    ],
+  },
+  {
+    title: 'BRI',
+    steps: [
+      'Transaksi Lainnya',
+      'Pembayaran',
+      'Lainnya',
+      'MPN',
+      'Masukkan Kode Kode Billing',
+    ],
+  },
+  {
+    title: 'Mandiri',
+    steps: [
+      'Bayar/Beli',
+      'Penerimaan Negara',
+      'Pajak / PNBP / Cukai',
+      'Masukkan Kode Billing',
+      'Konfirmasi Pembayaran dan klik angka 1',
+    ],
+  },
+];
+
+const mobileAndInternetBankingDataList = [
+  {
+    title: 'BNI (Mobile Banking)',
+    steps: [
+      'Masukkan User ID dan M-Pin anda di aplikasi BNI Mobile',
+      'Pilih menu Pembayaran',
+      'Pilih menu Penerimaan Negara',
+      'Masukkan Kode Billing ke kolom nomor tagihan',
+      'Konfirmasi pembayaran dan masukkan password transaksi',
+      'Print bukti transaksi untuk pengambilan paspor',
+    ],
+  },
+  {
+    title: 'BCA (Internet Banking)',
+    steps: [
+      'Masuk ke https://ibank.klikbca.com',
+      'Masukkan User ID dan Pin',
+      'Pilih menu Pembayaran',
+      'Pilih menu Pajak',
+      'Pilih Penerimaan Negara pada kolom jenis pajak',
+      'Masukkan kode billing ke kolom kode billing',
+      'Konfirmasi pembayaran dan masukkan Key BCA Anda',
+      'Print bukti transaksi untuk pengambilan',
+    ],
+  },
+  {
+    title: 'BRI (Internet Banking)',
+    steps: [
+      'Masuk ke https://ib.bri.co.id',
+      'Masukkan User ID dan pin',
+      'Pilih menu Pembayaran',
+      'Pilih menu MPN',
+      'Masukkan nomor MPN G3',
+      'Konfirmasi pembayaran dan masukkan Password serta M-Token',
+      'Print bukti transaksi untuk pengambilan paspor',
+    ],
+  },
+  {
+    title: 'BRImo (Mobile Banking)',
+    steps: [
+      'Login',
+      'Masuk ke menu utama',
+      'Pilih menu Lainnya',
+      'Pilih menu Penerimaan Negara',
+      'Masukkan Kode Billing',
+      'Konfirmasi pembayaran dan masukkan pin',
+      'Print bukti transaksi untuk pengambilan paspor',
+    ],
+  },
+  {
+    title: 'Livin’ by Mandiri (Mobile Banking)',
+    steps: [
+      'Masukkan User ID dan Password Anda di aplikasi',
+      'Pilih menu Bayar',
+      'Pilih menu Pajak',
+      'Pilih Pajak/PNBP/Cukai di kolom Penyedia Jasa',
+      'Masukkan Kode Billing dan tekan lanjutkan',
+      'Konfirmasi pembayaran dan masukkan pin transaksi',
+      'Print bukti transaksi untuk pengambilan paspor',
+    ],
+  },
+  {
+    title: 'BSI Mobile (Mobile Banking)',
+    steps: [
+      'Buka Aplikasi BSI Mobile Banking, pilih menu Bayar',
+      'Pilih Penerimaan Negara (MPN)',
+      'Pilih Pajak/Cukai/SBSN/Paspor (menu Reinquiry MPN untuk cek jumlah tagihan pajak yang telah dibuat melalui Web MPN)',
+      'Masukkan No. Nasabah/No. Tagihan, klik Selanjutnya',
+      'Input pin BSI Mobile',
+      'Muncul layar konfirmasi, klik Selanjutnya',
+      'Transaksi berhasil',
+      'Bukti transaksi akan dikirim ke email yang didaftarkan notifikasi BSI Mobile',
+    ],
+  },
+  {
+    title: 'BSI Net',
+    steps: [
+      'Login ke https:// bankbsi.co.id',
+      'Pilih menu Pembayaran',
+      'Input Aplikasi Pembayaran: Rekening Sumber, Jenis Pembayaran Penerimaan Negara/Pajak/Cukai/SBN, Nomor Pembayaran',
+      'Klik Verifikasi Aplikasi Pembayaran',
+      'Muncul layar konfirmasi, klik Selanjutnya',
+      'Input token & pin otorisasi, klik Submit',
+      'Transaksi berhasil',
+      'Bukti transaksi akan dikirim ke email yang didaftarkan notifikasi BSI Net',
+    ],
+  },
+];
+
 function BillingCodeScreen() {
   const navigation = useNavigation<BillingCodeScreenNavigationProp>();
 
@@ -69,144 +200,20 @@ function BillingCodeScreen() {
               </Text>
             </View>
             <View style={styles.paymentMethodOptionAccordionContainer}>
-              <Accordion title="BCA" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Pembayaran</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>MPN/Pajak</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Penerimaan Negara</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan Kode Billing
-                  </Text>
-                </View>
-              </Accordion>
-              <Accordion title="BNI" titleRegular>
-                <View>
-                  <View style={styles.textContentWrapper}>
-                    <Text style={[styles.textContentDesc, styles.listFlex]}>
-                      1.
-                    </Text>
-                    <Text style={styles.textContentDesc}>Menu Lainnya</Text>
+              {atmDataList.map((atm, atmIndex) => (
+                <Accordion key={atmIndex} title={atm.title} titleRegular>
+                  <View style={styles.paymentMethodOptionDataWrapper}>
+                    {atm.steps.map((step, stepIndex) => (
+                      <View key={stepIndex} style={styles.textContentWrapper}>
+                        <Text style={[styles.textContentDesc, styles.listFlex]}>
+                          {stepIndex + 1}.
+                        </Text>
+                        <Text style={styles.textContentDesc}>{step}</Text>
+                      </View>
+                    ))}
                   </View>
-                  <View style={styles.textContentWrapper}>
-                    <Text style={[styles.textContentDesc, styles.listFlex]}>
-                      2.
-                    </Text>
-                    <Text style={styles.textContentDesc}>Pembayaran</Text>
-                  </View>
-                  <View style={styles.textContentWrapper}>
-                    <Text style={[styles.textContentDesc, styles.listFlex]}>
-                      3.
-                    </Text>
-                    <Text style={styles.textContentDesc}>
-                      Pajak/Penerimaan Negara
-                    </Text>
-                  </View>
-                  <View style={styles.textContentWrapper}>
-                    <Text style={[styles.textContentDesc, styles.listFlex]}>
-                      4.
-                    </Text>
-                    <Text style={styles.textContentDesc}>
-                      PajaK/PNBP/BEA & CUKAI
-                    </Text>
-                  </View>
-                  <View style={styles.textContentWrapper}>
-                    <Text style={[styles.textContentDesc, styles.listFlex]}>
-                      5.
-                    </Text>
-                    <Text style={styles.textContentDesc}>
-                      Masukkan Kode Billing
-                    </Text>
-                  </View>
-                </View>
-              </Accordion>
-              <Accordion title="BRI" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Transaksi Lainnya</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Pembayaran</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Lainnya</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>MPN</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan Kode Billing
-                  </Text>
-                </View>
-              </Accordion>
-              <Accordion title="Mandiri" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Transaksi Lainnya</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Penerimaan Negara</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Pajak/PNBP/Cukai</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan Kode Billing
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Konfirmasi Pembayaran dan klik angka 1
-                  </Text>
-                </View>
-              </Accordion>
+                </Accordion>
+              ))}
             </View>
           </View>
           <View style={styles.paymentMethodContainer}>
@@ -221,418 +228,20 @@ function BillingCodeScreen() {
               </Text>
             </View>
             <View style={styles.paymentMethodOptionAccordionContainer}>
-              <Accordion title="BNI (Mobile Banking)" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan User ID dan M-Pin anda di aplikasi BNI Mobile
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih menu Pembayaran
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih menu Penerimaan Negara
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan Kode Billing ke kolom nomor tagihan
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Konfirmasi pembayaran dan masukkan password transaksi
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    6.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Print bukti transaksi untuk pengambilan paspor
-                  </Text>
-                </View>
-              </Accordion>
-              <Accordion title="BCA (Internet Banking)" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masuk ke https://ibank.klikbca.com
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan User ID dan Pin
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih menu Pembayaran
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Pilih menu Pajak</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih Penerimaan Negara pada kolom jenis pajak
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    6.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan kode billing ke kolom kode billing
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    7.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Konfirmasi pembayaran dan masukkan Key BCA Anda
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    8.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Print bukti transaksi untuk pengambilan
-                  </Text>
-                </View>
-              </Accordion>
-              <Accordion title="BRI (Internet Banking)" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masuk ke https://ib.bri.co.id
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan User ID dan pin
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih menu Pembayaran
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Pilih menu MPN</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan nomor MPN G3
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    6.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Konfirmasi pembayaran dan masukkan Password serta M-Token
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    7.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Print bukti transaksi untuk pengambilan paspor
-                  </Text>
-                </View>
-              </Accordion>
-              <Accordion title="BRImo (Mobile Banking)" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>﻿Login</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masuk ke menu utama
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Pilih menu Lainnya</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih menu Penerimaan Negara
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan Kode Billing
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    6.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Konfirmasi pembayaran dan masukkan pin
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    7.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Print bukti transaksi untuk pengambilan paspor
-                  </Text>
-                </View>
-              </Accordion>
-              <Accordion
-                title="Livin’ by Mandiri (Mobile Banking)"
-                titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan User ID dan Password Anda di aplikasi
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Pilih menu Bayar</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Pilih menu Pajak</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih Pajak/PNBP/Cukai di kolom Penyedia Jasa
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan Kode Billing dan tekan lanjutkan
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    6.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Konfirmasi pembayaran dan masukkan pin transaksi
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    7.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Print bukti transaksi untuk pengambilan paspor
-                  </Text>
-                </View>
-              </Accordion>
-              <Accordion title="BSI Mobile (Mobile Banking)" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Buka Aplikasi BSI Mobile Banking, pilih menu Bayar
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih Penerimaan Negara (MPN)
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih Pajak/Cukai/SBSN/Paspor (menu Reinquiry MPN untuk cek
-                    jumlah tagihan pajak yang telah dibuat melalui Web MPN)
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Masukkan No. Nasabah/No. Tagihan, klik Selanjutnya
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Input pin BSI Mobile
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    6.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Muncul layar konfirmasi, klik Selanjutnya
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    7.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Transaksi berhasil</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    8.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Bukti transaksi akan dikirim ke email yang didaftarkan
-                    notifikasi BSI Mobile
-                  </Text>
-                </View>
-              </Accordion>
-              <Accordion title="BSI Net" titleRegular>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    1.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Login ke https:// bankbsi.co.id
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    2.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Pilih menu Pembayaran
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    3.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Input Aplikasi Pembayaran: Rekening Sumber, Jenis Pembayaran
-                    Penerimaan Negara/Pajak/Cukai/SBN, Nomor Pembayaran
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    4.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Klik Verifikasi Aplikasi Pembayaran
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    5.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Muncul layar konfirmasi, klik Selanjutnya
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    6.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Input token & pin otorisasi, klik Submit
-                  </Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    7.
-                  </Text>
-                  <Text style={styles.textContentDesc}>Transaksi berhasil</Text>
-                </View>
-                <View style={styles.textContentWrapper}>
-                  <Text style={[styles.textContentDesc, styles.listFlex]}>
-                    8.
-                  </Text>
-                  <Text style={styles.textContentDesc}>
-                    Bukti transaksi akan dikirim ke email yang didaftarkan
-                    notifikasi BSI Net
-                  </Text>
-                </View>
-              </Accordion>
+              {mobileAndInternetBankingDataList.map((bank, bankIndex) => (
+                <Accordion key={bankIndex} title={bank.title} titleRegular>
+                  <View style={styles.paymentMethodOptionDataWrapper}>
+                    {bank.steps.map((step, stepIndex) => (
+                      <View key={stepIndex} style={styles.textContentWrapper}>
+                        <Text style={[styles.textContentDesc, styles.listFlex]}>
+                          {stepIndex + 1}.
+                        </Text>
+                        <Text style={styles.textContentDesc}>{step}</Text>
+                      </View>
+                    ))}
+                  </View>
+                </Accordion>
+              ))}
             </View>
           </View>
         </View>
