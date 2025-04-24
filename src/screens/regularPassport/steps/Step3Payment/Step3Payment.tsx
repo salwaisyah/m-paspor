@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, View, Text, Pressable} from 'react-native';
 import styles from '../styles';
 import Colors from '../../../../../assets/styles/Colors';
@@ -15,11 +15,13 @@ interface BackButtonProps {
 interface DocumentUploadSectionProps {
   title: string;
   isRequired?: boolean;
+  isIcon?: boolean;
 }
 
 interface Step3PaymentProps {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
+  selectedPassportOption: string;
 }
 
 const BackButton = (props: BackButtonProps) => {
@@ -41,39 +43,90 @@ const BackButton = (props: BackButtonProps) => {
 };
 
 const DocumentUploadSection = (props: DocumentUploadSectionProps) => {
-  const {title, isRequired = false} = props;
+  const {title, isRequired, isIcon} = props;
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+
+  const handleUpload = (p0: string) => {
+    let fileName = `${title.toLowerCase().replace(/ /g, '')}.jpg`;
+
+    if (
+      title === 'Akta kelahiran/ijazah/akta perkawinan/buku nikah/surat baptis'
+    ) {
+      fileName = 'ijazah.jpg';
+    }
+
+    setUploadedFileName(fileName);
+  };
+
+  const handleDelete = () => {
+    setUploadedFileName(null);
+  };
+
   return (
     <View>
-      <Text style={styles.subStepSectionButtonTextTitle}>
-        {title}{' '}
-        {isRequired && (
-          <Text style={{color: Colors.indicatorRed.color}}>*</Text>
+      <View style={styles.subStepRowTextButton}>
+        <Text style={styles.subStepSectionButtonTextTitle}>
+          {title}{' '}
+          {isRequired && (
+            <Text style={{color: Colors.indicatorRed.color}}>*</Text>
+          )}
+        </Text>
+        {isIcon && (
+          <Icon name="information" size={24} color={Colors.primary30.color} />
         )}
-      </Text>
-      <View style={styles.sectionButtonWrapper}>
-        <Button
-          icon="camera-outline"
-          mode="contained"
-          style={styles.buttonContainedSecondary}
-          textColor={Colors.neutral100.color}
-          labelStyle={{fontSize: 12}}>
-          Foto Dokumen
-        </Button>
-        <Button
-          icon="tray-arrow-up"
-          mode="contained"
-          style={styles.buttonContainedSecondary}
-          textColor={Colors.neutral100.color}
-          labelStyle={{fontSize: 12}}>
-          Unggah Dokumen
-        </Button>
       </View>
+
+      {!uploadedFileName ? (
+        <View style={styles.sectionButtonWrapper}>
+          <Button
+            icon="camera-outline"
+            mode="contained"
+            style={styles.buttonContainedSecondary}
+            textColor={Colors.neutral100.color}
+            labelStyle={{fontSize: 12}}
+            onPress={() =>
+              handleUpload(`${title.toLowerCase().replace(/ /g, '')}.jpg`)
+            }>
+            Foto Dokumen
+          </Button>
+
+          <Button
+            icon="tray-arrow-up"
+            mode="contained"
+            style={styles.buttonContainedSecondary}
+            textColor={Colors.neutral100.color}
+            labelStyle={{fontSize: 12}}
+            onPress={() =>
+              handleUpload(`${title.toLowerCase().replace(/ /g, '')}.jpg`)
+            }>
+            Unggah Dokumen
+          </Button>
+        </View>
+      ) : (
+        <View style={styles.subStepUploadedDocumentContainer}>
+          <View style={styles.subStepUploadedDocumentTextWrapper}>
+            <Text style={styles.subStepUploadedDocumentTitle}>
+              Berhasil dipilih
+            </Text>
+            <Text style={styles.subStepUploadedDocumentDesc}>
+              {uploadedFileName}
+            </Text>
+          </View>
+          <Icon
+            name="trash-can-outline"
+            size={24}
+            color={Colors.indicatorRed.color}
+            onPress={handleDelete}
+          />
+        </View>
+      )}
     </View>
   );
 };
 
 const Step3Payment = (props: Step3PaymentProps) => {
-  const {setStep, setSubStep} = props;
+  const {setStep, setSubStep, selectedPassportOption} = props;
+  console.log('selectedPassportOption', selectedPassportOption);
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -87,7 +140,13 @@ const Step3Payment = (props: Step3PaymentProps) => {
         <View style={{marginBottom: 16, gap: 4}}>
           <Text style={styles.subStepDesc}>
             Layanan yang cocok untuk Anda adalah{' '}
-            <Text style={{...FontFamily.notoSansBold}}>Paspor Penggantian</Text>
+            {selectedPassportOption !== 'already' ? (
+              <Text style={{...FontFamily.notoSansBold}}>
+                Paspor Penggantian
+              </Text>
+            ) : (
+              <Text style={{...FontFamily.notoSansBold}}>Paspor Baru</Text>
+            )}
             . Silakan unggah kelengkapan dokumen berikut.
           </Text>
           <View>
@@ -166,8 +225,13 @@ const Step3Payment = (props: Step3PaymentProps) => {
         <View style={styles.subStepSectionButtonContainer}>
           <DocumentUploadSection title="e-KTP" isRequired />
           <DocumentUploadSection title="Kartu Keluarga" />
-          <DocumentUploadSection title="Akta kelahiran/ijazah/akta perkawinan/buku nikah/surat baptis" />
-          <DocumentUploadSection title="Paspor Lama" isRequired />
+          <DocumentUploadSection
+            title="Akta kelahiran/ijazah/akta perkawinan/buku nikah/surat baptis"
+            isIcon
+          />
+          {selectedPassportOption !== 'already' && (
+            <DocumentUploadSection title="Paspor Lama" isRequired />
+          )}
         </View>
 
         <Button

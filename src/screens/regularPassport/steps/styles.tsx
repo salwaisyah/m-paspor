@@ -102,6 +102,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
+  textInputSupportText: {
+    fontSize: 10,
+    ...FontFamily.notoSansRegular,
+    color: '#8F9098',
+  },
+  questionnaireData: {
+    ...FontFamily.notoSansBold,
+    fontSize: 14,
+    color: Colors.primary30.color,
+    includeFontPadding: false,
+  },
+  documentImageContainer: {
+    alignItems: 'center',
+  },
+  documentImage: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 16,
+    height: 350,
+    backgroundColor: Colors.primary70.color,
+    borderRadius: 20,
+  },
+  documentImageSupportText: {
+    ...FontFamily.notoSansRegular,
+    color: Colors.neutral100.color,
+    includeFontPadding: false,
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  documentImageCropped: {
+    marginBottom: 16,
+    width: 225,
+    height: 140,
+    backgroundColor: Colors.primary70.color,
+    borderRadius: 8,
+  },
   questionnaireDataSecondary: {
     ...FontFamily.notoSansBold,
     fontSize: 12,
@@ -234,7 +270,36 @@ const styles = StyleSheet.create({
   },
   accordionTextContentAlphabetWrapper: {
     marginStart: 16,
-  }
+  },
+  subStepUploadedDocumentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.secondary50.color,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  subStepUploadedDocumentTextWrapper: {
+    gap: 4,
+  },
+  subStepUploadedDocumentTitle: {
+    includeFontPadding: false,
+    color: Colors.primary30.color,
+    fontSize: 12,
+    ...FontFamily.notoSansMedium,
+  },
+  subStepUploadedDocumentDesc: {
+    includeFontPadding: false,
+    color: Colors.primary40.color,
+    fontSize: 10,
+    ...FontFamily.notoSansRegular,
+  },
+  subStepRowTextButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });
 
 export default styles;
