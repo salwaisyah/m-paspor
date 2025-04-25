@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  BackHandler,
-  Pressable,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import {BackHandler, StatusBar, Text, View} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
@@ -14,28 +7,19 @@ import Colors from '../../../assets/styles/Colors';
 import RadioButtonOptionComponent from '../../components/RadioButtonOption';
 import {RootStackParamList} from '../../navigation/type';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Button, PaperProvider} from 'react-native-paper';
+import {PaperProvider} from 'react-native-paper';
 import StepIndicator from '../../components/StepIndicator';
-import TextInputComponent from '../../components/TextInput';
 import DialogApplicationPassport from '../../components/dialog/DialogApplicationPassport';
 import DialogDontHaveYetPassport from '../../components/dialog/DialogDontHaveYetPassport';
-import DialogPassportInfo from '../../components/dialog/DialogPassportInfo';
 import DialogLostOrDamagedPassport from '../../components/dialog/DialogLostOrDamagedPassport';
-import familyRelationshipData from '../../data/DropdownData/FamilyRelationshipData';
-import FontFamily from '../../../assets/styles/FontFamily';
 import passportAppointmentData from '../../data/History/PassportAppointmentData';
 import Step7Completion from './steps/Step7Completion/Step7Completion';
 import Step6Processing from './steps/Step6Processing/Step6Processing';
 import Step5Verification from './steps/Step5Verification/Step5Verification';
 import Step3Payment from './steps/Step3Payment/Step3Payment';
 
-// Data
-import arrivalDateGuidelinesData from '../../data/Steps/ArrivalDateGuidelinesData';
-
 // Options Data
 import passportForOptions from '../../data/Options/PassportForOptions';
-import durationAbroadOptions from '../../data/Options/DurationAbroadOptions';
-import destinationFamilyContactOptions from '../../data/Options/DestinationFamilyContactOptions';
 import Step4DataConfirmationSubStep2 from './steps/Step4DataConfirmation/Step4DataConfirmationSubStep2';
 import Step4DataConfirmationSubStep1 from './steps/Step4DataConfirmation/Step4DataConfirmationSubStep1';
 import Step1PersonalInfoSubStep1 from './steps/Step1PersonalInfo/Step1PersonalInfoSubStep1';
@@ -52,6 +36,13 @@ import Step2SupportingDocsSubStep8 from './steps/Step2SupportingDocs/Step2Suppor
 import Step2SupportingDocsSubStep9 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep9';
 import Step2SupportingDocsSubStep10 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep10';
 import Step2SupportingDocsSubStep11 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep11';
+import DialogCivilStatusDocumentsInfo from '../../components/dialog/DialogCivilStatusDocumentsInfo';
+import DialogSubmitSuccess from '../../components/dialog/DialogSubmitSuccess';
+import DialogFinalizationConfirmation from '../../components/dialog/DialogFinalizationConfirmation';
+import DialogPassportConditionInfo from '../../components/dialog/DialogPassportConditionInfo';
+import DialogPassportTypeInfo from '../../components/dialog/DialogPassportTypeInfo';
+import SheetEditData from '../../components/sheet/SheetEditData';
+import SheetSearchLocation from '../../components/sheet/SheetSearchLocation';
 
 type RegularPassportScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -72,6 +63,13 @@ type RenderApplicationStepsContentProps = {
   showDontHaveYetDialog: () => void;
   showPassportInfoDialog: () => void;
   showLostOrDamagedPassportDialog: () => void;
+  showCivilStatusDocumentsInfoDialog: () => void;
+  showSubmitSuccessDialog: () => void;
+  setLastCompletedSteps: () => void;
+  showFinalizationConfirmationDialog: () => void;
+  showPassportTypeInfoDialog: () => void;
+  showEditDataSheet: () => void;
+  showSearchLocationSheet: () => void;
 };
 
 const RenderApplicationStepsContent = (
@@ -91,6 +89,13 @@ const RenderApplicationStepsContent = (
     showDontHaveYetDialog,
     showPassportInfoDialog,
     showLostOrDamagedPassportDialog,
+    showCivilStatusDocumentsInfoDialog,
+    showSubmitSuccessDialog,
+    setLastCompletedSteps,
+    showFinalizationConfirmationDialog,
+    showPassportTypeInfoDialog,
+    showEditDataSheet,
+    showSearchLocationSheet,
   } = props;
 
   if (step === 1) {
@@ -208,6 +213,9 @@ const RenderApplicationStepsContent = (
           setStep={setStep}
           setSubStep={setSubStep}
           selectedPassportOption={selectedPassportOption}
+          showCivilStatusDocumentsInfoDialog={
+            showCivilStatusDocumentsInfoDialog
+          }
         />
       );
     case 5:
@@ -216,17 +224,26 @@ const RenderApplicationStepsContent = (
           setStep={setStep}
           setSubStep={setSubStep}
           passportAppointmentData={passportAppointmentData}
+          showEditDataSheet={showEditDataSheet}
         />
       );
     case 6:
       return (
         <Step6Processing
-          setStep={setStep}
-          arrivalDateGuidelines={arrivalDateGuidelinesData}
+          showFinalizationConfirmationDialog={
+            showFinalizationConfirmationDialog
+          }
+          showPassportTypeInfoDialog={showPassportTypeInfoDialog}
+          showSearchLocationSheet={showSearchLocationSheet}
         />
       );
     case 7:
-      return <Step7Completion setStep={setStep} />;
+      return (
+        <Step7Completion
+          showSubmitSuccessDialog={showSubmitSuccessDialog}
+          setLastCompletedSteps={setLastCompletedSteps}
+        />
+      );
     default:
       return null;
   }
@@ -288,6 +305,9 @@ function RegularPassportScreen() {
     useState(false);
   const [step, setStep] = useState(1);
   const [subStep, setSubStep] = useState(1);
+  const [completedSteps, setCompletedSteps] = useState<number[]>(
+    [...Array(step - 1)].map((_, i) => i + 1),
+  );
 
   // Dialog visibility states
   const [visible, setVisible] = useState(false);
@@ -299,6 +319,23 @@ function RegularPassportScreen() {
     visibleLostOrDamagedPassportDialog,
     setVisibleLostOrDamagedPassportDialog,
   ] = useState(false);
+  const [
+    visibleCivilStatusDocumentsInfoDialog,
+    setVisibleCivilStatusDocumentsInfoDialog,
+  ] = useState(false);
+  const [visibleSubmitSuccessDialog, setVisibleSubmitSuccessDialog] =
+    useState(false);
+  const [
+    visibleFinalizationConfirmationDialog,
+    setVisibleFinalizationConfirmationDialog,
+  ] = useState(false);
+  const [visiblePassportTypeInfoDialog, setVisiblePassportTypeInfoDialog] =
+    useState(false);
+
+  // Sheet visibility states
+  const [visibleEditDataSheet, setVisibleEditDataSheet] = useState(false);
+  const [visibleSearchLocationSheet, setVisibleSearchLocationSheet] =
+    useState(false);
 
   // Dialog visibility function
   const showDialog = () => setVisible(true);
@@ -310,12 +347,35 @@ function RegularPassportScreen() {
   const showPassportInfoDialog = () => setVisiblePassportInfoDialog(true);
   const hidePassportInfoDialog = () => setVisiblePassportInfoDialog(false);
 
-  const showVisibleLostOrDamagedPassportDialog = () =>
+  const showLostOrDamagedPassportDialog = () =>
     setVisibleLostOrDamagedPassportDialog(true);
-  const hideVisibleLostOrDamagedPassportDialog = () =>
+  const hideLostOrDamagedPassportDialog = () =>
     setVisibleLostOrDamagedPassportDialog(false);
 
-  const completedSteps = [...Array(step - 1)].map((_, i) => i + 1);
+  const showCivilStatusDocumentsInfoDialog = () =>
+    setVisibleCivilStatusDocumentsInfoDialog(true);
+  const hideCivilStatusDocumentsInfoDialog = () =>
+    setVisibleCivilStatusDocumentsInfoDialog(false);
+
+  const showSubmitSuccessDialog = () => setVisibleSubmitSuccessDialog(true);
+  const hideSubmitSuccessDialog = () => setVisibleSubmitSuccessDialog(false);
+
+  const showFinalizationConfirmationDialog = () =>
+    setVisibleFinalizationConfirmationDialog(true);
+  const hideFinalizationConfirmationDialog = () =>
+    setVisibleFinalizationConfirmationDialog(false);
+
+  const showPassportTypeInfoDialog = () =>
+    setVisiblePassportTypeInfoDialog(true);
+  const hidePassportTypeInfoDialog = () =>
+    setVisiblePassportTypeInfoDialog(false);
+
+  // Sheet visibility function
+  const showEditDataSheet = () => setVisibleEditDataSheet(true);
+  const hideEditDataSheet = () => setVisibleEditDataSheet(false);
+
+  const showSearchLocationSheet = () => setVisibleSearchLocationSheet(true);
+  const hideSearchLocationSheet = () => setVisibleSearchLocationSheet(false);
 
   const stepTitles: {[key: number]: string} = {
     1: 'Informasi Pribadi',
@@ -344,6 +404,24 @@ function RegularPassportScreen() {
     }
   }, [showApplicationStepsContent]);
 
+  useEffect(() => {
+    if (step > 1) {
+      const updatedCompletedSteps = [...Array(step - 1)].map((_, i) => i + 1);
+      setCompletedSteps(updatedCompletedSteps);
+    } else {
+      setCompletedSteps([]);
+    }
+  }, [step]);
+
+  const setLastCompletedSteps = () => {
+    setCompletedSteps(prevCompletedSteps => {
+      if (!prevCompletedSteps.includes(7)) {
+        return [...prevCompletedSteps, 7];
+      }
+      return prevCompletedSteps;
+    });
+  };
+
   // Render steps or questionnaire
   const renderApplicationStepsContent = showApplicationStepsContent ? (
     <>
@@ -367,9 +445,18 @@ function RegularPassportScreen() {
           setCheckedOption={setCheckedOption}
           showDontHaveYetDialog={showDontHaveYetDialog}
           showPassportInfoDialog={showPassportInfoDialog}
-          showLostOrDamagedPassportDialog={
-            showVisibleLostOrDamagedPassportDialog
+          showLostOrDamagedPassportDialog={showLostOrDamagedPassportDialog}
+          showCivilStatusDocumentsInfoDialog={
+            showCivilStatusDocumentsInfoDialog
           }
+          showSubmitSuccessDialog={showSubmitSuccessDialog}
+          setLastCompletedSteps={setLastCompletedSteps}
+          showFinalizationConfirmationDialog={
+            showFinalizationConfirmationDialog
+          }
+          showPassportTypeInfoDialog={showPassportTypeInfoDialog}
+          showEditDataSheet={showEditDataSheet}
+          showSearchLocationSheet={showSearchLocationSheet}
         />
       </View>
 
@@ -382,7 +469,7 @@ function RegularPassportScreen() {
       )}
 
       {visiblePassportInfoDialog && (
-        <DialogPassportInfo
+        <DialogPassportConditionInfo
           visible={visiblePassportInfoDialog}
           onClose={hidePassportInfoDialog}
         />
@@ -398,8 +485,61 @@ function RegularPassportScreen() {
             setShowApplicationStepsContent(false);
             setStep(1);
             setSubStep(1);
-            hideVisibleLostOrDamagedPassportDialog();
+            hideLostOrDamagedPassportDialog();
           }}
+        />
+      )}
+
+      {visibleCivilStatusDocumentsInfoDialog && (
+        <DialogCivilStatusDocumentsInfo
+          visible={visibleCivilStatusDocumentsInfoDialog}
+          onClose={hideCivilStatusDocumentsInfoDialog}
+        />
+      )}
+
+      {visibleSubmitSuccessDialog && (
+        <DialogSubmitSuccess
+          visible={visibleSubmitSuccessDialog}
+          onSubmitSuccess={() => {
+            navigation.goBack(), hideSubmitSuccessDialog();
+          }}
+        />
+      )}
+
+      {visibleFinalizationConfirmationDialog && (
+        <DialogFinalizationConfirmation
+          visible={visibleFinalizationConfirmationDialog}
+          onClose={hideFinalizationConfirmationDialog}
+          onContinue={() => {
+            setStep(7);
+            hideFinalizationConfirmationDialog();
+          }}
+        />
+      )}
+
+      {visiblePassportTypeInfoDialog && (
+        <DialogPassportTypeInfo
+          visible={visiblePassportTypeInfoDialog}
+          onClose={hidePassportTypeInfoDialog}
+        />
+      )}
+
+      {visibleEditDataSheet && (
+        <SheetEditData
+          visible={visibleEditDataSheet}
+          onClose={hideEditDataSheet}
+          showCivilStatusDocumentsInfoDialog={() => {
+            hideEditDataSheet();
+            showCivilStatusDocumentsInfoDialog();
+          }}
+          selectedPassportOption={selectedPassportOption}
+        />
+      )}
+
+      {visibleSearchLocationSheet && (
+        <SheetSearchLocation
+          visible={visibleSearchLocationSheet}
+          onClose={hideSearchLocationSheet}
         />
       )}
     </>
@@ -420,8 +560,14 @@ function RegularPassportScreen() {
             visible ||
             visibleDontHaveYetDialog ||
             visiblePassportInfoDialog ||
-            visibleLostOrDamagedPassportDialog
+            visibleLostOrDamagedPassportDialog ||
+            visibleCivilStatusDocumentsInfoDialog ||
+            visibleSubmitSuccessDialog ||
+            visibleFinalizationConfirmationDialog ||
+            visiblePassportTypeInfoDialog
               ? '#295E70'
+              : visibleEditDataSheet || visibleSearchLocationSheet
+              ? '#185769'
               : Colors.secondary30.color
           }
           barStyle="light-content"

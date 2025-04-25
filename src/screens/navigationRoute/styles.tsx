@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     ...FontFamily.notoSansRegular,
     includeFontPadding: false,
+    lineHeight: 22,
     color: Colors.primary30.color,
   },
   buttonContinue: {

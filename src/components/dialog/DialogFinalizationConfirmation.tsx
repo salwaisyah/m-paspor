@@ -10,32 +10,37 @@ type Props = {
   onContinue: () => void;
 };
 
-const DialogApplicationPassport = (props: Props) => {
+const DialogFinalizationConfirmation = (props: Props) => {
   const {visible, onClose, onContinue} = props;
   return (
     <Portal>
       <Dialog visible={visible} style={styles.dialogContainer}>
-        <Dialog.Title style={styles.dialogTitle}>Pemberitahuan</Dialog.Title>
+        <Dialog.Title style={styles.dialogTitle}>
+          Apakah data yang Anda input sudah benar?
+        </Dialog.Title>
         <View style={styles.dialogContentContainer}>
           <Text style={styles.dialogDesc}>
-            Permohonan paspor anak diwajibkan untuk didampingi oleh orang
-            tua/wali yang sah pada saat datang ke Kantor Imigrasi untuk
-            pelaksanaan wawancara dan pengambilan foto sidik jari.
+            Permohonan Anda akan diajukan dan Anda tidak dapat mengubah kembali
+            data Anda.{' '}
+            <Text style={styles.dialogDescBold}>
+              Biaya yang sudah dibayarkan tidak bisa kembali apabila Anda
+              memberikan keterangan tidak benar.
+            </Text>
           </Text>
           <View>
             <Button
-              style={styles.buttonAgree}
+              style={styles.buttonContained}
               mode="contained"
               textColor={Colors.neutral100.color}
               onPress={onContinue}>
-              Lanjut
+              Ya, lanjutkan
             </Button>
             <Button
-              style={styles.buttonDontAgree}
+              style={styles.buttonOutlined}
               mode="outlined"
               textColor={Colors.primary30.color}
               onPress={onClose}>
-              Kembali
+              Tidak, saya ingin mengubah data
             </Button>
           </View>
         </View>
@@ -55,6 +60,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: Colors.secondary30.color,
   },
+  dialogDescBold: {
+    includeFontPadding: false,
+    ...FontFamily.notoSansBold,
+  },
   dialogContentContainer: {
     marginHorizontal: 24,
     marginBottom: 24,
@@ -67,14 +76,14 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: Colors.primary30.color,
   },
-  buttonAgree: {
+  buttonContained: {
     backgroundColor: Colors.primary30.color,
     marginTop: 12,
   },
-  buttonDontAgree: {
+  buttonOutlined: {
     borderColor: Colors.primary30.color,
     marginTop: 12,
   },
 });
 
-export default DialogApplicationPassport;
+export default DialogFinalizationConfirmation;

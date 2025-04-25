@@ -9,10 +9,12 @@ import Accordion from '../../../../components/Accordion';
 import termsAndConditionsData from '../../../../data/Steps/TermsAndContionsData';
 
 type Step7CompletionProps = {
-  setStep: (step: number) => void;
+  showSubmitSuccessDialog: () => void;
+  setLastCompletedSteps: () => void;
 };
 
-const Step7Completion = ({setStep}: Step7CompletionProps) => {
+const Step7Completion = (props: Step7CompletionProps) => {
+  const {showSubmitSuccessDialog, setLastCompletedSteps} = props;
   const lastAppointment =
     passportAppointmentData[passportAppointmentData.length - 1];
 
@@ -192,7 +194,10 @@ const Step7Completion = ({setStep}: Step7CompletionProps) => {
           mode="contained"
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}
-          onPress={() => setStep(6)}>
+          onPress={() => {
+            showSubmitSuccessDialog();
+            setLastCompletedSteps();
+          }}>
           Kembali ke Halaman Utama
         </Button>
       </View>

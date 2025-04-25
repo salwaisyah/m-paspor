@@ -8,39 +8,39 @@ type Props = {
   onClose: () => void;
 };
 
-const DialogPassportInfo = (props: Props) => {
+const DialogPassportTypeInfo = (props: Props) => {
   const {visible, onClose} = props;
 
   return (
     <Portal>
       <Dialog visible={visible} style={styles.dialogContainer}>
+        <Dialog.Title style={styles.dialogTitle}>
+          Jenis dan Manfaat Paspor
+        </Dialog.Title>
         <View style={styles.dialogContentContainer}>
-          <Text style={styles.dialogDesc}>
-            Keterangan di dalamnya menjadi tidak jelas atau memberi kesan yang
-            tidak pantas lagi sebagai dokumen resmi (pasal 36 ayat (1) huruf
-            (d.2) Permenkumham RI no 8 tahun 2014 ttg Paspor Biasa dan SPLP)
-          </Text>
-          <Text style={styles.dialogDesc}>Informasi Keadaan Paspor:</Text>
           <Text style={[styles.dialogDesc, {...FontFamily.notoSansBold}]}>
-            1. Keadaan Baik
+            1. Paspor Biasa
           </Text>
           <Text style={styles.dialogDesc}>
-            Paspor masih dalam keadaan baik atau sangat baik, tanpa ada
-            kerusakan apapun.
+            Biaya pemrosesan lebih murah, tersedia di seluruh lokasi Kanim.
+            {'\n'}Biaya pembuatan: Rp350.000
           </Text>
           <Text style={[styles.dialogDesc, {...FontFamily.notoSansBold}]}>
-            2. Keadaan Rusak
+            2. Paspor Elektronik
           </Text>
           <Text style={styles.dialogDesc}>
-            Paspor ada kerusakan (contoh: tersobek, terbakar, dll) dan bagian
-            data diri tidak dapat terbaca.
+            Terdapat chip pada cover paspor yang menyimpan data pemegang paspor
+            sehingga meningkatkan fitur keamanan, tersedia di 35 Kanim.{'\n'}
+            Biaya pembuatan: Rp650.000
           </Text>
           <Text style={[styles.dialogDesc, {...FontFamily.notoSansBold}]}>
-            3. Hilang
+            3. Paspor Elektronik Polikarbonat
           </Text>
           <Text style={styles.dialogDesc}>
-            Paspor hilang dan tidak dapat ditemukan karena suatu keadaan
-            (tertinggal, dicuri, dan lain-lain).
+            Berbahan polikarbonat (PC) pada halaman data pemegang paspor
+            (halaman 2) yang memiliki fitur keamanan tinggi dan lebih kuat,
+            tersedia di Kanim Jakarta Selatan, Kanim Jakarta Barat, dan Kanim
+            Soekarno Hatta.{'\n'}Biaya pembuatan: Rp650.000
           </Text>
           <View>
             <Button
@@ -71,11 +71,16 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     gap: 16,
   },
+  dialogTitle: {
+    fontSize: 22,
+    color: Colors.secondary30.color,
+  },
   dialogDesc: {
     fontSize: 14,
     ...FontFamily.notoSansRegular,
     includeFontPadding: false,
     color: Colors.primary30.color,
+    lineHeight: 22,
   },
   dialogDescRed: {
     ...FontFamily.notoSansBold,
@@ -88,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DialogPassportInfo;
+export default DialogPassportTypeInfo;

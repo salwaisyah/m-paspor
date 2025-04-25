@@ -5,16 +5,17 @@ import TextInputComponent from '../../../../components/TextInput';
 import styles from '../styles';
 import Colors from '../../../../../assets/styles/Colors';
 import FontFamily from '../../../../../assets/styles/FontFamily';
+import arrivalDateGuidelinesData from '../../../../data/Steps/ArrivalDateGuidelinesData';
 
 type Step6ProcessingProps = {
-  setStep: (step: number) => void;
-  arrivalDateGuidelines: string[];
+  showFinalizationConfirmationDialog: () => void;
+  showPassportTypeInfoDialog: () => void;
+  showSearchLocationSheet: () => void;
 };
 
-const Step6Processing = ({
-  setStep,
-  arrivalDateGuidelines,
-}: Step6ProcessingProps) => {
+const Step6Processing = (props: Step6ProcessingProps) => {
+  const {showFinalizationConfirmationDialog, showPassportTypeInfoDialog, showSearchLocationSheet} =
+    props;
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -29,18 +30,21 @@ const Step6Processing = ({
         </View>
 
         <View style={[styles.subStepTextInputContainer, {marginVertical: 16}]}>
+          {/* Trigger Search Location Bottom Sheet */}
           <TextInputComponent
             title="Lokasi Kantor Imigrasi"
             placeholder="Pilih lokasi kantor imigrasi"
             isRequired
-            isDropdown
+            isDropdownSearchLocation
+            handlePressSearchLocation={showSearchLocationSheet}
           />
-          {/* TODO: Add button information */}
           <TextInputComponent
             title="Jenis Paspor"
+            iconButton
             placeholder="Pilih satu jenis paspor"
             isRequired
             isDropdown
+            onIconButtonPress={showPassportTypeInfoDialog}
           />
         </View>
 
@@ -58,7 +62,7 @@ const Step6Processing = ({
           </View>
 
           <View>
-            {arrivalDateGuidelines.map((item, index) => (
+            {arrivalDateGuidelinesData.map((item, index) => (
               <View key={index} style={styles.subStepListTextRowContainer}>
                 <Text style={[styles.subStepDesc, FontFamily.notoSansBold]}>
                   •
@@ -88,7 +92,7 @@ const Step6Processing = ({
           mode="contained"
           style={[styles.subStepButtonContained, {marginTop: 24}]}
           textColor={Colors.neutral100.color}
-          onPress={() => setStep(7)}>
+          onPress={showFinalizationConfirmationDialog}>
           Lanjut
         </Button>
       </View>

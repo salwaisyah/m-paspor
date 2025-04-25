@@ -16,12 +16,14 @@ interface DocumentUploadSectionProps {
   title: string;
   isRequired?: boolean;
   isIcon?: boolean;
+  showDialogCivilStatusDocumentsInfo?: () => void;
 }
 
 interface Step3PaymentProps {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
   selectedPassportOption: string;
+  showCivilStatusDocumentsInfoDialog: () => void;
 }
 
 const BackButton = (props: BackButtonProps) => {
@@ -43,7 +45,7 @@ const BackButton = (props: BackButtonProps) => {
 };
 
 const DocumentUploadSection = (props: DocumentUploadSectionProps) => {
-  const {title, isRequired, isIcon} = props;
+  const {title, isRequired, isIcon, showDialogCivilStatusDocumentsInfo} = props;
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
 
   const handleUpload = (p0: string) => {
@@ -72,7 +74,13 @@ const DocumentUploadSection = (props: DocumentUploadSectionProps) => {
           )}
         </Text>
         {isIcon && (
-          <Icon name="information" size={24} color={Colors.primary30.color} />
+          <Pressable
+            style={({pressed}) => ({
+              transform: [{scale: pressed ? 0.925 : 1}],
+            })}
+            onPress={showDialogCivilStatusDocumentsInfo}>
+            <Icon name="information" size={24} color={Colors.primary30.color} />
+          </Pressable>
         )}
       </View>
 
@@ -125,8 +133,12 @@ const DocumentUploadSection = (props: DocumentUploadSectionProps) => {
 };
 
 const Step3Payment = (props: Step3PaymentProps) => {
-  const {setStep, setSubStep, selectedPassportOption} = props;
-  console.log('selectedPassportOption', selectedPassportOption);
+  const {
+    setStep,
+    setSubStep,
+    selectedPassportOption,
+    showCivilStatusDocumentsInfoDialog,
+  } = props;
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -228,6 +240,9 @@ const Step3Payment = (props: Step3PaymentProps) => {
           <DocumentUploadSection
             title="Akta kelahiran/ijazah/akta perkawinan/buku nikah/surat baptis"
             isIcon
+            showDialogCivilStatusDocumentsInfo={
+              showCivilStatusDocumentsInfoDialog
+            }
           />
           {selectedPassportOption !== 'already' && (
             <DocumentUploadSection title="Paspor Lama" isRequired />

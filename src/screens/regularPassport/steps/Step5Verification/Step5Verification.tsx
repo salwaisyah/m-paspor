@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../../../../../assets/styles/Colors';
@@ -9,13 +9,12 @@ type Step5VerificationProps = {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
   passportAppointmentData: any[];
+  showEditDataSheet: () => void;
 };
 
-const Step5Content = ({
-  setStep,
-  setSubStep,
-  passportAppointmentData,
-}: Step5VerificationProps) => {
+const Step5Content = (props: Step5VerificationProps) => {
+  const {setStep, setSubStep, passportAppointmentData, showEditDataSheet} =
+    props;
   const lastAppointment =
     passportAppointmentData[passportAppointmentData.length - 1];
 
@@ -46,11 +45,19 @@ const Step5Content = ({
               size={24}
               color={Colors.indicatorRed.color}
             />
-            <Icon
-              name="square-edit-outline"
-              size={24}
-              color={Colors.primary30.color}
-            />
+            <Pressable
+              onPress={showEditDataSheet}
+              style={({pressed}) => [
+                {
+                  transform: [{scale: pressed ? 0.925 : 1}],
+                },
+              ]}>
+              <Icon
+                name="square-edit-outline"
+                size={24}
+                color={Colors.primary30.color}
+              />
+            </Pressable>
           </View>
         </View>
         <View style={styles.applicantDetailContentChildContainer}>

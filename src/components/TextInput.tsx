@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Image, Platform, Pressable, StyleSheet, Text, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import IconMaterialCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../../assets/styles/Colors';
 import FontFamily from '../../assets/styles/FontFamily';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -23,6 +24,8 @@ type DropdownCountryItem = {
 
 interface TextInputComponentProps {
   title?: string;
+  iconButton?: boolean;
+  onIconButtonPress?: () => void;
   placeholder?: string;
   isPassword?: boolean;
   isRequired?: boolean;
@@ -35,23 +38,31 @@ interface TextInputComponentProps {
   supportText?: string;
   containerHeight?: any;
   isMultiline?: boolean;
+  isDropdownSearchLocation?: boolean;
+  handlePressSearchLocation?: () => void;
 }
 
-const TextInputComponent: React.FC<TextInputComponentProps> = ({
-  title,
-  placeholder,
-  isPassword = false,
-  isRequired = false,
-  isDate = false,
-  isDropdown = false,
-  isDropdownCountry = false,
-  dropdownItemData,
-  dropdownCountryItemData,
-  isDisabled = false,
-  supportText,
-  containerHeight,
-  isMultiline = false,
-}) => {
+const TextInputComponent = (props: TextInputComponentProps) => {
+  const {
+    title,
+    iconButton = false,
+    onIconButtonPress,
+    placeholder,
+    isPassword = false,
+    isRequired = false,
+    isDate = false,
+    isDropdown = false,
+    isDropdownCountry = false,
+    dropdownItemData,
+    dropdownCountryItemData,
+    isDisabled = false,
+    supportText,
+    containerHeight,
+    isMultiline = false,
+    isDropdownSearchLocation = false,
+    handlePressSearchLocation,
+  } = props;
+
   const [secureText, setSecureText] = useState(isPassword);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [formattedDate, setFormattedDate] = useState<string>('');
@@ -97,7 +108,10 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
   const renderDropdownCountryItem = (item: any) => {
     return (
       <View style={styles.dropdownCountryItem}>
-        <Image source={{uri: item.image.uri}} style={styles.imageCountryStyle} />
+        <Image
+          source={{uri: item.image.uri}}
+          style={styles.imageCountryStyle}
+        />
         <Text style={styles.dropdownTextItem}>{item.label}</Text>
       </View>
     );
@@ -145,6 +159,90 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
   };
 
   const renderInput = () => {
+    if (isDropdown) {
+      return (
+        <View>
+          <View style={styles.headerContainer}>
+            {title && (
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>{title}</Text>
+                {isRequired && <Text style={styles.required}>*</Text>}
+              </View>
+            )}
+            {iconButton && (
+              <Pressable
+                style={({pressed}) => ({
+                  transform: [{scale: pressed ? 0.925 : 1}],
+                })}
+                onPress={onIconButtonPress}>
+                <IconMaterialCommunity
+                  name="information"
+                  color={Colors.primary30.color}
+                  size={20}
+                />
+              </Pressable>
+            )}
+          </View>
+          <Dropdown
+            style={[styles.dropdown, isDisabled && styles.outlineColorDisabled]}
+            placeholderStyle={styles.placeholderDropdownStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            iconStyle={styles.iconStyle}
+            data={dropdownItemData ?? []}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={placeholder}
+            value={dropdownValue}
+            onChange={item => {
+              setDropdownValue(item.value);
+            }}
+            disable={isDisabled}
+            renderRightIcon={() => <Icon name="arrow-drop-down" size={20} />}
+            renderItem={renderDropdownItem}
+          />
+        </View>
+      );
+    }
+
+    if (isDate) {
+      return (
+        <View>
+          <View style={styles.titleContainer}>
+            {title && <Text style={styles.title}>{title}</Text>}
+            {isRequired && <Text style={styles.required}>*</Text>}
+          </View>
+          <Pressable
+            onPress={() => !isDisabled && setShowPicker(true)}
+            style={({pressed}) => ({
+              transform: [{scale: pressed ? 0.99 : 1}],
+            })}>
+            <TextInput
+              mode="outlined"
+              placeholder={placeholder}
+              style={[inputStyle, isDisabled && styles.outlineColorDisabled]}
+              theme={{roundness: 12}}
+              placeholderTextColor={Colors.primary60.color}
+              editable={false}
+              value={formattedDate}
+              right={<TextInput.Icon icon="calendar" color="#48454E" />}
+              multiline={false}
+              textColor="#48454E"
+              disabled={isDisabled}
+            />
+          </Pressable>
+          {showPicker && (
+            <DateTimePicker
+              value={selectedDate || new Date()}
+              mode="date"
+              display="calendar"
+              onChange={handleDateChange}
+            />
+          )}
+        </View>
+      );
+    }
+
     if (isDropdownCountry) {
       return (
         <View>
@@ -183,7 +281,7 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
       );
     }
 
-    if (isDropdown) {
+    if (isDropdownSearchLocation) {
       return (
         <View>
           {title && (
@@ -192,36 +290,11 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
               {isRequired && <Text style={styles.required}>*</Text>}
             </View>
           )}
-          <Dropdown
-            style={[styles.dropdown, isDisabled && styles.outlineColorDisabled]}
-            placeholderStyle={styles.placeholderDropdownStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            iconStyle={styles.iconStyle}
-            data={dropdownItemData ?? []}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={placeholder}
-            value={dropdownValue}
-            onChange={item => {
-              setDropdownValue(item.value);
-            }}
-            disable={isDisabled}
-            renderRightIcon={() => <Icon name="arrow-drop-down" size={20} />}
-            renderItem={renderDropdownItem}
-          />
-        </View>
-      );
-    }
-
-    if (isDate) {
-      return (
-        <View>
-          <View style={styles.titleContainer}>
-            {title && <Text style={styles.title}>{title}</Text>}
-            {isRequired && <Text style={styles.required}>*</Text>}
-          </View>
-          <Pressable onPress={() => !isDisabled && setShowPicker(true)}>
+          <Pressable
+            onPress={handlePressSearchLocation}
+            style={({pressed}) => ({
+              transform: [{scale: pressed ? 0.99 : 1}],
+            })}>
             <TextInput
               mode="outlined"
               placeholder={placeholder}
@@ -230,20 +303,12 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
               placeholderTextColor={Colors.primary60.color}
               editable={false}
               value={formattedDate}
-              right={<TextInput.Icon icon="calendar" color="#48454E" />}
+              right={<TextInput.Icon icon="menu-down" color="#48454E" size={20} style={{marginLeft: 24}}/>}
               multiline={false}
               textColor="#48454E"
               disabled={isDisabled}
             />
           </Pressable>
-          {showPicker && (
-            <DateTimePicker
-              value={selectedDate || new Date()}
-              mode="date"
-              display="calendar"
-              onChange={handleDateChange}
-            />
-          )}
         </View>
       );
     }
@@ -289,6 +354,10 @@ const styles = StyleSheet.create({
   containerBackground: {
     backgroundColor: Colors.neutral100.color,
     marginTop: 8,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     ...FontFamily.notoSansBold,

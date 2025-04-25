@@ -5,22 +5,19 @@ import FontFamily from '../../../assets/styles/FontFamily';
 
 type Props = {
   visible: boolean;
-  onSubmitSuccess: () => void;
+  onClose: () => void;
 };
 
-const DialogSubmitSuccess = (props: Props) => {
-  const {visible, onSubmitSuccess} = props;
+const DialogCivilStatusDocumentsInfo = (props: Props) => {
+  const {visible, onClose} = props;
 
   return (
     <Portal>
       <Dialog visible={visible} style={styles.dialogContainer}>
-        <Dialog.Title style={styles.dialogTitle}>
-          Pengajuan Permohonan Sukses!
-        </Dialog.Title>
         <View style={styles.dialogContentContainer}>
           <Text style={styles.dialogDesc}>
-            Permohonan telah diajukan, klik kartu pada beranda untuk melihat
-            kode layanan, kode QR, kode billing, serta tata cara pembayarannya.
+            Dokumen identitas diri harus memuat nama, tempat tanggal lahir, dan
+            nama orang tua.
           </Text>
           <View>
             <Button
@@ -28,9 +25,9 @@ const DialogSubmitSuccess = (props: Props) => {
               mode="contained"
               textColor={Colors.neutral100.color}
               onPress={() => {
-                onSubmitSuccess();
+                onClose();
               }}>
-              Oke
+              Lanjut
             </Button>
           </View>
         </View>
@@ -51,18 +48,17 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     gap: 16,
   },
-  dialogTitle: {
-    fontSize: 22,
-    color: Colors.secondary30.color,
-    ...FontFamily.notoSansBold,
-    includeFontPadding: false,
-  },
   dialogDesc: {
     fontSize: 14,
-    ...FontFamily.notoSansRegular,
     lineHeight: 22,
+    ...FontFamily.notoSansRegular,
     includeFontPadding: false,
     color: Colors.primary30.color,
+  },
+  dialogDescRed: {
+    ...FontFamily.notoSansBold,
+    color: Colors.indicatorRed.color,
+    includeFontPadding: false,
   },
   buttonContinue: {
     backgroundColor: Colors.primary30.color,
@@ -70,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DialogSubmitSuccess;
+export default DialogCivilStatusDocumentsInfo;
