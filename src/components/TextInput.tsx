@@ -1,16 +1,24 @@
 import * as React from 'react';
-import {Platform, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Platform, Pressable, StyleSheet, Text, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Colors from '../../assets/styles/Colors';
 import FontFamily from '../../assets/styles/FontFamily';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useState} from 'react';
-import {Dropdown} from 'react-native-element-dropdown';
+import {Dropdown, SelectCountry} from 'react-native-element-dropdown';
 
 type DropdownItem = {
   label: string;
   value: string | number;
+};
+
+type DropdownCountryItem = {
+  value: string;
+  label: string;
+  image: {
+    uri: string;
+  };
 };
 
 interface TextInputComponentProps {
@@ -20,7 +28,9 @@ interface TextInputComponentProps {
   isRequired?: boolean;
   isDate?: boolean;
   isDropdown?: boolean;
+  isDropdownCountry?: boolean;
   dropdownItemData?: DropdownItem[];
+  dropdownCountryItemData?: DropdownCountryItem[];
   isDisabled?: boolean;
   supportText?: string;
   containerHeight?: any;
@@ -34,7 +44,9 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
   isRequired = false,
   isDate = false,
   isDropdown = false,
+  isDropdownCountry = false,
   dropdownItemData,
+  dropdownCountryItemData,
   isDisabled = false,
   supportText,
   containerHeight,
@@ -44,7 +56,13 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [showPicker, setShowPicker] = useState(false);
-  const [genderValue, setGenderValue] = useState(null);
+  const [dropdownValue, setDropdownValue] = useState(null);
+  const [country, setCountry] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredItems = dropdownCountryItemData?.filter(item =>
+    item.label.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const inputStyle = [
     styles.containerBackground,
@@ -76,7 +94,95 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
     );
   };
 
+  const renderDropdownCountryItem = (item: any) => {
+    return (
+      <View style={styles.dropdownCountryItem}>
+        <Image source={{uri: item.image.uri}} style={styles.imageCountryStyle} />
+        <Text style={styles.dropdownTextItem}>{item.label}</Text>
+      </View>
+    );
+  };
+
+  const renderLeftIcon = () => {
+    const selectedItem = filteredItems?.find(item => item.value === country);
+    if (!selectedItem?.image?.uri) return null;
+
+    return (
+      <Image
+        source={{uri: selectedItem.image.uri}}
+        style={[styles.imageCountryStyle, {marginRight: 12}]}
+      />
+    );
+  };
+
+  const renderInputSearch = (
+    searchQuery: string,
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>,
+  ) => {
+    return (
+      <View style={styles.searchContainer}>
+        <TextInput
+          mode="outlined"
+          style={[inputStyle, isDisabled && styles.outlineColorDisabled]}
+          theme={{roundness: 12}}
+          placeholderTextColor={Colors.primary60.color}
+          activeOutlineColor={Colors.primary10.color}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Cari"
+          textColor="#48454E"
+          contentStyle={{marginLeft: 48}}
+          left={
+            <TextInput.Icon
+              icon="magnify"
+              color="#48454E"
+              style={{marginLeft: 8}}
+            />
+          }
+        />
+      </View>
+    );
+  };
+
   const renderInput = () => {
+    if (isDropdownCountry) {
+      return (
+        <View>
+          {title && (
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{title}</Text>
+              {isRequired && <Text style={styles.required}>*</Text>}
+            </View>
+          )}
+          <Dropdown
+            style={[styles.dropdown, isDisabled && styles.outlineColorDisabled]}
+            selectedTextStyle={styles.selectedTextStyle}
+            placeholderStyle={styles.placeholderDropdownStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            search
+            maxHeight={300}
+            renderInputSearch={() =>
+              renderInputSearch(searchQuery, setSearchQuery)
+            }
+            value={country}
+            data={filteredItems ?? []}
+            valueField="value"
+            labelField="label"
+            placeholder={placeholder}
+            searchPlaceholder="Cari"
+            onChange={item => {
+              setCountry(item.value);
+            }}
+            disable={isDisabled}
+            renderRightIcon={() => <Icon name="arrow-drop-down" size={20} />}
+            renderItem={renderDropdownCountryItem}
+            renderLeftIcon={renderLeftIcon}
+          />
+        </View>
+      );
+    }
+
     if (isDropdown) {
       return (
         <View>
@@ -96,9 +202,9 @@ const TextInputComponent: React.FC<TextInputComponentProps> = ({
             labelField="label"
             valueField="value"
             placeholder={placeholder}
-            value={genderValue}
+            value={dropdownValue}
             onChange={item => {
-              setGenderValue(item.value);
+              setDropdownValue(item.value);
             }}
             disable={isDisabled}
             renderRightIcon={() => <Icon name="arrow-drop-down" size={20} />}
@@ -233,9 +339,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  dropdownCountryItem: {
+    padding: 16,
+    gap: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   dropdownTextItem: {
     flex: 1,
     fontSize: 13,
+    ...FontFamily.notoSansRegular,
+    color: Colors.primary30.color,
   },
   supportText: {
     marginTop: 8,
@@ -250,6 +365,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     borderColor: '#e3e3e5',
+  },
+  imageCountryStyle: {
+    width: 32,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 0.75,
+    borderColor: Colors.neutral90.color,
+  },
+  inputSearchStyle: {
+    fontSize: 14,
+    ...FontFamily.notoSansRegular,
+    includeFontPadding: false,
+  },
+  searchContainer: {
+    margin: 16,
   },
 });
 

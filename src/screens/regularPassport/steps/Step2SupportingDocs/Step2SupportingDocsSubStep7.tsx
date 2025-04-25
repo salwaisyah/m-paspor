@@ -6,8 +6,8 @@ import styles from '../styles';
 import TextInputComponent from '../../../../components/TextInput';
 import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
 import destinationCountryOptions from '../../../../data/Options/DestinationCountryOptions';
-import destinationCountryData from '../../../../data/DropdownData/DestinationCountryData';
 import Colors from '../../../../../assets/styles/Colors';
+import countryData from '../../../../data/DropdownData/CountryData';
 
 type Step2SupportingDocsSubStep7Props = {
   setSubStep: (step: number) => void;
@@ -39,8 +39,8 @@ const Step2SupportingDocsSubStep7 = ({
           <TextInputComponent
             title="Negara mana yang akan Anda tuju?"
             placeholder="Masukkan negara tujuan"
-            isDropdown
-            dropdownItemData={destinationCountryData}
+            isDropdownCountry
+            dropdownCountryItemData={countryData}
           />
           {destinationCountryOptions.map(option => (
             <RadioButtonOptionComponent
