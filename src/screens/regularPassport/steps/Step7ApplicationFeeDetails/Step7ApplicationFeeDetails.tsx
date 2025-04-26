@@ -9,12 +9,12 @@ import termsAndConditionsData from '../../../../data/Steps/TermsAndContionsData'
 import {PassportAppointment} from '../../../../navigation/type';
 import {getData} from '../../../../helper/asyncStorageHelper';
 
-type Step7CompletionProps = {
+type Step7ApplicationFeeDetailsProps = {
   showSubmitSuccessDialog: () => void;
   setLastCompletedSteps: () => void;
 };
 
-const Step7Completion = (props: Step7CompletionProps) => {
+const Step7ApplicationFeeDetails = (props: Step7ApplicationFeeDetailsProps) => {
   const {showSubmitSuccessDialog, setLastCompletedSteps} = props;
   const [lastAppointment, setLastAppointment] = useState<PassportAppointment>();
 
@@ -226,4 +226,4 @@ const Step7Completion = (props: Step7CompletionProps) => {
   );
 };
 
-export default Step7Completion;
+export default Step7ApplicationFeeDetails;

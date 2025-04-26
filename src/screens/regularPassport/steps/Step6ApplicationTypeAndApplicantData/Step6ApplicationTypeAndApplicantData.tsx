@@ -8,14 +8,14 @@ import FontFamily from '../../../../../assets/styles/FontFamily';
 import arrivalDateGuidelinesData from '../../../../data/Steps/ArrivalDateGuidelinesData';
 import passportTypeData from '../../../../data/DropdownData/PassportTypeData';
 
-type Step6ProcessingProps = {
+type Step6ApplicationTypeAndApplicantDataProps = {
   showFinalizationConfirmationDialog: () => void;
   showPassportTypeInfoDialog: () => void;
   showSearchLocationSheet: () => void;
   showSelectDateSheet: () => void;
 };
 
-const Step6Processing = (props: Step6ProcessingProps) => {
+const Step6ApplicationTypeAndApplicantData = (props: Step6ApplicationTypeAndApplicantDataProps) => {
   const {
     showFinalizationConfirmationDialog,
     showPassportTypeInfoDialog,
@@ -106,4 +106,4 @@ const Step6Processing = (props: Step6ProcessingProps) => {
   );
 };
 
-export default Step6Processing;
+export default Step6ApplicationTypeAndApplicantData;

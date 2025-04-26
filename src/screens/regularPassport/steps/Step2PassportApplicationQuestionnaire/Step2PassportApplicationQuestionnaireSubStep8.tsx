@@ -6,13 +6,13 @@ import styles from '../styles';
 import TextInputComponent from '../../../../components/TextInput';
 import Colors from '../../../../../assets/styles/Colors';
 
-type Step2SupportingDocsSubStep8Props = {
+type Step2PassportApplicationQuestionnaireSubStep8Props = {
   setSubStep: (step: number) => void;
 };
 
-const Step2SupportingDocsSubStep8 = ({
+const Step2PassportApplicationQuestionnaireSubStep8 = ({
   setSubStep,
-}: Step2SupportingDocsSubStep8Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep8Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -50,4 +50,4 @@ const Step2SupportingDocsSubStep8 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep8;
+export default Step2PassportApplicationQuestionnaireSubStep8;

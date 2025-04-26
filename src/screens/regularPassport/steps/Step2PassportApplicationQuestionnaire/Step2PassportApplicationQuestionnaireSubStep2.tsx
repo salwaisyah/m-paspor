@@ -7,7 +7,7 @@ import Colors from '../../../../../assets/styles/Colors';
 import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
 import styles from '../styles';
 
-type Step2SupportingDocsSubStep2Props = {
+type Step2PassportApplicationQuestionnaireSubStep2Props = {
   setSubStep: (step: number) => void;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
@@ -15,13 +15,13 @@ type Step2SupportingDocsSubStep2Props = {
   showLostOrDamagedPassportDialog: () => void;
 };
 
-const Step2SupportingDocsSubStep2 = ({
+const Step2PassportApplicationQuestionnaireSubStep2 = ({
   setSubStep,
   selectedOption,
   setSelectedOption,
   showPassportInfoDialog,
   showLostOrDamagedPassportDialog,
-}: Step2SupportingDocsSubStep2Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep2Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -94,4 +94,4 @@ const Step2SupportingDocsSubStep2 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep2;
+export default Step2PassportApplicationQuestionnaireSubStep2;

@@ -4,13 +4,13 @@ import {Button} from 'react-native-paper';
 import styles from '../styles';
 import Colors from '../../../../../assets/styles/Colors';
 
-type Step1PersonalInfoSubStep1Props = {
+type Step1VerifyNikSubStep2Props = {
   setSubStep: (val: number) => void;
 };
 
-const Step1PersonalInfoSubStep1 = ({
+const Step1VerifyNikSubStep2 = ({
   setSubStep,
-}: Step1PersonalInfoSubStep1Props) => {
+}: Step1VerifyNikSubStep2Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -21,29 +21,23 @@ const Step1PersonalInfoSubStep1 = ({
             dan jangan gunakan foto dari Live Mode sebelum melanjutkan.
           </Text>
         </View>
-        <View style={styles.documentImage}>
-          <Text style={styles.documentImageSupportText}>Foto KTP</Text>
-          <View
-            style={[
-              styles.documentImageCropped,
-              {backgroundColor: Colors.neutral100.color},
-            ]}
-          />
-        </View>
+
+        <View style={styles.documentImage} />
+
         <View style={styles.subStepButtonContainer}>
           <Button
             mode="contained"
-            onPress={() => setSubStep(2)}
+            onPress={() => setSubStep(3)}
             style={styles.subStepButtonContained}
             textColor={Colors.neutral100.color}>
-            Ambil Foto
+            Pilih Foto
           </Button>
           <Button
             mode="outlined"
-            onPress={() => {}}
+            onPress={() => setSubStep(1)}
             style={styles.subStepButtonOutlined}
             textColor={Colors.primary30.color}>
-            Upload Galeri
+            Ulangi
           </Button>
         </View>
       </View>
@@ -51,4 +45,4 @@ const Step1PersonalInfoSubStep1 = ({
   );
 };
 
-export default Step1PersonalInfoSubStep1;
+export default Step1VerifyNikSubStep2;

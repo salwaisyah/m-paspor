@@ -7,17 +7,17 @@ import durationAbroadOptions from '../../../../data/Options/DurationAbroadOption
 import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
 import Colors from '../../../../../assets/styles/Colors';
 
-type Step2SupportingDocsSubStep9Props = {
+type Step2PassportApplicationQuestionnaireSubStep9Props = {
   setSubStep: (step: number) => void;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
 };
 
-const Step2SupportingDocsSubStep9 = ({
+const Step2PassportApplicationQuestionnaireSubStep9 = ({
   setSubStep,
   selectedOption,
   setSelectedOption,
-}: Step2SupportingDocsSubStep9Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep9Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -61,4 +61,4 @@ const Step2SupportingDocsSubStep9 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep9;
+export default Step2PassportApplicationQuestionnaireSubStep9;

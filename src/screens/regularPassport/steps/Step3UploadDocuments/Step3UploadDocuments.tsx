@@ -19,7 +19,7 @@ interface DocumentUploadSectionProps {
   showDialogCivilStatusDocumentsInfo?: () => void;
 }
 
-interface Step3PaymentProps {
+interface Step3UploadDocumentsProps {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
   selectedPassportOption: string;
@@ -132,7 +132,7 @@ const DocumentUploadSection = (props: DocumentUploadSectionProps) => {
   );
 };
 
-const Step3Payment = (props: Step3PaymentProps) => {
+const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
   const {
     setStep,
     setSubStep,
@@ -263,4 +263,4 @@ const Step3Payment = (props: Step3PaymentProps) => {
   );
 };
 
-export default Step3Payment;
+export default Step3UploadDocuments;

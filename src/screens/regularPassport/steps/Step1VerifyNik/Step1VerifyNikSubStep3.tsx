@@ -7,15 +7,15 @@ import genderData from '../../../../data/DropdownData/GenderData';
 import civilStatusData from '../../../../data/DropdownData/CivilStatusData';
 import Colors from '../../../../../assets/styles/Colors';
 
-type Step1PersonalInfoSubStep3Props = {
+type Step1VerifyNikSubStep3Props = {
   setStep: (val: number) => void;
   setSubStep: (val: number) => void;
 };
 
-const Step1PersonalInfoSubStep3 = ({
+const Step1VerifyNikSubStep3 = ({
   setStep,
   setSubStep,
-}: Step1PersonalInfoSubStep3Props) => {
+}: Step1VerifyNikSubStep3Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -86,4 +86,4 @@ const Step1PersonalInfoSubStep3 = ({
   );
 };
 
-export default Step1PersonalInfoSubStep3;
+export default Step1VerifyNikSubStep3;

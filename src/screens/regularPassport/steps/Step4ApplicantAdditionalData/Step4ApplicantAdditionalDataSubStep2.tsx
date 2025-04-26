@@ -13,7 +13,7 @@ import {
   getData,
 } from '../../../../helper/asyncStorageHelper';
 
-const Step4DataConfirmationSubStep2 = ({
+const Step4ApplicantAdditionalDataSubStep2 = ({
   setStep,
   setSubStep,
 }: {
@@ -205,4 +205,4 @@ const Step4DataConfirmationSubStep2 = ({
   );
 };
 
-export default Step4DataConfirmationSubStep2;
+export default Step4ApplicantAdditionalDataSubStep2;

@@ -5,7 +5,7 @@ import styles from '../styles';
 import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
 import hasHadPassportBeforeOptions from '../../../../data/Options/HasHadPassportBeforeOptions';
 
-type Step2SupportingDocsSubStep1Props = {
+type Step2PassportApplicationQuestionnaireSubStep1Props = {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
   selectedPassportOption: string;
@@ -13,13 +13,13 @@ type Step2SupportingDocsSubStep1Props = {
   showDontHaveYetDialog: () => void;
 };
 
-const Step2SupportingDocsSubStep1 = ({
+const Step2PassportApplicationQuestionnaireSubStep1 = ({
   setStep,
   setSubStep,
   selectedPassportOption,
   setSelectedPassportOption,
   showDontHaveYetDialog,
-}: Step2SupportingDocsSubStep1Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep1Props) => {
   return (
     <View style={styles.subStepContainer}>
       <Pressable
@@ -59,4 +59,4 @@ const Step2SupportingDocsSubStep1 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep1;
+export default Step2PassportApplicationQuestionnaireSubStep1;

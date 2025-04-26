@@ -2,27 +2,29 @@ import React from 'react';
 import {ScrollView, View, Text, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {Button} from 'react-native-paper';
-import passportApplicationPurposeOptions from '../../../../data/Options/PassportApplicationPurposeOptions';
 import styles from '../styles';
+import TextInputComponent from '../../../../components/TextInput';
 import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
+import destinationCountryOptions from '../../../../data/Options/DestinationCountryOptions';
 import Colors from '../../../../../assets/styles/Colors';
+import countryData from '../../../../data/DropdownData/CountryData';
 
-type Step2SupportingDocsSubStep6Props = {
+type Step2PassportApplicationQuestionnaireSubStep7Props = {
   setSubStep: (step: number) => void;
   selectedOption: string;
   setSelectedOption: (val: string) => void;
 };
 
-const Step2SupportingDocsSubStep6 = ({
+const Step2PassportApplicationQuestionnaireSubStep7 = ({
   setSubStep,
   selectedOption,
   setSelectedOption,
-}: Step2SupportingDocsSubStep6Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep7Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
-          onPress={() => setSubStep(5)}
+          onPress={() => setSubStep(6)}
           style={({pressed}) => [
             styles.subStepButtonBackWrapper,
             {
@@ -34,10 +36,13 @@ const Step2SupportingDocsSubStep6 = ({
         </Pressable>
 
         <View style={styles.subStepQuestionnaireOptionContainer}>
-          <Text style={styles.questionnaireData}>
-            Apakah tujuan Anda membuat paspor?
-          </Text>
-          {passportApplicationPurposeOptions.map(option => (
+          <TextInputComponent
+            title="Negara mana yang akan Anda tuju?"
+            placeholder="Masukkan negara tujuan"
+            isDropdownCountry
+            dropdownCountryItemData={countryData}
+          />
+          {destinationCountryOptions.map(option => (
             <RadioButtonOptionComponent
               key={option.value}
               label={option.label}
@@ -51,7 +56,7 @@ const Step2SupportingDocsSubStep6 = ({
 
         <Button
           mode="contained"
-          onPress={() => setSubStep(7)}
+          onPress={() => setSubStep(8)}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>
           Lanjut
@@ -61,4 +66,4 @@ const Step2SupportingDocsSubStep6 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep6;
+export default Step2PassportApplicationQuestionnaireSubStep7;

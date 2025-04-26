@@ -7,14 +7,14 @@ import styles from '../styles';
 import {getData} from '../../../../helper/asyncStorageHelper';
 import {PassportAppointment} from '../../../../navigation/type';
 
-type Step5VerificationProps = {
+type Step5ApplicationTypeAndApplicantDataProps = {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
   passportAppointmentData: any[];
   showEditDataSheet: () => void;
 };
 
-const Step5Content = (props: Step5VerificationProps) => {
+const Step5Content = (props: Step5ApplicationTypeAndApplicantDataProps) => {
   const {setStep, setSubStep, passportAppointmentData, showEditDataSheet} =
     props;
 

@@ -13,29 +13,29 @@ import DialogApplicationPassport from '../../components/dialog/DialogApplication
 import DialogDontHaveYetPassport from '../../components/dialog/DialogDontHaveYetPassport';
 import DialogLostOrDamagedPassport from '../../components/dialog/DialogLostOrDamagedPassport';
 import passportAppointmentData from '../../data/History/PassportAppointmentData';
-import Step7Completion from './steps/Step7Completion/Step7Completion';
-import Step6Processing from './steps/Step6Processing/Step6Processing';
-import Step5Verification from './steps/Step5Verification/Step5Verification';
-import Step3Payment from './steps/Step3Payment/Step3Payment';
+import Step7ApplicationFeeDetails from './steps/Step7ApplicationFeeDetails/Step7ApplicationFeeDetails';
+import Step6ApplicationTypeAndApplicantData from './steps/Step6ApplicationTypeAndApplicantData/Step6ApplicationTypeAndApplicantData';
+import Step5ApplicationTypeAndApplicantData from './steps/Step5ApplicationTypeAndApplicantData/Step5ApplicationTypeAndApplicantData';
+import Step3UploadDocuments from './steps/Step3UploadDocuments/Step3UploadDocuments';
 
 // Options Data
 import passportForOptions from '../../data/Options/PassportForOptions';
-import Step4DataConfirmationSubStep2 from './steps/Step4DataConfirmation/Step4DataConfirmationSubStep2';
-import Step4DataConfirmationSubStep1 from './steps/Step4DataConfirmation/Step4DataConfirmationSubStep1';
-import Step1PersonalInfoSubStep1 from './steps/Step1PersonalInfo/Step1PersonalInfoSubStep1';
-import Step1PersonalInfoSubStep2 from './steps/Step1PersonalInfo/Step1PersonalInfoSubStep2';
-import Step1PersonalInfoSubStep3 from './steps/Step1PersonalInfo/Step1PersonalInfoSubStep3';
-import Step2SupportingDocsSubStep1 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep1';
-import Step2SupportingDocsSubStep2 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep2';
-import Step2SupportingDocsSubStep3 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep3';
-import Step2SupportingDocsSubStep4 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep4';
-import Step2SupportingDocsSubStep5 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep5';
-import Step2SupportingDocsSubStep6 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep6';
-import Step2SupportingDocsSubStep7 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep7';
-import Step2SupportingDocsSubStep8 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep8';
-import Step2SupportingDocsSubStep9 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep9';
-import Step2SupportingDocsSubStep10 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep10';
-import Step2SupportingDocsSubStep11 from './steps/Step2SupportingDocs/Step2SupportingDocsSubStep11';
+import Step4ApplicantAdditionalDataSubStep2 from './steps/Step4ApplicantAdditionalData/Step4ApplicantAdditionalDataSubStep2';
+import Step4ApplicantAdditionalDataSubStep1 from './steps/Step4ApplicantAdditionalData/Step4ApplicantAdditionalDataSubStep1';
+import Step1VerifyNikSubStep1 from './steps/Step1VerifyNik/Step1VerifyNikSubStep1';
+import Step1VerifyNikSubStep2 from './steps/Step1VerifyNik/Step1VerifyNikSubStep2';
+import Step1VerifyNikSubStep3 from './steps/Step1VerifyNik/Step1VerifyNikSubStep3';
+import Step2PassportApplicationQuestionnaireSubStep1 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep1';
+import Step2PassportApplicationQuestionnaireSubStep2 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep2';
+import Step2PassportApplicationQuestionnaireSubStep3 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep3';
+import Step2PassportApplicationQuestionnaireSubStep4 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep4';
+import Step2PassportApplicationQuestionnaireSubStep5 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep5';
+import Step2PassportApplicationQuestionnaireSubStep6 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep6';
+import Step2PassportApplicationQuestionnaireSubStep7 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep7';
+import Step2PassportApplicationQuestionnaireSubStep8 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep8';
+import Step2PassportApplicationQuestionnaireSubStep9 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep9';
+import Step2PassportApplicationQuestionnaireSubStep10 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep10';
+import Step2PassportApplicationQuestionnaireSubStep11 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep11';
 import DialogCivilStatusDocumentsInfo from '../../components/dialog/DialogCivilStatusDocumentsInfo';
 import DialogSubmitSuccess from '../../components/dialog/DialogSubmitSuccess';
 import DialogFinalizationConfirmation from '../../components/dialog/DialogFinalizationConfirmation';
@@ -104,15 +104,12 @@ const RenderApplicationStepsContent = (
   if (step === 1) {
     switch (subStep) {
       case 1:
-        return <Step1PersonalInfoSubStep1 setSubStep={setSubStep} />;
+        return <Step1VerifyNikSubStep1 setSubStep={setSubStep} />;
       case 2:
-        return <Step1PersonalInfoSubStep2 setSubStep={setSubStep} />;
+        return <Step1VerifyNikSubStep2 setSubStep={setSubStep} />;
       case 3:
         return (
-          <Step1PersonalInfoSubStep3
-            setStep={setStep}
-            setSubStep={setSubStep}
-          />
+          <Step1VerifyNikSubStep3 setStep={setStep} setSubStep={setSubStep} />
         );
       default:
         return null;
@@ -123,7 +120,7 @@ const RenderApplicationStepsContent = (
     switch (subStep) {
       case 1:
         return (
-          <Step2SupportingDocsSubStep1
+          <Step2PassportApplicationQuestionnaireSubStep1
             setStep={setStep}
             setSubStep={setSubStep}
             selectedPassportOption={selectedPassportOption}
@@ -133,7 +130,7 @@ const RenderApplicationStepsContent = (
         );
       case 2:
         return (
-          <Step2SupportingDocsSubStep2
+          <Step2PassportApplicationQuestionnaireSubStep2
             setSubStep={setSubStep}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
@@ -142,14 +139,26 @@ const RenderApplicationStepsContent = (
           />
         );
       case 3:
-        return <Step2SupportingDocsSubStep3 setSubStep={setSubStep} />;
+        return (
+          <Step2PassportApplicationQuestionnaireSubStep3
+            setSubStep={setSubStep}
+          />
+        );
       case 4:
-        return <Step2SupportingDocsSubStep4 setSubStep={setSubStep} />;
+        return (
+          <Step2PassportApplicationQuestionnaireSubStep4
+            setSubStep={setSubStep}
+          />
+        );
       case 5:
-        return <Step2SupportingDocsSubStep5 setSubStep={setSubStep} />;
+        return (
+          <Step2PassportApplicationQuestionnaireSubStep5
+            setSubStep={setSubStep}
+          />
+        );
       case 6:
         return (
-          <Step2SupportingDocsSubStep6
+          <Step2PassportApplicationQuestionnaireSubStep6
             setSubStep={setSubStep}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
@@ -157,27 +166,35 @@ const RenderApplicationStepsContent = (
         );
       case 7:
         return (
-          <Step2SupportingDocsSubStep7
+          <Step2PassportApplicationQuestionnaireSubStep7
             setSubStep={setSubStep}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
           />
         );
       case 8:
-        return <Step2SupportingDocsSubStep8 setSubStep={setSubStep} />;
+        return (
+          <Step2PassportApplicationQuestionnaireSubStep8
+            setSubStep={setSubStep}
+          />
+        );
       case 9:
         return (
-          <Step2SupportingDocsSubStep9
+          <Step2PassportApplicationQuestionnaireSubStep9
             setSubStep={setSubStep}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
           />
         );
       case 10:
-        return <Step2SupportingDocsSubStep10 setSubStep={setSubStep} />;
+        return (
+          <Step2PassportApplicationQuestionnaireSubStep10
+            setSubStep={setSubStep}
+          />
+        );
       case 11:
         return (
-          <Step2SupportingDocsSubStep11
+          <Step2PassportApplicationQuestionnaireSubStep11
             setStep={setStep}
             setSubStep={setSubStep}
             selectedOption={selectedOption}
@@ -193,7 +210,7 @@ const RenderApplicationStepsContent = (
     switch (subStep) {
       case 1:
         return (
-          <Step4DataConfirmationSubStep1
+          <Step4ApplicantAdditionalDataSubStep1
             setStep={setStep}
             setSubStep={setSubStep}
             checkedOption={checkedOption}
@@ -202,7 +219,7 @@ const RenderApplicationStepsContent = (
         );
       case 2:
         return (
-          <Step4DataConfirmationSubStep2
+          <Step4ApplicantAdditionalDataSubStep2
             setStep={setStep}
             setSubStep={setSubStep}
           />
@@ -212,7 +229,7 @@ const RenderApplicationStepsContent = (
   switch (step) {
     case 3:
       return (
-        <Step3Payment
+        <Step3UploadDocuments
           setStep={setStep}
           setSubStep={setSubStep}
           selectedPassportOption={selectedPassportOption}
@@ -223,7 +240,7 @@ const RenderApplicationStepsContent = (
       );
     case 5:
       return (
-        <Step5Verification
+        <Step5ApplicationTypeAndApplicantData
           setStep={setStep}
           setSubStep={setSubStep}
           passportAppointmentData={passportAppointmentData}
@@ -232,7 +249,7 @@ const RenderApplicationStepsContent = (
       );
     case 6:
       return (
-        <Step6Processing
+        <Step6ApplicationTypeAndApplicantData
           showFinalizationConfirmationDialog={
             showFinalizationConfirmationDialog
           }
@@ -243,7 +260,7 @@ const RenderApplicationStepsContent = (
       );
     case 7:
       return (
-        <Step7Completion
+        <Step7ApplicationFeeDetails
           showSubmitSuccessDialog={showSubmitSuccessDialog}
           setLastCompletedSteps={setLastCompletedSteps}
         />
@@ -386,13 +403,24 @@ function RegularPassportScreen() {
   const hideSelectDateSheet = () => setVisibleSelectDateSheet(false);
 
   const stepTitles: {[key: number]: string} = {
-    1: 'Informasi Pribadi',
-    2: 'Dokumen Pendukung',
-    3: 'Pembayaran',
-    4: 'Konfirmasi Data',
-    5: 'Verifikasi',
-    6: 'Pemrosesan',
-    7: 'Selesai',
+    1: 'Verifikasi NIK',
+    2: 'Kuesioner Permohonan Paspor (PERDIM)',
+    3: 'Unggah Dokumen',
+    4: 'Data Tambahan Pemohon',
+    5: 'Jenis Permohonan dan Data Pemohon',
+    6: 'Jenis Permohonan dan Data Pemohon',
+    7: 'Rincian Biaya Permohonan',
+  };
+
+  const getStepTitle = (step: number, subStep: number) => {
+    if (step === 4) {
+      if (subStep === 1) {
+        return 'Data Tambahan Pemohon (1/2)';
+      } else if (subStep === 2) {
+        return 'Data Tambahan Pemohon (2/2)';
+      }
+    }
+    return stepTitles[step];
   };
 
   // Back handler for showing/hiding steps content
@@ -434,7 +462,7 @@ function RegularPassportScreen() {
   const renderApplicationStepsContent = showApplicationStepsContent ? (
     <>
       <View style={styles.applicationStepsContainer}>
-        <Text style={styles.stepTitle}>{stepTitles[step]}</Text>
+        <Text style={styles.stepTitle}>{getStepTitle(step, subStep)}</Text>
         <StepIndicator
           currentStep={step}
           totalSteps={7}

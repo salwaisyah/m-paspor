@@ -5,23 +5,25 @@ import {Button} from 'react-native-paper';
 import styles from '../styles';
 import TextInputComponent from '../../../../components/TextInput';
 import Colors from '../../../../../assets/styles/Colors';
+import familyRelationshipData from '../../../../data/DropdownData/FamilyRelationshipData';
 
-type Step2SupportingDocsSubStep5Props = {
+type Step2PassportApplicationQuestionnaireSubStep10Props = {
   setSubStep: (step: number) => void;
 };
 
-const Step2SupportingDocsSubStep5 = ({
+const Step2PassportApplicationQuestionnaireSubStep10 = ({
   setSubStep,
-}: Step2SupportingDocsSubStep5Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep10Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
-          onPress={() => setSubStep(4)}
+          onPress={() => setSubStep(9)}
           style={({pressed}) => [
             styles.subStepButtonBackWrapper,
             {
               transform: [{scale: pressed ? 0.99 : 1}],
+              marginBottom: 8,
             },
           ]}>
           <Icon name="chevron-left" size={24} />
@@ -29,29 +31,35 @@ const Step2SupportingDocsSubStep5 = ({
         </Pressable>
 
         <View style={styles.subStepQuestionnaireOptionContainer}>
+          <Text style={styles.questionnaireData}>
+            Nomor telepon keluarga/kerabat terdekat Anda di Indonesia yang dapat
+            dihubungi
+          </Text>
+
           <TextInputComponent
-            title="Nomor paspor lama Anda"
-            placeholder="Masukkan nomor paspor lama Anda"
+            title="Nama Kerabat"
+            placeholder="Masukkan Nama Kerabat Anda"
+            isRequired
           />
-          <View>
-            <View style={styles.textInputBulletTextWrapper}>
-              <Text style={styles.textInputSupportText}>•</Text>
-              <Text style={styles.textInputSupportText}>
-                Nomor paspor lama minimal 7 karakter
-              </Text>
-            </View>
-            <View style={styles.textInputBulletTextWrapper}>
-              <Text style={styles.textInputSupportText}>•</Text>
-              <Text style={styles.textInputSupportText}>
-                Tulis nomor paspor tanpa menggunakan spasi. Contoh: B12345678
-              </Text>
-            </View>
-          </View>
+
+          <TextInputComponent
+            title="Nomor Telepon"
+            placeholder="Contoh: 08513456789"
+            isRequired
+          />
+
+          <TextInputComponent
+            title="Keterangan Hubungan Keluarga"
+            placeholder="Pilih Hubungan"
+            isRequired
+            isDropdown
+            dropdownItemData={familyRelationshipData}
+          />
         </View>
 
         <Button
           mode="contained"
-          onPress={() => setSubStep(6)}
+          onPress={() => setSubStep(11)}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>
           Lanjut
@@ -61,4 +69,4 @@ const Step2SupportingDocsSubStep5 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep5;
+export default Step2PassportApplicationQuestionnaireSubStep10;

@@ -10,15 +10,15 @@ import districtData from '../../../../data/DropdownData/DistrictData';
 import cityData from '../../../../data/DropdownData/CityData';
 import provinceData from '../../../../data/DropdownData/ProvinceData';
 
-type Step4DataConfirmationSubStep1Props = {
+type Step4ApplicantAdditionalDataSubStep1Props = {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
   checkedOption: boolean;
   setCheckedOption: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Step4DataConfirmationSubStep1: React.FC<
-  Step4DataConfirmationSubStep1Props
+const Step4ApplicantAdditionalDataSubStep1: React.FC<
+  Step4ApplicantAdditionalDataSubStep1Props
 > = ({setStep, setSubStep, checkedOption, setCheckedOption}) => {
   return (
     <ScrollView>
@@ -162,4 +162,4 @@ const Step4DataConfirmationSubStep1: React.FC<
   );
 };
 
-export default Step4DataConfirmationSubStep1;
+export default Step4ApplicantAdditionalDataSubStep1;

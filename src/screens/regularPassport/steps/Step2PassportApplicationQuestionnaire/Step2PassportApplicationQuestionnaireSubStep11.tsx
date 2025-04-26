@@ -10,19 +10,19 @@ import familyRelationshipData from '../../../../data/DropdownData/FamilyRelation
 import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
 import Colors from '../../../../../assets/styles/Colors';
 
-type Step2SupportingDocsSubStep11Props = {
+type Step2PassportApplicationQuestionnaireSubStep11Props = {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
 };
 
-const Step2SupportingDocsSubStep11 = ({
+const Step2PassportApplicationQuestionnaireSubStep11 = ({
   setStep,
   setSubStep,
   selectedOption,
   setSelectedOption,
-}: Step2SupportingDocsSubStep11Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep11Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -97,4 +97,4 @@ const Step2SupportingDocsSubStep11 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep11;
+export default Step2PassportApplicationQuestionnaireSubStep11;

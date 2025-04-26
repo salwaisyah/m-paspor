@@ -1,21 +1,37 @@
 import React from 'react';
-import {ScrollView, View, Text} from 'react-native';
+import {ScrollView, View, Pressable, Text} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 import {Button} from 'react-native-paper';
 import styles from '../styles';
 import Colors from '../../../../../assets/styles/Colors';
 
-type Step1PersonalInfoSubStep2Props = {
-  setSubStep: (val: number) => void;
+type Step2PassportApplicationQuestionnaireSubStep4Props = {
+  setSubStep: (step: number) => void;
 };
 
-const Step1PersonalInfoSubStep2 = ({
+const Step2PassportApplicationQuestionnaireSubStep4 = ({
   setSubStep,
-}: Step1PersonalInfoSubStep2Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep4Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
+        <Pressable
+          onPress={() => setSubStep(3)}
+          style={({pressed}) => [
+            styles.subStepButtonBackWrapper,
+            {
+              transform: [{scale: pressed ? 0.99 : 1}],
+              marginBottom: 8,
+            },
+          ]}>
+          <Icon name="chevron-left" size={24} />
+          <Text style={styles.subStepButtonBackText}>Kembali</Text>
+        </Pressable>
+
         <View style={styles.subStepTextWrapper}>
-          <Text style={styles.subStepTitle}>Ambil/Upload Foto KTP Anda</Text>
+          <Text style={styles.subStepTitle}>
+            Ambil/Upload Foto Paspor Lama Anda (Halaman 2 Paspor)
+          </Text>
           <Text style={styles.subStepDesc}>
             Pastikan pencahayaan cukup, tulisan pada identitas terlihat jelas,
             dan jangan gunakan foto dari Live Mode sebelum melanjutkan.
@@ -27,14 +43,14 @@ const Step1PersonalInfoSubStep2 = ({
         <View style={styles.subStepButtonContainer}>
           <Button
             mode="contained"
-            onPress={() => setSubStep(3)}
+            onPress={() => setSubStep(5)}
             style={styles.subStepButtonContained}
             textColor={Colors.neutral100.color}>
             Pilih Foto
           </Button>
           <Button
             mode="outlined"
-            onPress={() => setSubStep(1)}
+            onPress={() => setSubStep(3)}
             style={styles.subStepButtonOutlined}
             textColor={Colors.primary30.color}>
             Ulangi
@@ -45,4 +61,4 @@ const Step1PersonalInfoSubStep2 = ({
   );
 };
 
-export default Step1PersonalInfoSubStep2;
+export default Step2PassportApplicationQuestionnaireSubStep4;

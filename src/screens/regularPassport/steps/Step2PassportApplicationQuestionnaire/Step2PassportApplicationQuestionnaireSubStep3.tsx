@@ -5,13 +5,13 @@ import {Button} from 'react-native-paper';
 import styles from '../styles';
 import Colors from '../../../../../assets/styles/Colors';
 
-type Step2SupportingDocsSubStep3Props = {
+type Step2PassportApplicationQuestionnaireSubStep3Props = {
   setSubStep: (step: number) => void;
 };
 
-const Step2SupportingDocsSubStep3 = ({
+const Step2PassportApplicationQuestionnaireSubStep3 = ({
   setSubStep,
-}: Step2SupportingDocsSubStep3Props) => {
+}: Step2PassportApplicationQuestionnaireSubStep3Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -73,4 +73,4 @@ const Step2SupportingDocsSubStep3 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep3;
+export default Step2PassportApplicationQuestionnaireSubStep3;

@@ -2,28 +2,31 @@ import React from 'react';
 import {ScrollView, View, Text, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {Button} from 'react-native-paper';
+import passportApplicationPurposeOptions from '../../../../data/Options/PassportApplicationPurposeOptions';
 import styles from '../styles';
-import TextInputComponent from '../../../../components/TextInput';
+import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
 import Colors from '../../../../../assets/styles/Colors';
-import familyRelationshipData from '../../../../data/DropdownData/FamilyRelationshipData';
 
-type Step2SupportingDocsSubStep10Props = {
+type Step2PassportApplicationQuestionnaireSubStep6Props = {
   setSubStep: (step: number) => void;
+  selectedOption: string;
+  setSelectedOption: (val: string) => void;
 };
 
-const Step2SupportingDocsSubStep10 = ({
+const Step2PassportApplicationQuestionnaireSubStep6 = ({
   setSubStep,
-}: Step2SupportingDocsSubStep10Props) => {
+  selectedOption,
+  setSelectedOption,
+}: Step2PassportApplicationQuestionnaireSubStep6Props) => {
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
-          onPress={() => setSubStep(9)}
+          onPress={() => setSubStep(5)}
           style={({pressed}) => [
             styles.subStepButtonBackWrapper,
             {
               transform: [{scale: pressed ? 0.99 : 1}],
-              marginBottom: 8,
             },
           ]}>
           <Icon name="chevron-left" size={24} />
@@ -32,34 +35,23 @@ const Step2SupportingDocsSubStep10 = ({
 
         <View style={styles.subStepQuestionnaireOptionContainer}>
           <Text style={styles.questionnaireData}>
-            Nomor telepon keluarga/kerabat terdekat Anda di Indonesia yang dapat
-            dihubungi
+            Apakah tujuan Anda membuat paspor?
           </Text>
-
-          <TextInputComponent
-            title="Nama Kerabat"
-            placeholder="Masukkan Nama Kerabat Anda"
-            isRequired
-          />
-
-          <TextInputComponent
-            title="Nomor Telepon"
-            placeholder="Contoh: 08513456789"
-            isRequired
-          />
-
-          <TextInputComponent
-            title="Keterangan Hubungan Keluarga"
-            placeholder="Pilih Hubungan"
-            isRequired
-            isDropdown
-            dropdownItemData={familyRelationshipData}
-          />
+          {passportApplicationPurposeOptions.map(option => (
+            <RadioButtonOptionComponent
+              key={option.value}
+              label={option.label}
+              description={option.description}
+              value={option.value}
+              selectedValue={selectedOption}
+              onSelect={value => setSelectedOption(value)}
+            />
+          ))}
         </View>
 
         <Button
           mode="contained"
-          onPress={() => setSubStep(11)}
+          onPress={() => setSubStep(7)}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>
           Lanjut
@@ -69,4 +61,4 @@ const Step2SupportingDocsSubStep10 = ({
   );
 };
 
-export default Step2SupportingDocsSubStep10;
+export default Step2PassportApplicationQuestionnaireSubStep6;

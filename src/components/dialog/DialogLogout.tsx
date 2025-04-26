@@ -17,9 +17,13 @@ const DialogLogout = (props: DialogLogoutProps) => {
     <Portal>
       <Dialog visible={visible} style={styles.container}>
         <Dialog.Title style={styles.title}>
-          Apakah Anda yakin akan menutup akun?
+          Apakah Anda ingin keluar dari akun?
         </Dialog.Title>
         <View style={styles.content}>
+          <Text style={styles.desc}>
+            Anda akan keluar dari akun M-Paspor yang sekarang dan akan diarahkan
+            menuju halaman login.
+          </Text>
           <Button
             style={styles.buttonContained}
             mode="contained"
@@ -28,16 +32,16 @@ const DialogLogout = (props: DialogLogoutProps) => {
               hideDialog();
               onNavigate();
             }}>
-            Ya, lanjut tutup akun
+            Ya, Lanjut Keluar Akun
           </Button>
           <Button
             style={styles.buttonOutlined}
             mode="outlined"
-            textColor={Colors.indicatorRed.color}
+            textColor={Colors.primary30.color}
             onPress={() => {
               hideDialog();
             }}>
-            Tidak, jangan tutup akun
+            Tidak, Jangan Keluar
           </Button>
         </View>
       </Dialog>
@@ -56,7 +60,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    color: Colors.indicatorRed.color,
+    color: Colors.secondary30.color,
+  },
+  desc: {
+    fontSize: 14,
+    ...FontFamily.notoSansRegular,
+    includeFontPadding: false,
+    lineHeight: 22,
+    color: Colors.primary30.color,
   },
   content: {
     marginHorizontal: 24,
@@ -71,9 +82,9 @@ const styles = StyleSheet.create({
     color: Colors.primary30.color,
   },
   buttonContained: {
-    backgroundColor: Colors.indicatorRed.color,
+    backgroundColor: Colors.primary30.color,
   },
   buttonOutlined: {
-    borderColor: Colors.indicatorRed.color,
+    borderColor: Colors.primary30.color,
   },
 });
