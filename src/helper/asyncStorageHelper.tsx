@@ -38,3 +38,13 @@ export const addData = async <T,>(key: string, newData: T): Promise<void> => {
     console.error('Gagal menambah data:', e);
   }
 };
+
+// Fungsi untuk menghapus seluruh data
+export const clearData = async (key: string): Promise<void> => {
+  try {
+    await AsyncStorage.removeItem(key);
+    console.log('Data berhasil dihapus!');
+  } catch (e) {
+    console.error('Gagal menghapus data:', e);
+  }
+};

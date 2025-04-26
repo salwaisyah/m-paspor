@@ -11,7 +11,6 @@ import {PassportAppointment} from '../../../../navigation/type';
 import {
   addData,
   getData,
-  storeData,
 } from '../../../../helper/asyncStorageHelper';
 
 const Step4DataConfirmationSubStep2 = ({

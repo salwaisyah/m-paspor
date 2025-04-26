@@ -11,6 +11,7 @@ import {RootStackParamList} from '../../navigation/type';
 import {useNavigation} from '@react-navigation/native';
 import DialogWarningApplication from '../../components/dialog/DialogWarningApplication';
 import DialogLogout from '../../components/dialog/DialogLogout';
+import {clearData, getData} from '../../helper/asyncStorageHelper';
 
 type NavigationRouteScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -105,12 +106,13 @@ function NavigationRouteScreen() {
         <DialogLogout
           visible={visibleLogoutDialog}
           hideDialog={hideLogoutDialog}
-          onNavigate={() =>
+          onNavigate={async () => {
+            await clearData('passportAppointments');
             navigation.reset({
               index: 0,
               routes: [{name: 'Login'}],
-            })
-          }
+            });
+          }}
         />
       )}
     </PaperProvider>
