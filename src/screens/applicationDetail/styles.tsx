@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     ...FontFamily.notoSansBold,
     color: Colors.primary30.color,
+    includeFontPadding: false,
   },
   applicantDetailContentChildButton: {
     marginTop: 8,

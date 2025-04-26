@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginVertical: 14,
     includeFontPadding: false,
+    flex: 1,
+    marginEnd: 16,
   },
   appBarContainer: {
     height: 72,

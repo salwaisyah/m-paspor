@@ -200,6 +200,15 @@ const styles = StyleSheet.create({
   applicantDetailTexDescCode: {
     textAlign: 'right',
   },
+  applicantDetailBottomText: {
+    fontSize: 14,
+    ...FontFamily.notoSansBold,
+    color: Colors.primary30.color,
+    includeFontPadding: false,
+  },
+  applicantDetailDividerMargin: {
+    marginVertical: 4,
+  },
   midContainer: {
     backgroundColor: Colors.neutral100.color,
   },

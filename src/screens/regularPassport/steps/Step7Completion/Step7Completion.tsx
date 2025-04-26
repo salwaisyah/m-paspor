@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {Button, Divider, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../../../../../assets/styles/Colors';
 import styles from '../styles';
-import passportAppointmentData from '../../../../data/History/PassportAppointmentData';
 import Accordion from '../../../../components/Accordion';
 import termsAndConditionsData from '../../../../data/Steps/TermsAndContionsData';
+import {PassportAppointment} from '../../../../navigation/type';
+import {getData} from '../../../../helper/asyncStorageHelper';
 
 type Step7CompletionProps = {
   showSubmitSuccessDialog: () => void;
@@ -15,8 +16,21 @@ type Step7CompletionProps = {
 
 const Step7Completion = (props: Step7CompletionProps) => {
   const {showSubmitSuccessDialog, setLastCompletedSteps} = props;
-  const lastAppointment =
-    passportAppointmentData[passportAppointmentData.length - 1];
+  const [lastAppointment, setLastAppointment] = useState<PassportAppointment>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getData('passportAppointments');
+        if (Array.isArray(data) && data.length > 0) {
+          setLastAppointment(data[data.length - 1]);
+        }
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <ScrollView>
@@ -31,7 +45,7 @@ const Step7Completion = (props: Step7CompletionProps) => {
                 color={Colors.secondary30.color}
               />
               <Text style={styles.midIconContentTextStyle}>
-                {lastAppointment.appointmentDate}
+                {lastAppointment?.appointmentDate}
               </Text>
             </View>
             <View style={styles.midIconContentWrapper}>
@@ -41,7 +55,7 @@ const Step7Completion = (props: Step7CompletionProps) => {
                 color={Colors.secondary30.color}
               />
               <Text style={styles.midIconContentTextStyle}>
-                {lastAppointment.appointmentTime}
+                {lastAppointment?.appointmentTime}
               </Text>
             </View>
             <View style={styles.midIconContentWrapper}>
@@ -51,7 +65,7 @@ const Step7Completion = (props: Step7CompletionProps) => {
                 color={Colors.secondary30.color}
               />
               <Text style={styles.midIconContentTextStyle}>
-                {lastAppointment.serviceUnit}
+                {lastAppointment?.serviceUnit}
               </Text>
             </View>
           </View>
@@ -60,13 +74,13 @@ const Step7Completion = (props: Step7CompletionProps) => {
             <View style={styles.midTextContentWrapper}>
               <Text style={styles.midTextContentTitle}>Tanggal Pengajuan</Text>
               <Text style={styles.midTextContentData}>
-                {lastAppointment.submissionDate}
+                {lastAppointment?.submissionDate}
               </Text>
             </View>
             <View style={styles.midTextContentWrapper}>
               <Text style={styles.midTextContentTitle}>Kode Layanan</Text>
               <Text style={styles.midTextContentData}>
-                {lastAppointment.serviceCode}
+                {lastAppointment?.serviceCode}
               </Text>
             </View>
           </View>
@@ -130,7 +144,7 @@ const Step7Completion = (props: Step7CompletionProps) => {
                 styles.applicantDetailTextDesc,
                 styles.applicantDetailTexDescName,
               ]}>
-              {lastAppointment.applicantName}
+              {lastAppointment?.applicantName}
             </Text>
           </View>
           <View style={styles.applicantDetailTextContentWrapper}>
@@ -140,20 +154,20 @@ const Step7Completion = (props: Step7CompletionProps) => {
                 styles.applicantDetailTextDesc,
                 styles.applicantDetailTexDescCode,
               ]}>
-              {lastAppointment.applicantCode}
+              {lastAppointment?.applicantCode}
             </Text>
           </View>
           <View style={styles.applicantDetailContentChildContainer}>
             <View style={styles.applicantDetailTextContentWrapper}>
               <Text style={styles.applicantDetailTextTitle}>NIK</Text>
               <Text style={styles.applicantDetailTextDesc}>
-                {lastAppointment.applicationDetails.nationalIdNumber}
+                {lastAppointment?.applicationDetails?.nationalIdNumber}
               </Text>
             </View>
             <View style={styles.applicantDetailTextContentWrapper}>
               <Text style={styles.applicantDetailTextTitle}>Jenis Kelamin</Text>
               <Text style={styles.applicantDetailTextDesc}>
-                {lastAppointment.applicationDetails.gender}
+                {lastAppointment?.applicationDetails?.gender}
               </Text>
             </View>
             <View style={styles.applicantDetailTextContentWrapper}>
@@ -161,7 +175,7 @@ const Step7Completion = (props: Step7CompletionProps) => {
                 Jenis Permohonan
               </Text>
               <Text style={styles.applicantDetailTextDesc}>
-                {lastAppointment.applicationDetails.applicationType}
+                {lastAppointment?.applicationDetails?.applicationType}
               </Text>
             </View>
             <View style={styles.applicantDetailTextContentWrapper}>
@@ -169,7 +183,7 @@ const Step7Completion = (props: Step7CompletionProps) => {
                 Alasan Penggantian
               </Text>
               <Text style={styles.applicantDetailTextDesc}>
-                {lastAppointment.applicationDetails.replacementReason}
+                {lastAppointment?.applicationDetails?.replacementReason}
               </Text>
             </View>
             <View style={styles.applicantDetailTextContentWrapper}>
@@ -177,15 +191,22 @@ const Step7Completion = (props: Step7CompletionProps) => {
                 Tujuan Permohonan
               </Text>
               <Text style={styles.applicantDetailTextDesc}>
-                {lastAppointment.applicationDetails.applicationPurpose}
+                {lastAppointment?.applicationDetails?.applicationPurpose}
               </Text>
             </View>
             <View style={styles.applicantDetailTextContentWrapper}>
               <Text style={styles.applicantDetailTextTitle}>Jenis Paspor</Text>
               <Text style={styles.applicantDetailTextDesc}>
-                {lastAppointment.applicationDetails.passportType}
+                {lastAppointment?.applicationDetails?.passportType}
               </Text>
             </View>
+          </View>
+          <Divider style={styles.applicantDetailDividerMargin} />
+          <View style={styles.applicantDetailBottomContentWrapper}>
+            <Text style={styles.applicantDetailBottomText}>Biaya</Text>
+            <Text style={styles.applicantDetailBottomText}>
+              {lastAppointment?.applicationDetails?.fee}
+            </Text>
           </View>
         </View>
       </View>

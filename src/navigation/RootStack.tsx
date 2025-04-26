@@ -54,7 +54,9 @@ function RootStack() {
         options={{headerShown: false}}
       />
       <Stack.Screen name="Home" options={{headerShown: false}}>
-        {() => <HomeScreen showDialog={() => console.log('Show dialog!')} visible />}
+        {() => (
+          <HomeScreen showDialog={() => {}} visible />
+        )}
       </Stack.Screen>
       <Stack.Screen
         name="History"
@@ -66,11 +68,11 @@ function RootStack() {
         component={NotificationScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{headerShown: false}}
-      />
+      <Stack.Screen name="Profile" options={{headerShown: false}}>
+        {() => (
+          <ProfileScreen showDialog={() => {}} visible />
+        )}
+      </Stack.Screen>
       <Stack.Screen
         name="EditProfile"
         component={EditProfileScreen}

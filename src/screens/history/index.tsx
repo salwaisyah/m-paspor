@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, Pressable, StatusBar, Text, View} from 'react-native';
 import styles from './styles';
 import Colors from '../../../assets/styles/Colors';
@@ -10,8 +10,10 @@ import {
   useNavigationState,
 } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RootStackParamList} from '../../navigation/type';
+import {PassportAppointment, RootStackParamList} from '../../navigation/type';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {getData} from '../../helper/asyncStorageHelper';
+import {ActivityIndicator} from 'react-native-paper';
 
 type HistoryScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -28,6 +30,28 @@ function HistoryScreen() {
   });
 
   const showNavBackAppBar = previousRoute === 'NavigationRoute';
+
+  const [appointments, setAppointments] = useState<PassportAppointment[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true); // mulai loading
+        const data = await getData('passportAppointments');
+        if (Array.isArray(data) && data.length > 0) {
+          setAppointments(data);
+        } else {
+          setAppointments([]); // kosongin kalau tidak ada
+        }
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      } finally {
+        setIsLoading(false); // selesai loading
+      }
+    };
+    fetchData();
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -60,31 +84,37 @@ function HistoryScreen() {
         </View>
       )}
       <View style={styles.topBackground} />
-      <View style={styles.cardWrapper}>
-        <FlatList
-          data={passportAppointmentData}
-          renderItem={({item}) => (
-            <Pressable
-              onPress={() =>
-                navigation.navigate('ApplicationDetail', {data: item})
-              }
-              style={({pressed}) => ({
-                transform: [{scale: pressed ? 0.975 : 1}],
-              })}>
-              <PassportAppointmentCard
-                applicantName={item.applicantName}
-                applicantCode={item.applicantCode}
-                appointmentDate={item.appointmentDate}
-                appointmentTime={item.appointmentTime}
-                serviceUnit={item.serviceUnit}
-                status={item.status}
-              />
-            </Pressable>
-          )}
-          keyExtractor={item => item.id}
-          ItemSeparatorComponent={ItemSeparator}
-        />
-      </View>
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color={Colors.secondary30.color} />
+        </View>
+      ) : (
+        <View style={styles.cardWrapper}>
+          <FlatList
+            data={appointments}
+            renderItem={({item}: any) => (
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('ApplicationDetail', {data: item})
+                }
+                style={({pressed}) => ({
+                  transform: [{scale: pressed ? 0.975 : 1}],
+                })}>
+                <PassportAppointmentCard
+                  applicantName={item.applicantName}
+                  applicantCode={item.applicantCode}
+                  appointmentDate={item.appointmentDate}
+                  appointmentTime={item.appointmentTime}
+                  serviceUnit={item.serviceUnit}
+                  status={item.status}
+                />
+              </Pressable>
+            )}
+            keyExtractor={item => item.id ?? ''}
+            ItemSeparatorComponent={ItemSeparator}
+          />
+        </View>
+      )}
     </View>
   );
 }

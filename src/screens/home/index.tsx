@@ -13,15 +13,15 @@ import {
 import Colors from '../../../assets/styles/Colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../navigation/type';
+import {PassportAppointment, RootStackParamList} from '../../navigation/type';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import RegularPassportIcon from '../../../assets/icons/regular_passport.svg';
 import ExpressPassportIcon from '../../../assets/icons/express_passport.svg';
 import GuidebookIcon from '../../../assets/icons/guidebook.svg';
 import EazyPassportIcon from '../../../assets/icons/eazy_passport.svg';
-import passportAppointmentData from '../../data/History/PassportAppointmentData';
 import PassportAppointmentCard from '../../components/PassportAppointmentCard';
-import {useCallback, useRef} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {getData} from '../../helper/asyncStorageHelper';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -32,6 +32,7 @@ const ItemSeparator = () => <View style={styles.flatllistGap} />;
 
 type RenderContentProps = {
   showDialog: () => void;
+  lastTwoAppointments: PassportAppointment[];
 };
 
 const RenderBanner = () => {
@@ -147,7 +148,10 @@ const RenderBanner = () => {
   );
 };
 
-const RenderContent = ({showDialog}: RenderContentProps) => {
+const RenderContent = ({
+  showDialog,
+  lastTwoAppointments,
+}: RenderContentProps) => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
   return (
@@ -223,8 +227,8 @@ const RenderContent = ({showDialog}: RenderContentProps) => {
         </View>
         <View style={styles.cardWrapper}>
           <FlatList
-            data={passportAppointmentData.slice(-2)}
-            renderItem={({item}) => (
+            data={lastTwoAppointments}
+            renderItem={({item}: any) => (
               <Pressable
                 onPress={() =>
                   navigation.navigate('ApplicationDetail', {data: item})
@@ -242,7 +246,7 @@ const RenderContent = ({showDialog}: RenderContentProps) => {
                 />
               </Pressable>
             )}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id ?? ''}
             ItemSeparatorComponent={ItemSeparator}
           />
         </View>
@@ -256,8 +260,27 @@ type HomeScreenProps = {
   readonly visible: boolean;
 };
 
-function HomeScreen({showDialog, visible}: HomeScreenProps) {
+function HomeScreen(props: HomeScreenProps) {
+  const {showDialog, visible} = props;
   const navigation = useNavigation<HomeScreenNavigationProp>();
+
+  const [lastTwoAppointments, setLastTwoAppointments] = useState<
+    PassportAppointment[]
+  >([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getData('passportAppointments');
+        if (Array.isArray(data) && data.length > 0) {
+          setLastTwoAppointments(data.slice(-2));
+        }
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -276,7 +299,9 @@ function HomeScreen({showDialog, visible}: HomeScreenProps) {
   return (
     <View style={styles.container}>
       <View style={styles.appBarContainer}>
-        <Text style={styles.appBarTitle}>Halo, X!</Text>
+        <Text style={styles.appBarTitle} numberOfLines={1} ellipsizeMode="tail">
+          Halo, Salwa Aisyah Adhani!
+        </Text>
         <Icon
           name="bell-outline"
           size={24}
@@ -286,7 +311,12 @@ function HomeScreen({showDialog, visible}: HomeScreenProps) {
       </View>
       <FlatList
         data={[{}]}
-        renderItem={() => <RenderContent showDialog={showDialog} />}
+        renderItem={() => (
+          <RenderContent
+            showDialog={showDialog}
+            lastTwoAppointments={lastTwoAppointments}
+          />
+        )}
       />
     </View>
   );

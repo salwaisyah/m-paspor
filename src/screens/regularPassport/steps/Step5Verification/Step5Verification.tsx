@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable} from 'react-native';
 import {Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../../../../../assets/styles/Colors';
 import styles from '../styles';
+import {getData} from '../../../../helper/asyncStorageHelper';
+import {PassportAppointment} from '../../../../navigation/type';
 
 type Step5VerificationProps = {
   setStep: (step: number) => void;
@@ -15,8 +17,23 @@ type Step5VerificationProps = {
 const Step5Content = (props: Step5VerificationProps) => {
   const {setStep, setSubStep, passportAppointmentData, showEditDataSheet} =
     props;
-  const lastAppointment =
-    passportAppointmentData[passportAppointmentData.length - 1];
+
+  const [lastAppointment, setLastAppointment] =
+    useState<PassportAppointment>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getData('passportAppointments');
+        if (Array.isArray(data) && data.length > 0) {
+          setLastAppointment(data[data.length - 1]);
+        }
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.subStepContainer}>
@@ -36,7 +53,7 @@ const Step5Content = (props: Step5VerificationProps) => {
                 styles.applicantDetailTextDesc,
                 {textTransform: 'uppercase', flex: 0},
               ]}>
-              {lastAppointment.applicantName}
+              {lastAppointment?.applicantName}
             </Text>
           </View>
           <View style={styles.applicantDetailIconContentWrapper}>
@@ -63,27 +80,27 @@ const Step5Content = (props: Step5VerificationProps) => {
         <View style={styles.applicantDetailContentChildContainer}>
           <DetailRow
             label="NIK"
-            value={lastAppointment.applicationDetails.nationalIdNumber}
+            value={lastAppointment?.applicationDetails?.nationalIdNumber}
           />
           <DetailRow
             label="Jenis Kelamin"
-            value={lastAppointment.applicationDetails.gender}
+            value={lastAppointment?.applicationDetails?.gender}
           />
           <DetailRow
             label="Jenis Permohonan"
-            value={lastAppointment.applicationDetails.applicationType}
+            value={lastAppointment?.applicationDetails?.applicationType}
           />
           <DetailRow
             label="Alasan Penggantian"
-            value={lastAppointment.applicationDetails.replacementReason}
+            value={lastAppointment?.applicationDetails?.replacementReason}
           />
           <DetailRow
             label="Tujuan Permohonan"
-            value={lastAppointment.applicationDetails.applicationPurpose}
+            value={lastAppointment?.applicationDetails?.applicationPurpose}
           />
           <DetailRow
             label="Jenis Paspor"
-            value={lastAppointment.applicationDetails.passportType}
+            value={lastAppointment?.applicationDetails?.passportType}
           />
         </View>
       </View>
@@ -110,7 +127,7 @@ const Step5Content = (props: Step5VerificationProps) => {
   );
 };
 
-const DetailRow = ({label, value}: {label: string; value: string}) => (
+const DetailRow = ({label, value}: {label: string; value: string | undefined}) => (
   <View style={styles.applicantDetailTextContentWrapper}>
     <Text style={styles.applicantDetailTextTitle}>{label}</Text>
     <Text style={styles.applicantDetailTextDesc}>{value}</Text>

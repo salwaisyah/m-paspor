@@ -38,8 +38,8 @@ interface TextInputComponentProps {
   supportText?: string;
   containerHeight?: any;
   isMultiline?: boolean;
-  isDropdownSearchLocation?: boolean;
-  handlePressSearchLocation?: () => void;
+  isDropdownPressedSheet?: boolean;
+  handleDropdownPressed?: () => void;
 }
 
 const TextInputComponent = (props: TextInputComponentProps) => {
@@ -59,8 +59,8 @@ const TextInputComponent = (props: TextInputComponentProps) => {
     supportText,
     containerHeight,
     isMultiline = false,
-    isDropdownSearchLocation = false,
-    handlePressSearchLocation,
+    isDropdownPressedSheet = false,
+    handleDropdownPressed,
   } = props;
 
   const [secureText, setSecureText] = useState(isPassword);
@@ -281,7 +281,7 @@ const TextInputComponent = (props: TextInputComponentProps) => {
       );
     }
 
-    if (isDropdownSearchLocation) {
+    if (isDropdownPressedSheet) {
       return (
         <View>
           {title && (
@@ -291,7 +291,7 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             </View>
           )}
           <Pressable
-            onPress={handlePressSearchLocation}
+            onPress={handleDropdownPressed}
             style={({pressed}) => ({
               transform: [{scale: pressed ? 0.99 : 1}],
             })}>
@@ -303,7 +303,14 @@ const TextInputComponent = (props: TextInputComponentProps) => {
               placeholderTextColor={Colors.primary60.color}
               editable={false}
               value={formattedDate}
-              right={<TextInput.Icon icon="menu-down" color="#48454E" size={20} style={{marginLeft: 24}}/>}
+              right={
+                <TextInput.Icon
+                  icon="menu-down"
+                  color="#48454E"
+                  size={20}
+                  style={{marginLeft: 24}}
+                />
+              }
               multiline={false}
               textColor="#48454E"
               disabled={isDisabled}

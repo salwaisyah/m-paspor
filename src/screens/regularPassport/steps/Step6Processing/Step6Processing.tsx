@@ -6,16 +6,22 @@ import styles from '../styles';
 import Colors from '../../../../../assets/styles/Colors';
 import FontFamily from '../../../../../assets/styles/FontFamily';
 import arrivalDateGuidelinesData from '../../../../data/Steps/ArrivalDateGuidelinesData';
+import passportTypeData from '../../../../data/DropdownData/PassportTypeData';
 
 type Step6ProcessingProps = {
   showFinalizationConfirmationDialog: () => void;
   showPassportTypeInfoDialog: () => void;
   showSearchLocationSheet: () => void;
+  showSelectDateSheet: () => void;
 };
 
 const Step6Processing = (props: Step6ProcessingProps) => {
-  const {showFinalizationConfirmationDialog, showPassportTypeInfoDialog, showSearchLocationSheet} =
-    props;
+  const {
+    showFinalizationConfirmationDialog,
+    showPassportTypeInfoDialog,
+    showSearchLocationSheet,
+    showSelectDateSheet,
+  } = props;
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -30,13 +36,12 @@ const Step6Processing = (props: Step6ProcessingProps) => {
         </View>
 
         <View style={[styles.subStepTextInputContainer, {marginVertical: 16}]}>
-          {/* Trigger Search Location Bottom Sheet */}
           <TextInputComponent
             title="Lokasi Kantor Imigrasi"
             placeholder="Pilih lokasi kantor imigrasi"
             isRequired
-            isDropdownSearchLocation
-            handlePressSearchLocation={showSearchLocationSheet}
+            isDropdownPressedSheet
+            handleDropdownPressed={showSearchLocationSheet}
           />
           <TextInputComponent
             title="Jenis Paspor"
@@ -44,6 +49,7 @@ const Step6Processing = (props: Step6ProcessingProps) => {
             placeholder="Pilih satu jenis paspor"
             isRequired
             isDropdown
+            dropdownItemData={passportTypeData}
             onIconButtonPress={showPassportTypeInfoDialog}
           />
         </View>
@@ -80,12 +86,12 @@ const Step6Processing = (props: Step6ProcessingProps) => {
           </View>
         </View>
 
-        {/* TODO: Add calendar functionality here. */}
         <TextInputComponent
           title="Tanggal dan Waktu Kedatangan"
           placeholder="Pilih tanggal dan waktu kedatangan"
           isRequired
-          isDate
+          isDropdownPressedSheet
+          handleDropdownPressed={showSelectDateSheet}
         />
 
         <Button

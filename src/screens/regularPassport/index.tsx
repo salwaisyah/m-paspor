@@ -43,6 +43,7 @@ import DialogPassportConditionInfo from '../../components/dialog/DialogPassportC
 import DialogPassportTypeInfo from '../../components/dialog/DialogPassportTypeInfo';
 import SheetEditData from '../../components/sheet/SheetEditData';
 import SheetSearchLocation from '../../components/sheet/SheetSearchLocation';
+import SheetSelectDate from '../../components/sheet/SheetSelectDate';
 
 type RegularPassportScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -70,6 +71,7 @@ type RenderApplicationStepsContentProps = {
   showPassportTypeInfoDialog: () => void;
   showEditDataSheet: () => void;
   showSearchLocationSheet: () => void;
+  showSelectDateSheet: () => void;
 };
 
 const RenderApplicationStepsContent = (
@@ -96,6 +98,7 @@ const RenderApplicationStepsContent = (
     showPassportTypeInfoDialog,
     showEditDataSheet,
     showSearchLocationSheet,
+    showSelectDateSheet,
   } = props;
 
   if (step === 1) {
@@ -235,6 +238,7 @@ const RenderApplicationStepsContent = (
           }
           showPassportTypeInfoDialog={showPassportTypeInfoDialog}
           showSearchLocationSheet={showSearchLocationSheet}
+          showSelectDateSheet={showSelectDateSheet}
         />
       );
     case 7:
@@ -336,6 +340,7 @@ function RegularPassportScreen() {
   const [visibleEditDataSheet, setVisibleEditDataSheet] = useState(false);
   const [visibleSearchLocationSheet, setVisibleSearchLocationSheet] =
     useState(false);
+  const [visibleSelectDateSheet, setVisibleSelectDateSheet] = useState(false);
 
   // Dialog visibility function
   const showDialog = () => setVisible(true);
@@ -376,6 +381,9 @@ function RegularPassportScreen() {
 
   const showSearchLocationSheet = () => setVisibleSearchLocationSheet(true);
   const hideSearchLocationSheet = () => setVisibleSearchLocationSheet(false);
+
+  const showSelectDateSheet = () => setVisibleSelectDateSheet(true);
+  const hideSelectDateSheet = () => setVisibleSelectDateSheet(false);
 
   const stepTitles: {[key: number]: string} = {
     1: 'Informasi Pribadi',
@@ -457,6 +465,7 @@ function RegularPassportScreen() {
           showPassportTypeInfoDialog={showPassportTypeInfoDialog}
           showEditDataSheet={showEditDataSheet}
           showSearchLocationSheet={showSearchLocationSheet}
+          showSelectDateSheet={showSelectDateSheet}
         />
       </View>
 
@@ -501,7 +510,11 @@ function RegularPassportScreen() {
         <DialogSubmitSuccess
           visible={visibleSubmitSuccessDialog}
           onSubmitSuccess={() => {
-            navigation.goBack(), hideSubmitSuccessDialog();
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'NavigationRoute'}],
+            });
+            hideSubmitSuccessDialog();
           }}
         />
       )}
@@ -542,6 +555,14 @@ function RegularPassportScreen() {
           onClose={hideSearchLocationSheet}
         />
       )}
+
+      {visibleSelectDateSheet && (
+        <SheetSelectDate
+          visible={visibleSelectDateSheet}
+          onClose={hideSelectDateSheet}
+          onContinue={hideSelectDateSheet}
+        />
+      )}
     </>
   ) : (
     <Questionnaire
@@ -566,7 +587,9 @@ function RegularPassportScreen() {
             visibleFinalizationConfirmationDialog ||
             visiblePassportTypeInfoDialog
               ? '#295E70'
-              : visibleEditDataSheet || visibleSearchLocationSheet
+              : visibleEditDataSheet ||
+                visibleSearchLocationSheet ||
+                visibleSelectDateSheet
               ? '#185769'
               : Colors.secondary30.color
           }

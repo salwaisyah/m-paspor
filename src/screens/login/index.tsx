@@ -13,8 +13,10 @@ import TextInputComponent from '../../components/TextInput';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../navigation/type';
+import {PassportAppointment, RootStackParamList} from '../../navigation/type';
 import Colors from '../../../assets/styles/Colors';
+import {getData, storeData} from '../../helper/asyncStorageHelper';
+import passportAppointmentData from '../../data/History/PassportAppointmentData';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -48,12 +50,18 @@ function LoginScreen() {
         <Button
           style={styles.loginButton}
           mode="contained"
-          onPress={() =>
+          onPress={async () => {
+            storeData<PassportAppointment[]>(
+              'passportAppointments',
+              passportAppointmentData,
+            );
+            const storedData = await getData('passportAppointments');
+            console.log('Data yang tersimpan:', storedData);
             navigation.reset({
               index: 0,
               routes: [{name: 'NavigationRoute'}],
-            })
-          }>
+            });
+          }}>
           Masuk
         </Button>
         <View style={styles.registerAccountContainer}>

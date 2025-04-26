@@ -5,15 +5,15 @@ import FontFamily from '../../assets/styles/FontFamily';
 import Colors from '../../assets/styles/Colors';
 
 type PassportAppointmentCardProps = {
-  applicantName: string;
-  applicantCode: string;
-  appointmentDate: string;
-  appointmentTime: string;
-  serviceUnit: string;
-  status: string;
+  applicantName: string | undefined;
+  applicantCode: string | undefined;
+  appointmentDate: string | undefined;
+  appointmentTime: string | undefined;
+  serviceUnit: string | undefined;
+  status: string | undefined;
 };
 
-const renderStatusContent = (status: string) => {
+const renderStatusContent = (status: string | undefined) => {
   let backgroundColor;
   let IconComponent;
 
