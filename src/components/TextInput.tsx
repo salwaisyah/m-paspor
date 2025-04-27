@@ -40,6 +40,8 @@ interface TextInputComponentProps {
   isMultiline?: boolean;
   isDropdownPressedSheet?: boolean;
   handleDropdownPressed?: () => void;
+  countryValue?: string | null;
+  setCountryValue?: (country: string) => void;
 }
 
 const TextInputComponent = (props: TextInputComponentProps) => {
@@ -61,6 +63,8 @@ const TextInputComponent = (props: TextInputComponentProps) => {
     isMultiline = false,
     isDropdownPressedSheet = false,
     handleDropdownPressed,
+    countryValue,
+    setCountryValue,
   } = props;
 
   const [secureText, setSecureText] = useState(isPassword);
@@ -68,7 +72,6 @@ const TextInputComponent = (props: TextInputComponentProps) => {
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [showPicker, setShowPicker] = useState(false);
   const [dropdownValue, setDropdownValue] = useState(null);
-  const [country, setCountry] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredItems = dropdownCountryItemData?.filter(item =>
@@ -118,7 +121,9 @@ const TextInputComponent = (props: TextInputComponentProps) => {
   };
 
   const renderLeftIcon = () => {
-    const selectedItem = filteredItems?.find(item => item.value === country);
+    const selectedItem = filteredItems?.find(
+      item => item.value === countryValue,
+    );
     if (!selectedItem?.image?.uri) return null;
 
     return (
@@ -263,14 +268,16 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             renderInputSearch={() =>
               renderInputSearch(searchQuery, setSearchQuery)
             }
-            value={country}
+            value={countryValue}
             data={filteredItems ?? []}
             valueField="value"
             labelField="label"
             placeholder={placeholder}
             searchPlaceholder="Cari"
             onChange={item => {
-              setCountry(item.value);
+              if (setCountryValue) {
+                setCountryValue(item.value);
+              }
             }}
             disable={isDisabled}
             renderRightIcon={() => <Icon name="arrow-drop-down" size={20} />}

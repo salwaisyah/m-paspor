@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, View, Text, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {Button} from 'react-native-paper';
@@ -11,20 +11,46 @@ import countryData from '../../../../data/DropdownData/CountryData';
 
 type Step2PassportApplicationQuestionnaireSubStep7Props = {
   setSubStep: (step: number) => void;
-  selectedOption: string;
-  setSelectedOption: (val: string) => void;
+  selectedDestinationCountryOption: string;
+  setSelectedDestinationCountryOption: (val: string) => void;
 };
 
 const Step2PassportApplicationQuestionnaireSubStep7 = ({
   setSubStep,
-  selectedOption,
-  setSelectedOption,
+  selectedDestinationCountryOption,
+  setSelectedDestinationCountryOption,
 }: Step2PassportApplicationQuestionnaireSubStep7Props) => {
+  const [countryValue, setCountryValue] = useState<string | null>(null);
+
+  const handleCountrySelect = (value: string | null) => {
+    setCountryValue(value); 
+    setSelectedDestinationCountryOption(''); 
+  };
+
+  const handleRadioSelect = (value: string) => {
+    if (value === 'destination_country_not_set') {
+      setSelectedDestinationCountryOption(value);
+      setCountryValue(null); 
+    } else {
+      setSelectedDestinationCountryOption(value); 
+    }
+  };
+
+  const isRadioButtonSelected = (value: string) => {
+    if (countryValue !== null) {
+      return ''; 
+    }
+    return selectedDestinationCountryOption === value ? value : '';
+  };
+
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
-          onPress={() => setSubStep(6)}
+          onPress={() => {
+            setSubStep(6);
+            setSelectedDestinationCountryOption('');
+          }}
           style={({pressed}) => [
             styles.subStepButtonBackWrapper,
             {
@@ -41,6 +67,8 @@ const Step2PassportApplicationQuestionnaireSubStep7 = ({
             placeholder="Masukkan negara tujuan"
             isDropdownCountry
             dropdownCountryItemData={countryData}
+            countryValue={countryValue}
+            setCountryValue={handleCountrySelect}
           />
           {destinationCountryOptions.map(option => (
             <RadioButtonOptionComponent
@@ -48,15 +76,19 @@ const Step2PassportApplicationQuestionnaireSubStep7 = ({
               label={option.label}
               description={option.description}
               value={option.value}
-              selectedValue={selectedOption}
-              onSelect={value => setSelectedOption(value)}
+              selectedValue={isRadioButtonSelected(option.value)}
+              onSelect={() => handleRadioSelect(option.value)}
             />
           ))}
         </View>
 
         <Button
           mode="contained"
-          onPress={() => setSubStep(8)}
+          onPress={() => {
+            selectedDestinationCountryOption === 'destination_country_not_set'
+              ? setSubStep(10)
+              : setSubStep(8);
+          }}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>
           Lanjut

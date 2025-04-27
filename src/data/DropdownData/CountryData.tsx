@@ -1,10 +1,5 @@
 const countryData = [
   {
-    value: '1',
-    label: 'Indonesia',
-    image: {uri: 'https://flagcdn.com/w320/id.png'},
-  },
-  {
     value: '2',
     label: 'United States',
     image: {uri: 'https://flagcdn.com/w320/us.png'},

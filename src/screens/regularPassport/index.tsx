@@ -72,6 +72,8 @@ type RenderApplicationStepsContentProps = {
   showEditDataSheet: () => void;
   showSearchLocationSheet: () => void;
   showSelectDateSheet: () => void;
+  selectedDestinationCountryOption: string;
+  setSelectedDestinationCountryOption: (val: string) => void;
 };
 
 const RenderApplicationStepsContent = (
@@ -86,6 +88,8 @@ const RenderApplicationStepsContent = (
     setSelectedOption,
     selectedPassportOption,
     setSelectedPassportOption,
+    selectedDestinationCountryOption,
+    setSelectedDestinationCountryOption,
     checkedOption,
     setCheckedOption,
     showDontHaveYetDialog,
@@ -162,14 +166,17 @@ const RenderApplicationStepsContent = (
             setSubStep={setSubStep}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
+            selectedPassportOption={selectedPassportOption}
           />
         );
       case 7:
         return (
           <Step2PassportApplicationQuestionnaireSubStep7
             setSubStep={setSubStep}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
+            selectedDestinationCountryOption={selectedDestinationCountryOption}
+            setSelectedDestinationCountryOption={
+              setSelectedDestinationCountryOption
+            }
           />
         );
       case 8:
@@ -189,7 +196,9 @@ const RenderApplicationStepsContent = (
       case 10:
         return (
           <Step2PassportApplicationQuestionnaireSubStep10
+            setStep={setStep}
             setSubStep={setSubStep}
+            selectedDestinationCountryOption={selectedDestinationCountryOption}
           />
         );
       case 11:
@@ -236,6 +245,7 @@ const RenderApplicationStepsContent = (
           showCivilStatusDocumentsInfoDialog={
             showCivilStatusDocumentsInfoDialog
           }
+          selectedDestinationCountryOption={selectedDestinationCountryOption}
         />
       );
     case 5:
@@ -321,6 +331,10 @@ function RegularPassportScreen() {
   // State management
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedPassportOption, setSelectedPassportOption] = useState('');
+  const [
+    selectedDestinationCountryOption,
+    setSelectedDestinationCountryOption,
+  ] = useState('');
   const [checkedOption, setCheckedOption] = useState(false);
   const [showApplicationStepsContent, setShowApplicationStepsContent] =
     useState(false);
@@ -477,6 +491,10 @@ function RegularPassportScreen() {
           setSelectedOption={setSelectedOption}
           selectedPassportOption={selectedPassportOption}
           setSelectedPassportOption={setSelectedPassportOption}
+          selectedDestinationCountryOption={selectedDestinationCountryOption}
+          setSelectedDestinationCountryOption={
+            setSelectedDestinationCountryOption
+          }
           checkedOption={checkedOption}
           setCheckedOption={setCheckedOption}
           showDontHaveYetDialog={showDontHaveYetDialog}
@@ -501,7 +519,7 @@ function RegularPassportScreen() {
         <DialogDontHaveYetPassport
           visible={visibleDontHaveYetDialog}
           onClose={hideDontHaveYetDialog}
-          onContinue={() => setSubStep(2)}
+          onContinue={() => setSubStep(6)}
         />
       )}
 

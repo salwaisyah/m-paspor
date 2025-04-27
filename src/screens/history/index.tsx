@@ -67,7 +67,7 @@ function HistoryScreen() {
 
   return (
     <View style={styles.container}>
-      {showNavBackAppBar ? (
+      {showNavBackAppBar ? ( 
         <View style={styles.appBarNavBackContainer}>
           <Icon
             name="arrow-left"

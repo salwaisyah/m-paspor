@@ -23,6 +23,7 @@ interface Step3UploadDocumentsProps {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
   selectedPassportOption: string;
+  selectedDestinationCountryOption: string;
   showCivilStatusDocumentsInfoDialog: () => void;
 }
 
@@ -137,6 +138,7 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
     setStep,
     setSubStep,
     selectedPassportOption,
+    selectedDestinationCountryOption,
     showCivilStatusDocumentsInfoDialog,
   } = props;
   return (
@@ -145,7 +147,11 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
         <BackButton
           onPress={() => {
             setStep(2);
-            setSubStep(11);
+            setSubStep(
+              selectedDestinationCountryOption === 'destination_country_not_set'
+                ? 10
+                : 11,
+            );
           }}
         />
 
@@ -153,11 +159,11 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
           <Text style={styles.subStepDesc}>
             Layanan yang cocok untuk Anda adalah{' '}
             {selectedPassportOption !== 'already' ? (
+              <Text style={{...FontFamily.notoSansBold}}>Paspor Baru</Text>
+            ) : (
               <Text style={{...FontFamily.notoSansBold}}>
                 Paspor Penggantian
               </Text>
-            ) : (
-              <Text style={{...FontFamily.notoSansBold}}>Paspor Baru</Text>
             )}
             . Silakan unggah kelengkapan dokumen berikut.
           </Text>
@@ -244,7 +250,7 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
               showCivilStatusDocumentsInfoDialog
             }
           />
-          {selectedPassportOption !== 'already' && (
+          {selectedPassportOption === 'already' && (
             <DocumentUploadSection title="Paspor Lama" isRequired />
           )}
         </View>

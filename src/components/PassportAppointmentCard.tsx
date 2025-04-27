@@ -3,6 +3,8 @@ import WaitingForPaymentIcon from '../../assets/icons/waiting_for_payment.svg';
 import {StyleSheet, Text, View} from 'react-native';
 import FontFamily from '../../assets/styles/FontFamily';
 import Colors from '../../assets/styles/Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 type PassportAppointmentCardProps = {
   applicantName: string | undefined;

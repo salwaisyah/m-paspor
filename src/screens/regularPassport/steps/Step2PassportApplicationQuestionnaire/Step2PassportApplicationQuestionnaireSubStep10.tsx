@@ -8,17 +8,24 @@ import Colors from '../../../../../assets/styles/Colors';
 import familyRelationshipData from '../../../../data/DropdownData/FamilyRelationshipData';
 
 type Step2PassportApplicationQuestionnaireSubStep10Props = {
+  selectedDestinationCountryOption: string;
+  setStep: (step: number) => void;
   setSubStep: (step: number) => void;
 };
 
-const Step2PassportApplicationQuestionnaireSubStep10 = ({
-  setSubStep,
-}: Step2PassportApplicationQuestionnaireSubStep10Props) => {
+const Step2PassportApplicationQuestionnaireSubStep10 = (
+  props: Step2PassportApplicationQuestionnaireSubStep10Props,
+) => {
+  const {selectedDestinationCountryOption, setStep, setSubStep} = props;
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
-          onPress={() => setSubStep(9)}
+          onPress={() => {
+            selectedDestinationCountryOption === 'destination_country_not_set'
+              ? setSubStep(7)
+              : setSubStep(9);
+          }}
           style={({pressed}) => [
             styles.subStepButtonBackWrapper,
             {
@@ -59,7 +66,11 @@ const Step2PassportApplicationQuestionnaireSubStep10 = ({
 
         <Button
           mode="contained"
-          onPress={() => setSubStep(11)}
+          onPress={() => {
+            selectedDestinationCountryOption === 'destination_country_not_set'
+              ? setStep(3)
+              : setSubStep(11);
+          }}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>
           Lanjut

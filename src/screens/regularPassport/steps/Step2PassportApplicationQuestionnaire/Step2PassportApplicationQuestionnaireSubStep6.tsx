@@ -11,18 +11,27 @@ type Step2PassportApplicationQuestionnaireSubStep6Props = {
   setSubStep: (step: number) => void;
   selectedOption: string;
   setSelectedOption: (val: string) => void;
+  selectedPassportOption: string;
 };
 
-const Step2PassportApplicationQuestionnaireSubStep6 = ({
-  setSubStep,
-  selectedOption,
-  setSelectedOption,
-}: Step2PassportApplicationQuestionnaireSubStep6Props) => {
+const Step2PassportApplicationQuestionnaireSubStep6 = (
+  props: Step2PassportApplicationQuestionnaireSubStep6Props,
+) => {
+  const {
+    setSubStep,
+    selectedOption,
+    setSelectedOption,
+    selectedPassportOption,
+  } = props;
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
-          onPress={() => setSubStep(5)}
+          onPress={() => {
+            selectedPassportOption === 'already'
+              ? setSubStep(5)
+              : setSubStep(1);
+          }}
           style={({pressed}) => [
             styles.subStepButtonBackWrapper,
             {
