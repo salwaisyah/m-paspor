@@ -46,6 +46,14 @@ const styles = StyleSheet.create({
     ...FontFamily.notoSansSemiBold,
     fontSize: 12,
   },
+  sendOTPTextDisabled: {
+    marginTop: 40,
+    marginHorizontal: 16,
+    textAlign: 'center',
+    color: Colors.neutral70.color,
+    ...FontFamily.notoSansSemiBold,
+    fontSize: 12,
+  },
   accountVerificationButton: {
     marginHorizontal: 16,
     marginTop: 16,

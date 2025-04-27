@@ -25,7 +25,18 @@ function AccountVerificationScreen() {
   const navigation = useNavigation<AccountVerificationScreenNavigationProp>();
 
   const [otp, setOtp] = useState(Array(6).fill(''));
+  const [counter, setCounter] = useState(10);
   const inputRefs = useRef<TextInput[]>([]);
+
+  useEffect(() => {
+    if (counter > 0) {
+      const timer = setTimeout(() => {
+        setCounter(counter - 1);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [counter]);
 
   const handleChange = (text: string, index: number) => {
     const newOtp = [...otp];
@@ -87,10 +98,22 @@ function AccountVerificationScreen() {
           ))}
         </View>
         <Text style={styles.OTPTimeText}>
-          Kirim ulang kode OTP dalam 10 detik
+          Kirim ulang kode OTP dalam <Text>{counter}</Text> detik
         </Text>
       </View>
-      <Text style={styles.sendOTPText}>Kirim Ulang Kode OTP</Text>
+      <Pressable
+        disabled={counter !== 0 ? true : false}
+        onPress={() => setCounter(10)}
+        style={({pressed}) => ({
+          transform: [{scale: pressed ? 0.95 : 1}],
+        })}>
+        <Text
+          style={
+            counter !== 0 ? styles.sendOTPTextDisabled : styles.sendOTPText
+          }>
+          Kirim Ulang Kode OTP
+        </Text>
+      </Pressable>
       <Button
         mode="contained"
         style={styles.accountVerificationButton}
