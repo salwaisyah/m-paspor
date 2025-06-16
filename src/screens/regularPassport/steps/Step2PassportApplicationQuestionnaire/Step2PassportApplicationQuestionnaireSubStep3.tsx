@@ -30,7 +30,7 @@ const Step2PassportApplicationQuestionnaireSubStep3 = ({
           </Button>
         </Pressable>
 
-        <View style={styles.subStepTextWrapper}>
+        <View style={[styles.subStepTextWrapper, {marginTop: 12}]}>
           <Text style={styles.subStepTitle}>
             Ambil/Upload Foto Paspor Lama Anda (Halaman 2 Paspor)
           </Text>
