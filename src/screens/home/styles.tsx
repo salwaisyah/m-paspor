@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   serviceOptionContainer: {
     alignItems: 'center',
-    marginHorizontal: 12,
+    marginHorizontal: 4,
   },
   serviceIcon: {
     padding: 8,
@@ -67,9 +67,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   serviceDesc: {
-    width: 60,
+    maxWidth: 75,
     textAlign: 'center',
-    fontSize: 10,
+    fontSize: 12,
     marginTop: 8,
     color: Colors.primary30.color,
     ...FontFamily.notoSansRegular,
