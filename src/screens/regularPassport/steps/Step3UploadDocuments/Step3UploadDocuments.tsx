@@ -17,6 +17,8 @@ interface DocumentUploadSectionProps {
   isRequired?: boolean;
   isIcon?: boolean;
   showDialogCivilStatusDocumentsInfo?: () => void;
+  onUploadSuccess?: () => void;
+  onDelete?: () => void;
 }
 
 interface Step3UploadDocumentsProps {
@@ -25,6 +27,7 @@ interface Step3UploadDocumentsProps {
   selectedPassportOption: string;
   selectedDestinationCountryOption: string;
   showCivilStatusDocumentsInfoDialog: () => void;
+  onSubStepValidation: (isValid: boolean) => void;
 }
 
 const BackButton = (props: BackButtonProps) => {
@@ -47,7 +50,15 @@ const BackButton = (props: BackButtonProps) => {
 };
 
 const DocumentUploadSection = (props: DocumentUploadSectionProps) => {
-  const {title, isRequired, isIcon, showDialogCivilStatusDocumentsInfo} = props;
+  const {
+    title,
+    isRequired,
+    isIcon,
+    showDialogCivilStatusDocumentsInfo,
+    onUploadSuccess,
+    onDelete,
+  } = props;
+
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
 
   const handleUpload = (p0: string) => {
@@ -60,10 +71,12 @@ const DocumentUploadSection = (props: DocumentUploadSectionProps) => {
     }
 
     setUploadedFileName(fileName);
+    onUploadSuccess?.();
   };
 
   const handleDelete = () => {
     setUploadedFileName(null);
+    onDelete?.();
   };
 
   return (
@@ -141,7 +154,31 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
     selectedPassportOption,
     selectedDestinationCountryOption,
     showCivilStatusDocumentsInfoDialog,
+    onSubStepValidation,
   } = props;
+
+  const [isKTPUploaded, setIsKTPUploaded] = useState(false);
+  const [isFamilyCardUploaded, setIsFamilyCardUploaded] = useState(false);
+  const [isCivilStatusUploaded, setIsCivilStatusUploaded] = useState(false);
+  const [isOldPassportUploaded, setIsOldPassportUploaded] = useState(false);
+
+  const onNextPress = () => {
+    const isFormValid =
+      isKTPUploaded &&
+      isFamilyCardUploaded &&
+      isCivilStatusUploaded &&
+      (selectedPassportOption !== 'already' || isOldPassportUploaded);
+
+    if (isFormValid) {
+      onSubStepValidation(true);
+    } else {
+      onSubStepValidation(false);
+    }
+
+    setStep(4);
+    setSubStep(1);
+  };
+
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -242,26 +279,39 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
         </View>
 
         <View style={styles.subStepSectionButtonContainer}>
-          <DocumentUploadSection title="e-KTP" isRequired />
-          <DocumentUploadSection title="Kartu Keluarga" />
+          <DocumentUploadSection
+            title="e-KTP"
+            isRequired
+            onUploadSuccess={() => setIsKTPUploaded(true)}
+            onDelete={() => setIsKTPUploaded(false)}
+          />
+          <DocumentUploadSection
+            title="Kartu Keluarga"
+            onUploadSuccess={() => setIsFamilyCardUploaded(true)}
+            onDelete={() => setIsFamilyCardUploaded(false)}
+          />
           <DocumentUploadSection
             title="Akta kelahiran/ijazah/akta perkawinan/buku nikah/surat baptis"
             isIcon
             showDialogCivilStatusDocumentsInfo={
               showCivilStatusDocumentsInfoDialog
             }
+            onUploadSuccess={() => setIsCivilStatusUploaded(true)}
+            onDelete={() => setIsCivilStatusUploaded(false)}
           />
           {selectedPassportOption === 'already' && (
-            <DocumentUploadSection title="Paspor Lama" isRequired />
+            <DocumentUploadSection
+              title="Paspor Lama"
+              isRequired
+              onUploadSuccess={() => setIsOldPassportUploaded(true)}
+              onDelete={() => setIsOldPassportUploaded(false)}
+            />
           )}
         </View>
 
         <Button
           mode="contained"
-          onPress={() => {
-            setStep(4);
-            setSubStep(1);
-          }}
+          onPress={onNextPress}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>
           Lanjut

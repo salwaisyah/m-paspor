@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, View, Text, Pressable} from 'react-native';
 import {Button} from 'react-native-paper';
 import styles from '../styles';
@@ -14,6 +14,7 @@ type Step2PassportApplicationQuestionnaireSubStep11Props = {
   setSubStep: (subStep: number) => void;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
+  onSubStepValidation: (isValid: boolean) => void;
 };
 
 const Step2PassportApplicationQuestionnaireSubStep11 = ({
@@ -21,7 +22,28 @@ const Step2PassportApplicationQuestionnaireSubStep11 = ({
   setSubStep,
   selectedOption,
   setSelectedOption,
+  onSubStepValidation,
 }: Step2PassportApplicationQuestionnaireSubStep11Props) => {
+  const [relativeName, setRelativeName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [relationship, setRelationship] = useState('');
+
+  const onNextPress = () => {
+    const isFormValid =
+      relativeName.trim() !== '' &&
+      phoneNumber.trim() !== '' &&
+      relationship.trim() !== '' &&
+      selectedOption.trim() !== '';
+
+    if (isFormValid) {
+      onSubStepValidation(true);
+    } else {
+      onSubStepValidation(false);
+    }
+
+    setStep(3);
+  };
+
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -56,11 +78,15 @@ const Step2PassportApplicationQuestionnaireSubStep11 = ({
           <TextInputComponent
             title="Nama Kerabat"
             placeholder="Masukkan Nama Kerabat Anda"
+            value={relativeName}
+            onChangeText={setRelativeName}
           />
 
           <TextInputComponent
             title="Nomor Telepon"
             placeholder="Contoh: 08513456789"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
           />
 
           <TextInputComponent
@@ -68,6 +94,8 @@ const Step2PassportApplicationQuestionnaireSubStep11 = ({
             placeholder="Pilih Hubungan"
             isDropdown
             dropdownItemData={familyRelationshipData}
+            value={relationship}
+            onChangeText={setRelationship}
           />
 
           {destinationFamilyContactOptions.map(options => (
@@ -84,10 +112,7 @@ const Step2PassportApplicationQuestionnaireSubStep11 = ({
 
         <Button
           mode="contained"
-          onPress={() => {
-            setStep(3);
-            setSubStep(1);
-          }}
+          onPress={onNextPress}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>
           Lanjut

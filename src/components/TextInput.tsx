@@ -7,7 +7,7 @@ import Colors from '../../assets/styles/Colors';
 import FontFamily from '../../assets/styles/FontFamily';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useState} from 'react';
-import {Dropdown, SelectCountry} from 'react-native-element-dropdown';
+import {Dropdown} from 'react-native-element-dropdown';
 
 type DropdownItem = {
   label: string;
@@ -42,6 +42,8 @@ interface TextInputComponentProps {
   handleDropdownPressed?: () => void;
   countryValue?: string | null;
   setCountryValue?: (country: string) => void;
+  value?: string;
+  onChangeText?: (text: string) => void;
 }
 
 const TextInputComponent = (props: TextInputComponentProps) => {
@@ -65,6 +67,8 @@ const TextInputComponent = (props: TextInputComponentProps) => {
     handleDropdownPressed,
     countryValue,
     setCountryValue,
+    value,
+    onChangeText,
   } = props;
 
   const [secureText, setSecureText] = useState(isPassword);
@@ -97,6 +101,7 @@ const TextInputComponent = (props: TextInputComponentProps) => {
         date.getMonth() + 1,
       ).padStart(2, '0')}/${date.getFullYear()}`;
       setFormattedDate(formatted);
+      onChangeText?.(formatted);
     }
   };
 
@@ -189,7 +194,7 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             )}
           </View>
           <Dropdown
-            style={[styles.dropdown, isDisabled && styles.outlineColorDisabled]}
+            style={[styles.dropdown, isDisabled && styles.outlineColorDisabledDropdown]}
             placeholderStyle={styles.placeholderDropdownStyle}
             selectedTextStyle={styles.selectedTextStyle}
             iconStyle={styles.iconStyle}
@@ -201,6 +206,7 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             value={dropdownValue}
             onChange={item => {
               setDropdownValue(item.value);
+              onChangeText?.(item.value);
             }}
             disable={isDisabled}
             renderRightIcon={() => <Icon name="arrow-drop-down" size={20} />}
@@ -258,7 +264,7 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             </View>
           )}
           <Dropdown
-            style={[styles.dropdown, isDisabled && styles.outlineColorDisabled]}
+            style={[styles.dropdown, isDisabled && styles.outlineColorDisabledDropdown]}
             selectedTextStyle={styles.selectedTextStyle}
             placeholderStyle={styles.placeholderDropdownStyle}
             inputSearchStyle={styles.inputSearchStyle}
@@ -305,7 +311,7 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             <TextInput
               mode="outlined"
               placeholder={placeholder}
-              style={[inputStyle, isDisabled && styles.outlineColorDisabled]}
+              style={[inputStyle, isDisabled && styles.outlineColorDisabledDropdown]}
               theme={{roundness: 12}}
               placeholderTextColor={Colors.primary60.color}
               editable={false}
@@ -355,6 +361,8 @@ const TextInputComponent = (props: TextInputComponentProps) => {
           }
           multiline={isMultiline}
           textColor="#48454E"
+          value={value}
+          onChangeText={onChangeText}
         />
         {supportText && <Text style={[styles.supportText]}>{supportText}</Text>}
       </View>
@@ -444,6 +452,13 @@ const styles = StyleSheet.create({
     color: Colors.neutral70.color,
   },
   outlineColorDisabled: {
+    backgroundColor: '#F8F9FE',
+    borderWidth: 1,
+    borderRadius: 12,
+    borderColor: '#e3e3e5',
+  },
+  outlineColorDisabledDropdown: {
+    height: 58,
     backgroundColor: '#F8F9FE',
     borderWidth: 1,
     borderRadius: 12,

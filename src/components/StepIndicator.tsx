@@ -1,25 +1,50 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Pressable, Text, View} from 'react-native';
 import Colors from '../../assets/styles/Colors';
 import FontFamily from '../../assets/styles/FontFamily';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const StepIndicator = ({currentStep, totalSteps, completedSteps}: any) => {
+const StepIndicator = ({
+  currentStep,
+  totalSteps,
+  completedSteps,
+  onStepPress,
+  validationStatus,
+}: any) => {
   return (
     <View style={styles.container}>
       {[...Array(totalSteps)].map((_, index) => {
         const stepNumber = index + 1;
         const isCompleted = completedSteps.includes(stepNumber);
         const isCurrent = currentStep === stepNumber;
+        const stepStatus = validationStatus[stepNumber];
 
-        const backgroundColor = isCompleted
+        const backgroundColorStyle =
+          stepStatus === 'completed'
+            ? Colors.indicatorGreen.color
+            : stepStatus === 'invalid'
+            ? Colors.indicatorOrange.color
+            : Colors.neutral100.color;
+
+        const indicatorLineBackgroundColorStyle = isCompleted
           ? Colors.secondary30.color
           : Colors.neutral100.color;
 
-        const textColor = isCompleted
-          ? Colors.neutral100.color
-          : isCurrent
-          ? Colors.secondary30.color
-          : Colors.secondary50.color;
+        const borderColorStyle =
+          stepStatus === 'completed'
+            ? Colors.indicatorGreen.color
+            : stepStatus === 'invalid'
+            ? Colors.indicatorOrange.color
+            : isCurrent
+            ? Colors.secondary30.color
+            : Colors.neutral100.color;
+
+        const textColorStyle =
+          isCompleted || stepStatus === 'invalid'
+            ? Colors.neutral100.color
+            : isCurrent
+            ? Colors.secondary30.color
+            : Colors.secondary50.color;
 
         const textStyle = isCompleted
           ? FontFamily.notoSansBold
@@ -29,36 +54,53 @@ const StepIndicator = ({currentStep, totalSteps, completedSteps}: any) => {
 
         return (
           <React.Fragment key={index}>
-            <View style={{alignItems: 'center'}}>
-              <View
-                style={[
-                  styles.stepIndicatorContainer,
-                  {
-                    backgroundColor: backgroundColor,
-                    borderColor: isCompleted
-                      ? Colors.secondary30.color
-                      : Colors.neutral100.color,
-                  },
-                ]}>
-                <Text
-                  style={{
-                    includeFontPadding: false,
-                    fontSize: 12,
-                    color: textColor,
-                    ...textStyle,
-                  }}>
-                  {stepNumber}
-                </Text>
+            <Pressable
+              onPress={() => onStepPress?.(stepNumber)}
+              style={({pressed}) => ({
+                transform: [{scale: pressed ? 0.97 : 1}],
+              })}>
+              <View style={{alignItems: 'center'}}>
+                <View
+                  style={[
+                    styles.stepIndicatorContainer,
+                    {
+                      backgroundColor: backgroundColorStyle,
+                      borderColor: borderColorStyle,
+                    },
+                  ]}>
+                  {stepStatus === 'completed' ? (
+                    <Icon
+                      name="check"
+                      color={Colors.neutral100.color}
+                      size={16}
+                    />
+                  ) : stepStatus === 'invalid' ? (
+                    <Icon
+                      name="alert-circle"
+                      color={Colors.neutral100.color}
+                      size={16}
+                    />
+                  ) : (
+                    <Text
+                      style={{
+                        includeFontPadding: false,
+                        fontSize: 12,
+                        color: textColorStyle,
+                        ...textStyle,
+                      }}>
+                      {stepNumber}
+                    </Text>
+                  )}
+                </View>
               </View>
-            </View>
+            </Pressable>
+
             {index < totalSteps - 1 && (
               <View
                 style={[
                   styles.stepIndicatorLine,
                   {
-                    backgroundColor: isCompleted
-                      ? Colors.secondary30.color
-                      : Colors.neutral100.color,
+                    backgroundColor: indicatorLineBackgroundColorStyle,
                   },
                 ]}
               />
@@ -93,7 +135,7 @@ const styles = StyleSheet.create({
   stepIndicatorLine: {
     flex: 1,
     height: 2,
-  }
+  },
 });
 
 export default StepIndicator;

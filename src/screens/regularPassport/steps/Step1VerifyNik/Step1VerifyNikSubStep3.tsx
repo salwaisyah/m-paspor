@@ -10,12 +10,38 @@ import Colors from '../../../../../assets/styles/Colors';
 type Step1VerifyNikSubStep3Props = {
   setStep: (val: number) => void;
   setSubStep: (val: number) => void;
+  onSubStepValidation: (isValid: boolean) => void;
 };
 
 const Step1VerifyNikSubStep3 = ({
   setStep,
   setSubStep,
+  onSubStepValidation,
 }: Step1VerifyNikSubStep3Props) => {
+  const [fullName, setFullName] = React.useState('');
+  const [nik, setNik] = React.useState('');
+  const [birthDate, setBirthDate] = React.useState('');
+  const [gender, setGender] = React.useState('');
+  const [civilStatus, setCivilStatus] = React.useState('');
+
+  const onNextPress = () => {
+    const isFormValid =
+      fullName.trim() !== '' &&
+      nik.trim() !== '' &&
+      birthDate.trim() !== '' &&
+      gender.trim() !== '' &&
+      civilStatus.trim() !== '';
+
+    if (isFormValid) {
+      onSubStepValidation(true);
+    } else {
+      onSubStepValidation(false);
+    }
+
+    setStep(2);
+    setSubStep(1);
+  };
+
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -28,11 +54,15 @@ const Step1VerifyNikSubStep3 = ({
             title="Nama Lengkap Pemohon"
             placeholder="Nama Lengkap Anda"
             isRequired
+            value={fullName}
+            onChangeText={setFullName}
           />
           <TextInputComponent
             title="NIK"
             placeholder="Nama NIK Anda"
             isRequired
+            value={nik}
+            onChangeText={setNik}
           />
           <View style={styles.subStepTextInputRowContainer}>
             <View style={styles.subStepTextInputFlex}>
@@ -41,6 +71,8 @@ const Step1VerifyNikSubStep3 = ({
                 placeholder="DD/MM/YYYY"
                 isRequired
                 isDate
+                value={birthDate}
+                onChangeText={setBirthDate}
               />
             </View>
             <View style={styles.subStepTextInputFlex}>
@@ -50,6 +82,8 @@ const Step1VerifyNikSubStep3 = ({
                 isRequired
                 isDropdown
                 dropdownItemData={genderData}
+                value={gender}
+                onChangeText={setGender}
               />
             </View>
           </View>
@@ -59,16 +93,15 @@ const Step1VerifyNikSubStep3 = ({
             isRequired
             isDropdown
             dropdownItemData={civilStatusData}
+            value={civilStatus}
+            onChangeText={setCivilStatus}
           />
         </View>
 
         <View style={styles.subStepButtonContainer}>
           <Button
             mode="contained"
-            onPress={() => {
-              setStep(2);
-              setSubStep(1);
-            }}
+            onPress={onNextPress}
             style={styles.subStepButtonContained}
             textColor={Colors.neutral100.color}>
             Lanjut
