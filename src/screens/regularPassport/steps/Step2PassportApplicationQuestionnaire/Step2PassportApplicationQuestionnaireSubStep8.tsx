@@ -1,6 +1,5 @@
 import React from 'react';
-import {ScrollView, View, Text, Pressable} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import {ScrollView, View, Pressable} from 'react-native';
 import {Button} from 'react-native-paper';
 import styles from '../styles';
 import TextInputComponent from '../../../../components/TextInput';
@@ -17,15 +16,17 @@ const Step2PassportApplicationQuestionnaireSubStep8 = ({
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
-          onPress={() => setSubStep(7)}
-          style={({pressed}) => [
-            styles.subStepButtonBackWrapper,
-            {
-              transform: [{scale: pressed ? 0.99 : 1}],
-            },
-          ]}>
-          <Icon name="chevron-left" size={24} />
-          <Text style={styles.subStepButtonBackText}>Kembali</Text>
+          style={({pressed}) => ({
+            transform: [{scale: pressed ? 0.99 : 1}],
+          })}
+          onPress={() => setSubStep(7)}>
+          <Button
+            mode="contained"
+            icon="chevron-left"
+            textColor={Colors.neutral100.color}
+            style={styles.subStepButtonBackContainer}>
+            Kembali
+          </Button>
         </Pressable>
 
         <View style={styles.subStepQuestionnaireOptionContainer}>

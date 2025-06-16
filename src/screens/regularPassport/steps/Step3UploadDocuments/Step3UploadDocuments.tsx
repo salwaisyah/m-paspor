@@ -31,16 +31,17 @@ const BackButton = (props: BackButtonProps) => {
   const {onPress} = props;
   return (
     <Pressable
-      onPress={onPress}
-      style={({pressed}) => [
-        styles.subStepButtonBackWrapper,
-        {
-          transform: [{scale: pressed ? 0.99 : 1}],
-          marginBottom: 8,
-        },
-      ]}>
-      <Icon name="chevron-left" size={24} />
-      <Text style={styles.subStepButtonBackText}>Kembali</Text>
+      style={({pressed}) => ({
+        transform: [{scale: pressed ? 0.99 : 1}],
+      })}
+      onPress={onPress}>
+      <Button
+        mode="contained"
+        icon="chevron-left"
+        textColor={Colors.neutral100.color}
+        style={styles.subStepButtonBackContainer}>
+        Kembali
+      </Button>
     </Pressable>
   );
 };
@@ -155,7 +156,7 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
           }}
         />
 
-        <View style={{marginBottom: 16, gap: 4}}>
+        <View style={{marginTop: 12, marginBottom: 16, gap: 4}}>
           <Text style={styles.subStepDesc}>
             Layanan yang cocok untuk Anda adalah{' '}
             {selectedPassportOption !== 'already' ? (
@@ -258,7 +259,8 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
         <Button
           mode="contained"
           onPress={() => {
-            setStep(4), setSubStep(1);
+            setStep(4);
+            setSubStep(1);
           }}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>

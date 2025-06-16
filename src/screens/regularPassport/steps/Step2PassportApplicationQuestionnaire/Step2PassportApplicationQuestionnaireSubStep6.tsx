@@ -1,6 +1,5 @@
 import React from 'react';
 import {ScrollView, View, Text, Pressable} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import {Button} from 'react-native-paper';
 import passportApplicationPurposeOptions from '../../../../data/Options/PassportApplicationPurposeOptions';
 import styles from '../styles';
@@ -27,19 +26,21 @@ const Step2PassportApplicationQuestionnaireSubStep6 = (
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
+          style={({pressed}) => ({
+            transform: [{scale: pressed ? 0.99 : 1}],
+          })}
           onPress={() => {
             selectedPassportOption === 'already'
               ? setSubStep(5)
               : setSubStep(1);
-          }}
-          style={({pressed}) => [
-            styles.subStepButtonBackWrapper,
-            {
-              transform: [{scale: pressed ? 0.99 : 1}],
-            },
-          ]}>
-          <Icon name="chevron-left" size={24} />
-          <Text style={styles.subStepButtonBackText}>Kembali</Text>
+          }}>
+          <Button
+            mode="contained"
+            icon="chevron-left"
+            textColor={Colors.neutral100.color}
+            style={styles.subStepButtonBackContainer}>
+            Kembali
+          </Button>
         </Pressable>
 
         <View style={styles.subStepQuestionnaireOptionContainer}>

@@ -1,6 +1,5 @@
 import React from 'react';
 import {ScrollView, View, Pressable, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import {Button} from 'react-native-paper';
 import styles from '../styles';
 import Colors from '../../../../../assets/styles/Colors';
@@ -16,16 +15,19 @@ const Step2PassportApplicationQuestionnaireSubStep4 = ({
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
-          onPress={() => setSubStep(3)}
-          style={({pressed}) => [
-            styles.subStepButtonBackWrapper,
-            {
-              transform: [{scale: pressed ? 0.99 : 1}],
-              marginBottom: 8,
-            },
-          ]}>
-          <Icon name="chevron-left" size={24} />
-          <Text style={styles.subStepButtonBackText}>Kembali</Text>
+          style={({pressed}) => ({
+            transform: [{scale: pressed ? 0.99 : 1}],
+          })}
+          onPress={() => {
+            setSubStep(3);
+          }}>
+          <Button
+            mode="contained"
+            icon="chevron-left"
+            textColor={Colors.neutral100.color}
+            style={styles.subStepButtonBackContainer}>
+            Kembali
+          </Button>
         </Pressable>
 
         <View style={styles.subStepTextWrapper}>

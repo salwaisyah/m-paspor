@@ -8,10 +8,7 @@ import Colors from '../../../../../assets/styles/Colors';
 import jobData from '../../../../data/DropdownData/JobData';
 import nationalityData from '../../../../data/DropdownData/NationalityData';
 import {PassportAppointment} from '../../../../navigation/type';
-import {
-  addData,
-  getData,
-} from '../../../../helper/asyncStorageHelper';
+import {addData, getData} from '../../../../helper/asyncStorageHelper';
 
 const Step4ApplicantAdditionalDataSubStep2 = ({
   setStep,
@@ -24,19 +21,21 @@ const Step4ApplicantAdditionalDataSubStep2 = ({
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
+          style={({pressed}) => ({
+            transform: [{scale: pressed ? 0.99 : 1}],
+            marginBottom: 12,
+          })}
           onPress={() => {
             setStep(4);
             setSubStep(1);
-          }}
-          style={({pressed}) => [
-            styles.subStepButtonBackWrapper,
-            {
-              transform: [{scale: pressed ? 0.99 : 1}],
-              marginBottom: 8,
-            },
-          ]}>
-          <Icon name="chevron-left" size={24} />
-          <Text style={styles.subStepButtonBackText}>Kembali</Text>
+          }}>
+          <Button
+            mode="contained"
+            icon="chevron-left"
+            textColor={Colors.neutral100.color}
+            style={styles.subStepButtonBackContainer}>
+            Kembali
+          </Button>
         </Pressable>
         <Text style={styles.subStepDesc}>
           Data di bawah ini harus sesuai dengan keterangan pada KTP pemohon.

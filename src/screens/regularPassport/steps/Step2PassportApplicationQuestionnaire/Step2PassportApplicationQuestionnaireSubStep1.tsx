@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Pressable, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import styles from '../styles';
 import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
 import hasHadPassportBeforeOptions from '../../../../data/Options/HasHadPassportBeforeOptions';
+import {Button} from 'react-native-paper';
+import Colors from '../../../../../assets/styles/Colors';
 
 type Step2PassportApplicationQuestionnaireSubStep1Props = {
   setStep: (step: number) => void;
@@ -23,18 +24,20 @@ const Step2PassportApplicationQuestionnaireSubStep1 = ({
   return (
     <View style={styles.subStepContainer}>
       <Pressable
+        style={({pressed}) => ({
+          transform: [{scale: pressed ? 0.99 : 1}],
+        })}
         onPress={() => {
           setStep(1);
           setSubStep(3);
-        }}
-        style={({pressed}) => [
-          styles.subStepButtonBackWrapper,
-          {
-            transform: [{scale: pressed ? 0.99 : 1}],
-          },
-        ]}>
-        <Icon name="chevron-left" size={24} />
-        <Text style={styles.subStepButtonBackText}>Kembali</Text>
+        }}>
+        <Button
+          mode="contained"
+          icon="chevron-left"
+          textColor={Colors.neutral100.color}
+          style={styles.subStepButtonBackContainer}>
+          Kembali
+        </Button>
       </Pressable>
 
       <View style={styles.subStepQuestionnaireOptionContainer}>

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView, View, Text, Pressable} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import {ScrollView, View, Pressable} from 'react-native';
 import {Button} from 'react-native-paper';
 import styles from '../styles';
 import TextInputComponent from '../../../../components/TextInput';
@@ -23,22 +22,22 @@ const Step2PassportApplicationQuestionnaireSubStep7 = ({
   const [countryValue, setCountryValue] = useState<string | null>(null);
 
   const handleCountrySelect = (value: string | null) => {
-    setCountryValue(value); 
-    setSelectedDestinationCountryOption(''); 
+    setCountryValue(value);
+    setSelectedDestinationCountryOption('');
   };
 
   const handleRadioSelect = (value: string) => {
     if (value === 'destination_country_not_set') {
       setSelectedDestinationCountryOption(value);
-      setCountryValue(null); 
+      setCountryValue(null);
     } else {
-      setSelectedDestinationCountryOption(value); 
+      setSelectedDestinationCountryOption(value);
     }
   };
 
   const isRadioButtonSelected = (value: string) => {
     if (countryValue !== null) {
-      return ''; 
+      return '';
     }
     return selectedDestinationCountryOption === value ? value : '';
   };
@@ -47,18 +46,20 @@ const Step2PassportApplicationQuestionnaireSubStep7 = ({
     <ScrollView>
       <View style={styles.subStepContainer}>
         <Pressable
+          style={({pressed}) => ({
+            transform: [{scale: pressed ? 0.99 : 1}],
+          })}
           onPress={() => {
             setSubStep(6);
             setSelectedDestinationCountryOption('');
-          }}
-          style={({pressed}) => [
-            styles.subStepButtonBackWrapper,
-            {
-              transform: [{scale: pressed ? 0.99 : 1}],
-            },
-          ]}>
-          <Icon name="chevron-left" size={24} />
-          <Text style={styles.subStepButtonBackText}>Kembali</Text>
+          }}>
+          <Button
+            mode="contained"
+            icon="chevron-left"
+            textColor={Colors.neutral100.color}
+            style={styles.subStepButtonBackContainer}>
+            Kembali
+          </Button>
         </Pressable>
 
         <View style={styles.subStepQuestionnaireOptionContainer}>

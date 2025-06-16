@@ -48,6 +48,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
+  subStepButtonBackContainer: {
+    alignSelf: 'flex-start',
+    backgroundColor: Colors.primary30.color,
+  },
   subStepButtonBackText: {
     ...FontFamily.notoSansRegular,
     includeFontPadding: false,

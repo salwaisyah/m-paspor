@@ -10,16 +10,13 @@ import {PassportAppointment} from '../../../../navigation/type';
 type Step5ApplicationTypeAndApplicantDataProps = {
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
-  passportAppointmentData: any[];
   showEditDataSheet: () => void;
 };
 
 const Step5Content = (props: Step5ApplicationTypeAndApplicantDataProps) => {
-  const {setStep, setSubStep, passportAppointmentData, showEditDataSheet} =
-    props;
+  const {setStep, setSubStep, showEditDataSheet} = props;
 
-  const [lastAppointment, setLastAppointment] =
-    useState<PassportAppointment>();
+  const [lastAppointment, setLastAppointment] = useState<PassportAppointment>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -127,7 +124,13 @@ const Step5Content = (props: Step5ApplicationTypeAndApplicantDataProps) => {
   );
 };
 
-const DetailRow = ({label, value}: {label: string; value: string | undefined}) => (
+const DetailRow = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | undefined;
+}) => (
   <View style={styles.applicantDetailTextContentWrapper}>
     <Text style={styles.applicantDetailTextTitle}>{label}</Text>
     <Text style={styles.applicantDetailTextDesc}>{value}</Text>
