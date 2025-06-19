@@ -12,10 +12,12 @@ import {getData} from '../../../../helper/asyncStorageHelper';
 type Step7ApplicationFeeDetailsProps = {
   showSubmitSuccessDialog: () => void;
   setLastCompletedSteps: () => void;
+  onSubStepValidation: (isValid: boolean) => void;
 };
 
 const Step7ApplicationFeeDetails = (props: Step7ApplicationFeeDetailsProps) => {
-  const {showSubmitSuccessDialog, setLastCompletedSteps} = props;
+  const {showSubmitSuccessDialog, setLastCompletedSteps, onSubStepValidation} =
+    props;
   const [lastAppointment, setLastAppointment] = useState<PassportAppointment>();
 
   useEffect(() => {
@@ -31,6 +33,12 @@ const Step7ApplicationFeeDetails = (props: Step7ApplicationFeeDetailsProps) => {
     };
     fetchData();
   }, []);
+
+  const onNextPress = () => {
+    onSubStepValidation(true);
+    showSubmitSuccessDialog();
+    setLastCompletedSteps();
+  };
 
   return (
     <ScrollView>
@@ -215,10 +223,7 @@ const Step7ApplicationFeeDetails = (props: Step7ApplicationFeeDetailsProps) => {
           mode="contained"
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}
-          onPress={() => {
-            showSubmitSuccessDialog();
-            setLastCompletedSteps();
-          }}>
+          onPress={onNextPress}>
           Kembali ke Halaman Utama
         </Button>
       </View>

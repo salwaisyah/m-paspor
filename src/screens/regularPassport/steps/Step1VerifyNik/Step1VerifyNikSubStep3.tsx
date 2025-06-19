@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {RefObject, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {Button} from 'react-native-paper';
 import styles from '../styles';
@@ -6,23 +6,31 @@ import TextInputComponent from '../../../../components/TextInput';
 import genderData from '../../../../data/DropdownData/GenderData';
 import civilStatusData from '../../../../data/DropdownData/CivilStatusData';
 import Colors from '../../../../../assets/styles/Colors';
+import {changeStep} from '../../../../utils/stepNavigation';
+import {StepValidationStatusSetter} from '../../../../../types/step';
 
 type Step1VerifyNikSubStep3Props = {
+  step: number;
   setStep: (val: number) => void;
   setSubStep: (val: number) => void;
+  setStepValidationStatus: StepValidationStatusSetter;
   onSubStepValidation: (isValid: boolean) => void;
+  editedCompletedRef: RefObject<Set<number>>;
 };
 
 const Step1VerifyNikSubStep3 = ({
+  step,
   setStep,
   setSubStep,
+  setStepValidationStatus,
   onSubStepValidation,
+  editedCompletedRef,
 }: Step1VerifyNikSubStep3Props) => {
-  const [fullName, setFullName] = React.useState('');
-  const [nik, setNik] = React.useState('');
-  const [birthDate, setBirthDate] = React.useState('');
-  const [gender, setGender] = React.useState('');
-  const [civilStatus, setCivilStatus] = React.useState('');
+  const [fullName, setFullName] = useState('');
+  const [nik, setNik] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [gender, setGender] = useState('');
+  const [civilStatus, setCivilStatus] = useState('');
 
   const onNextPress = () => {
     const isFormValid =
@@ -38,8 +46,14 @@ const Step1VerifyNikSubStep3 = ({
       onSubStepValidation(false);
     }
 
-    setStep(2);
-    setSubStep(1);
+    changeStep({
+      currentStep: step,
+      targetStep: 2,
+      setStep,
+      setSubStep: () => setSubStep(1),
+      setStepValidationStatus,
+      editedCompletedRef,
+    });
   };
 
   return (

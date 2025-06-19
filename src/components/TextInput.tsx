@@ -194,7 +194,10 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             )}
           </View>
           <Dropdown
-            style={[styles.dropdown, isDisabled && styles.outlineColorDisabledDropdown]}
+            style={[
+              styles.dropdown,
+              isDisabled && styles.outlineColorDisabledDropdown,
+            ]}
             placeholderStyle={styles.placeholderDropdownStyle}
             selectedTextStyle={styles.selectedTextStyle}
             iconStyle={styles.iconStyle}
@@ -264,7 +267,10 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             </View>
           )}
           <Dropdown
-            style={[styles.dropdown, isDisabled && styles.outlineColorDisabledDropdown]}
+            style={[
+              styles.dropdown,
+              isDisabled && styles.outlineColorDisabledDropdown,
+            ]}
             selectedTextStyle={styles.selectedTextStyle}
             placeholderStyle={styles.placeholderDropdownStyle}
             inputSearchStyle={styles.inputSearchStyle}
@@ -311,11 +317,15 @@ const TextInputComponent = (props: TextInputComponentProps) => {
             <TextInput
               mode="outlined"
               placeholder={placeholder}
-              style={[inputStyle, isDisabled && styles.outlineColorDisabledDropdown]}
+              style={[
+                inputStyle,
+                isDisabled && styles.outlineColorDisabledDropdown,
+              ]}
               theme={{roundness: 12}}
               placeholderTextColor={Colors.primary60.color}
               editable={false}
-              value={formattedDate}
+              value={value}
+              onChangeText={onChangeText}
               right={
                 <TextInput.Icon
                   icon="menu-down"

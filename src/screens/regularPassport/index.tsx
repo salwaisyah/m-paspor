@@ -1,27 +1,31 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {BackHandler, StatusBar, Text, View} from 'react-native';
-import styles from './styles';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// React & React Native Core
+import React, {RefObject, useEffect, useRef, useState} from 'react';
+import {BackHandler, StatusBar, Text, ToastAndroid, View} from 'react-native';
+
+// React Navigation
 import {useNavigation} from '@react-navigation/native';
-import Colors from '../../../assets/styles/Colors';
-import RadioButtonOptionComponent from '../../components/RadioButtonOption';
-import {RootStackParamList} from '../../navigation/type';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+// Third-Party Libraries
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {PaperProvider} from 'react-native-paper';
+
+// Components
 import StepIndicator from '../../components/StepIndicator';
+import RadioButtonOptionComponent from '../../components/RadioButtonOption';
 import DialogApplicationPassport from '../../components/dialog/DialogApplicationPassport';
 import DialogDontHaveYetPassport from '../../components/dialog/DialogDontHaveYetPassport';
 import DialogLostOrDamagedPassport from '../../components/dialog/DialogLostOrDamagedPassport';
-import Step7ApplicationFeeDetails from './steps/Step7ApplicationFeeDetails/Step7ApplicationFeeDetails';
-import Step6ApplicationTypeAndApplicantData from './steps/Step6ApplicationTypeAndApplicantData/Step6ApplicationTypeAndApplicantData';
-import Step5ApplicationTypeAndApplicantData from './steps/Step5ApplicationTypeAndApplicantData/Step5ApplicationTypeAndApplicantData';
-import Step3UploadDocuments from './steps/Step3UploadDocuments/Step3UploadDocuments';
-import {ToastAndroid} from 'react-native';
+import DialogCivilStatusDocumentsInfo from '../../components/dialog/DialogCivilStatusDocumentsInfo';
+import DialogSubmitSuccess from '../../components/dialog/DialogSubmitSuccess';
+import DialogFinalizationConfirmation from '../../components/dialog/DialogFinalizationConfirmation';
+import DialogPassportConditionInfo from '../../components/dialog/DialogPassportConditionInfo';
+import DialogPassportTypeInfo from '../../components/dialog/DialogPassportTypeInfo';
+import SheetEditData from '../../components/sheet/SheetEditData';
+import SheetSearchLocation from '../../components/sheet/SheetSearchLocation';
+import SheetSelectDate from '../../components/sheet/SheetSelectDate';
 
-// Options Data
-import passportForOptions from '../../data/Options/PassportForOptions';
-import Step4ApplicantAdditionalDataSubStep2 from './steps/Step4ApplicantAdditionalData/Step4ApplicantAdditionalDataSubStep2';
-import Step4ApplicantAdditionalDataSubStep1 from './steps/Step4ApplicantAdditionalData/Step4ApplicantAdditionalDataSubStep1';
+// Steps - Step Screens
 import Step1VerifyNikSubStep1 from './steps/Step1VerifyNik/Step1VerifyNikSubStep1';
 import Step1VerifyNikSubStep2 from './steps/Step1VerifyNik/Step1VerifyNikSubStep2';
 import Step1VerifyNikSubStep3 from './steps/Step1VerifyNik/Step1VerifyNikSubStep3';
@@ -36,14 +40,28 @@ import Step2PassportApplicationQuestionnaireSubStep8 from './steps/Step2Passport
 import Step2PassportApplicationQuestionnaireSubStep9 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep9';
 import Step2PassportApplicationQuestionnaireSubStep10 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep10';
 import Step2PassportApplicationQuestionnaireSubStep11 from './steps/Step2PassportApplicationQuestionnaire/Step2PassportApplicationQuestionnaireSubStep11';
-import DialogCivilStatusDocumentsInfo from '../../components/dialog/DialogCivilStatusDocumentsInfo';
-import DialogSubmitSuccess from '../../components/dialog/DialogSubmitSuccess';
-import DialogFinalizationConfirmation from '../../components/dialog/DialogFinalizationConfirmation';
-import DialogPassportConditionInfo from '../../components/dialog/DialogPassportConditionInfo';
-import DialogPassportTypeInfo from '../../components/dialog/DialogPassportTypeInfo';
-import SheetEditData from '../../components/sheet/SheetEditData';
-import SheetSearchLocation from '../../components/sheet/SheetSearchLocation';
-import SheetSelectDate from '../../components/sheet/SheetSelectDate';
+import Step3UploadDocuments from './steps/Step3UploadDocuments/Step3UploadDocuments';
+import Step4ApplicantAdditionalDataSubStep1 from './steps/Step4ApplicantAdditionalData/Step4ApplicantAdditionalDataSubStep1';
+import Step4ApplicantAdditionalDataSubStep2 from './steps/Step4ApplicantAdditionalData/Step4ApplicantAdditionalDataSubStep2';
+import Step5ApplicationTypeAndApplicantData from './steps/Step5ApplicationTypeAndApplicantData/Step5ApplicationTypeAndApplicantData';
+import Step6ApplicationTypeAndApplicantData from './steps/Step6ApplicationTypeAndApplicantData/Step6ApplicationTypeAndApplicantData';
+import Step7ApplicationFeeDetails from './steps/Step7ApplicationFeeDetails/Step7ApplicationFeeDetails';
+
+// Navigation
+import {RootStackParamList} from '../../navigation/type';
+
+// Types
+import {
+  StepValidationStatus,
+  StepValidationStatusSetter,
+} from '../../../types/step';
+
+// Data & Styles
+import passportForOptions from '../../data/Options/PassportForOptions';
+import Colors from '../../../assets/styles/Colors';
+import styles from './styles';
+import {changeStep} from '../../utils/stepNavigation';
+import InfoToast from '../../components/InfoToast';
 
 type RegularPassportScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -51,6 +69,7 @@ type RegularPassportScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 type RenderApplicationStepsContentProps = {
+  navigation: any;
   step: number;
   subStep: number;
   setStep: (step: number) => void;
@@ -74,15 +93,16 @@ type RenderApplicationStepsContentProps = {
   showSelectDateSheet: () => void;
   selectedDestinationCountryOption: string;
   setSelectedDestinationCountryOption: (val: string) => void;
-  setStepValidationStatus: React.Dispatch<
-    React.SetStateAction<Record<number, 'incomplete' | 'completed' | 'invalid'>>
-  >;
+  stepValidationStatus: StepValidationStatus;
+  setStepValidationStatus: StepValidationStatusSetter;
+  editedCompletedRef: RefObject<Set<number>>;
 };
 
 const RenderApplicationStepsContent = (
   props: RenderApplicationStepsContentProps,
 ) => {
   const {
+    navigation,
     step,
     subStep,
     setStep,
@@ -107,6 +127,7 @@ const RenderApplicationStepsContent = (
     showSearchLocationSheet,
     showSelectDateSheet,
     setStepValidationStatus,
+    editedCompletedRef,
   } = props;
 
   if (step === 1) {
@@ -118,14 +139,17 @@ const RenderApplicationStepsContent = (
       case 3:
         return (
           <Step1VerifyNikSubStep3
+            step={step}
             setStep={setStep}
             setSubStep={setSubStep}
+            setStepValidationStatus={setStepValidationStatus}
             onSubStepValidation={isValid => {
               setStepValidationStatus(prev => ({
                 ...prev,
                 1: isValid ? 'completed' : 'invalid',
               }));
             }}
+            editedCompletedRef={editedCompletedRef}
           />
         );
       default:
@@ -138,11 +162,14 @@ const RenderApplicationStepsContent = (
       case 1:
         return (
           <Step2PassportApplicationQuestionnaireSubStep1
+            step={step}
             setStep={setStep}
             setSubStep={setSubStep}
+            setStepValidationStatus={setStepValidationStatus}
             selectedPassportOption={selectedPassportOption}
             setSelectedPassportOption={setSelectedPassportOption}
             showDontHaveYetDialog={showDontHaveYetDialog}
+            editedCompletedRef={editedCompletedRef}
           />
         );
       case 2:
@@ -209,16 +236,27 @@ const RenderApplicationStepsContent = (
       case 10:
         return (
           <Step2PassportApplicationQuestionnaireSubStep10
+            step={step}
             setStep={setStep}
             setSubStep={setSubStep}
+            setStepValidationStatus={setStepValidationStatus}
             selectedDestinationCountryOption={selectedDestinationCountryOption}
+            onSubStepValidation={isValid => {
+              setStepValidationStatus(prev => ({
+                ...prev,
+                2: isValid ? 'completed' : 'invalid',
+              }));
+            }}
+            editedCompletedRef={editedCompletedRef}
           />
         );
       case 11:
         return (
           <Step2PassportApplicationQuestionnaireSubStep11
+            step={step}
             setStep={setStep}
             setSubStep={setSubStep}
+            setStepValidationStatus={setStepValidationStatus}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
             onSubStepValidation={isValid => {
@@ -227,6 +265,7 @@ const RenderApplicationStepsContent = (
                 2: isValid ? 'completed' : 'invalid',
               }));
             }}
+            editedCompletedRef={editedCompletedRef}
           />
         );
       default:
@@ -239,17 +278,29 @@ const RenderApplicationStepsContent = (
       case 1:
         return (
           <Step4ApplicantAdditionalDataSubStep1
+            step={step}
             setStep={setStep}
             setSubStep={setSubStep}
+            setStepValidationStatus={setStepValidationStatus}
             checkedOption={checkedOption}
             setCheckedOption={setCheckedOption}
+            editedCompletedRef={editedCompletedRef}
           />
         );
       case 2:
         return (
           <Step4ApplicantAdditionalDataSubStep2
+            step={step}
             setStep={setStep}
             setSubStep={setSubStep}
+            setStepValidationStatus={setStepValidationStatus}
+            onSubStepValidation={isValid => {
+              setStepValidationStatus(prev => ({
+                ...prev,
+                4: isValid ? 'completed' : 'invalid',
+              }));
+            }}
+            editedCompletedRef={editedCompletedRef}
           />
         );
     }
@@ -258,8 +309,10 @@ const RenderApplicationStepsContent = (
     case 3:
       return (
         <Step3UploadDocuments
+          step={step}
           setStep={setStep}
           setSubStep={setSubStep}
+          setStepValidationStatus={setStepValidationStatus}
           selectedPassportOption={selectedPassportOption}
           showCivilStatusDocumentsInfoDialog={
             showCivilStatusDocumentsInfoDialog
@@ -271,14 +324,21 @@ const RenderApplicationStepsContent = (
               3: isValid ? 'completed' : 'invalid',
             }));
           }}
+          editedCompletedRef={editedCompletedRef}
         />
       );
     case 5:
       return (
         <Step5ApplicationTypeAndApplicantData
           setStep={setStep}
-          setSubStep={setSubStep}
           showEditDataSheet={showEditDataSheet}
+          navigation={navigation}
+          onSubStepValidation={() => {
+            setStepValidationStatus(prev => ({
+              ...prev,
+              5: 'completed',
+            }));
+          }}
         />
       );
     case 6:
@@ -297,6 +357,12 @@ const RenderApplicationStepsContent = (
         <Step7ApplicationFeeDetails
           showSubmitSuccessDialog={showSubmitSuccessDialog}
           setLastCompletedSteps={setLastCompletedSteps}
+          onSubStepValidation={() => {
+            setStepValidationStatus(prev => ({
+              ...prev,
+              7: 'completed',
+            }));
+          }}
         />
       );
     default:
@@ -362,9 +428,12 @@ function RegularPassportScreen() {
   const [checkedOption, setCheckedOption] = useState(false);
   const [showApplicationStepsContent, setShowApplicationStepsContent] =
     useState(false);
+
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
   const [step, setStep] = useState(1);
   const [subStep, setSubStep] = useState(1);
-
   const [completedSteps, setCompletedSteps] = useState<number[]>(
     [...Array(step - 1)].map((_, i) => i + 1),
   );
@@ -512,6 +581,11 @@ function RegularPassportScreen() {
     });
   };
 
+  const showInfoToast = (msg: string) => {
+    setToastMessage(msg);
+    setToastVisible(true);
+  };
+
   // Render steps or questionnaire
   const renderApplicationStepsContent = showApplicationStepsContent ? (
     <>
@@ -523,67 +597,33 @@ function RegularPassportScreen() {
           completedSteps={completedSteps}
           validationStatus={stepValidationStatus}
           onStepPress={(targetStep: number) => {
-            const isCurrentStepIn5to7 = step >= 5 && step <= 7;
-            const isTargetStepIn1to4 = targetStep >= 1 && targetStep <= 4;
-            const isTargetStepIn5to7 = targetStep >= 5 && targetStep <= 7;
+            const isCurrentStep7 = step === 7;
+            const isTargetStepIn1to6 = targetStep >= 1 && targetStep <= 6;
 
-            const isStep1to4Completed = [1, 2, 3, 4].every(
-              s => stepValidationStatus[s] === 'completed',
-            );
+            const toastMessage = isCurrentStep7
+              ? 'Tak dapat kembali – langkah terakhir.'
+              : !isTargetStepIn1to6
+              ? 'Lengkapi langkah 1 – 6 dulu'
+              : null;
 
-            if (!isCurrentStepIn5to7 && isTargetStepIn5to7) {
-              ToastAndroid.show(
-                'Lengkapi langkah 1 – 4 dulu',
-                ToastAndroid.SHORT,
-              );
+            if (toastMessage) {
+              showInfoToast(toastMessage);
               return;
             }
 
-            if (
-              isCurrentStepIn5to7 &&
-              isStep1to4Completed &&
-              isTargetStepIn1to4
-            ) {
-              ToastAndroid.show(
-                'Hanya dapat berpindah di langkah 5 – 7.',
-                ToastAndroid.SHORT,
-              );
-              return;
-            }
-
-            setStepValidationStatus(prev => {
-              const next = {...prev};
-
-              if (step !== targetStep && editedCompletedRef.current.has(step)) {
-                next[step] = 'completed';
-                editedCompletedRef.current.delete(step);
-              }
-
-              if (prev[targetStep] === 'completed') {
-                editedCompletedRef.current.add(targetStep);
-              }
-
-              next[targetStep] = 'incomplete';
-
-              if (targetStep > step) {
-                for (let s = 1; s < targetStep; s++) {
-                  if (next[s] !== 'completed') next[s] = 'invalid';
-                }
-              } else if (targetStep < step) {
-                for (let s = step; s > targetStep; s--) {
-                  if (next[s] !== 'completed') next[s] = 'invalid';
-                }
-              }
-
-              return next;
+            changeStep({
+              currentStep: step,
+              targetStep: targetStep,
+              setStep,
+              setSubStep: () => setSubStep(1),
+              setStepValidationStatus,
+              editedCompletedRef,
             });
-
-            setStep(targetStep);
-            setSubStep(1);
           }}
         />
 
         <RenderApplicationStepsContent
+          navigation={navigation}
           step={step}
           subStep={subStep}
           setStep={setStep}
@@ -613,7 +653,9 @@ function RegularPassportScreen() {
           showEditDataSheet={showEditDataSheet}
           showSearchLocationSheet={showSearchLocationSheet}
           showSelectDateSheet={showSelectDateSheet}
+          stepValidationStatus={stepValidationStatus}
           setStepValidationStatus={setStepValidationStatus}
+          editedCompletedRef={editedCompletedRef}
         />
       </View>
 
@@ -672,7 +714,19 @@ function RegularPassportScreen() {
           visible={visibleFinalizationConfirmationDialog}
           onClose={hideFinalizationConfirmationDialog}
           onContinue={() => {
-            setStep(7);
+            setStepValidationStatus(prev => ({
+              ...prev,
+              6: 'completed',
+            }));
+
+            const canProceedToStep7 = [1, 2, 3, 4, 5, 6].every(
+              s => stepValidationStatus[s] === 'completed',
+            );
+
+            !canProceedToStep7
+              ? showInfoToast('Lengkapi semua langkah terlebih dahulu.')
+              : setStep(7);
+
             hideFinalizationConfirmationDialog();
           }}
         />
@@ -752,6 +806,11 @@ function RegularPassportScreen() {
             hideDialog();
             setShowApplicationStepsContent(true);
           }}
+        />
+        <InfoToast
+          visible={toastVisible}
+          message={toastMessage}
+          onDismiss={() => setToastVisible(false)}
         />
       </PaperProvider>
     </View>

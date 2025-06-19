@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {RefObject, useState} from 'react';
 import {ScrollView, View, Text, Pressable} from 'react-native';
 import styles from '../styles';
 import Colors from '../../../../../assets/styles/Colors';
@@ -7,6 +7,8 @@ import genderData from '../../../../data/DropdownData/GenderData';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Button} from 'react-native-paper';
 import TextInputComponent from '../../../../components/TextInput';
+import {changeStep} from '../../../../utils/stepNavigation';
+import { StepValidationStatusSetter } from '../../../../../types/step';
 
 interface BackButtonProps {
   onPress: () => void;
@@ -22,12 +24,15 @@ interface DocumentUploadSectionProps {
 }
 
 interface Step3UploadDocumentsProps {
+  step: number;
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
+  setStepValidationStatus: StepValidationStatusSetter;
   selectedPassportOption: string;
   selectedDestinationCountryOption: string;
   showCivilStatusDocumentsInfoDialog: () => void;
   onSubStepValidation: (isValid: boolean) => void;
+  editedCompletedRef: RefObject<Set<number>>;
 }
 
 const BackButton = (props: BackButtonProps) => {
@@ -149,18 +154,37 @@ const DocumentUploadSection = (props: DocumentUploadSectionProps) => {
 
 const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
   const {
+    step,
     setStep,
     setSubStep,
+    setStepValidationStatus,
     selectedPassportOption,
     selectedDestinationCountryOption,
     showCivilStatusDocumentsInfoDialog,
     onSubStepValidation,
+    editedCompletedRef,
   } = props;
 
   const [isKTPUploaded, setIsKTPUploaded] = useState(false);
   const [isFamilyCardUploaded, setIsFamilyCardUploaded] = useState(false);
   const [isCivilStatusUploaded, setIsCivilStatusUploaded] = useState(false);
   const [isOldPassportUploaded, setIsOldPassportUploaded] = useState(false);
+
+  const onBackPress = () => {
+    changeStep({
+      currentStep: step,
+      targetStep: 2,
+      setStep,
+      setSubStep: () =>
+        setSubStep(
+          selectedDestinationCountryOption === 'destination_country_not_set'
+            ? 10
+            : 11,
+        ),
+      setStepValidationStatus,
+      editedCompletedRef,
+    });
+  };
 
   const onNextPress = () => {
     const isFormValid =
@@ -175,23 +199,20 @@ const Step3UploadDocuments = (props: Step3UploadDocumentsProps) => {
       onSubStepValidation(false);
     }
 
-    setStep(4);
-    setSubStep(1);
+    changeStep({
+      currentStep: step,
+      targetStep: 4,
+      setStep,
+      setSubStep: () => setSubStep(1),
+      setStepValidationStatus,
+      editedCompletedRef,
+    });
   };
 
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
-        <BackButton
-          onPress={() => {
-            setStep(2);
-            setSubStep(
-              selectedDestinationCountryOption === 'destination_country_not_set'
-                ? 10
-                : 11,
-            );
-          }}
-        />
+        <BackButton onPress={onBackPress} />
 
         <View style={{marginTop: 12, marginBottom: 16, gap: 4}}>
           <Text style={styles.subStepDesc}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, View, Text} from 'react-native';
 import {Button, Divider} from 'react-native-paper';
 import TextInputComponent from '../../../../components/TextInput';
@@ -15,13 +15,16 @@ type Step6ApplicationTypeAndApplicantDataProps = {
   showSelectDateSheet: () => void;
 };
 
-const Step6ApplicationTypeAndApplicantData = (props: Step6ApplicationTypeAndApplicantDataProps) => {
+const Step6ApplicationTypeAndApplicantData = (
+  props: Step6ApplicationTypeAndApplicantDataProps,
+) => {
   const {
     showFinalizationConfirmationDialog,
     showPassportTypeInfoDialog,
     showSearchLocationSheet,
     showSelectDateSheet,
   } = props;
+
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>

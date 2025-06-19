@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {RefObject, useState} from 'react';
 import {ScrollView, View, Text, Pressable} from 'react-native';
 import {Button} from 'react-native-paper';
 import styles from '../styles';
@@ -8,21 +8,29 @@ import destinationFamilyContactOptions from '../../../../data/Options/Destinatio
 import familyRelationshipData from '../../../../data/DropdownData/FamilyRelationshipData';
 import RadioButtonOptionComponent from '../../../../components/RadioButtonOption';
 import Colors from '../../../../../assets/styles/Colors';
+import {changeStep} from '../../../../utils/stepNavigation';
+import {StepValidationStatusSetter} from '../../../../../types/step';
 
 type Step2PassportApplicationQuestionnaireSubStep11Props = {
+  step: number;
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
+  setStepValidationStatus: StepValidationStatusSetter;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
   onSubStepValidation: (isValid: boolean) => void;
+  editedCompletedRef: RefObject<Set<number>>;
 };
 
 const Step2PassportApplicationQuestionnaireSubStep11 = ({
+  step,
   setStep,
   setSubStep,
+  setStepValidationStatus,
   selectedOption,
   setSelectedOption,
   onSubStepValidation,
+  editedCompletedRef,
 }: Step2PassportApplicationQuestionnaireSubStep11Props) => {
   const [relativeName, setRelativeName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -41,7 +49,13 @@ const Step2PassportApplicationQuestionnaireSubStep11 = ({
       onSubStepValidation(false);
     }
 
-    setStep(3);
+    changeStep({
+      currentStep: step,
+      targetStep: 3,
+      setStep,
+      setStepValidationStatus,
+      editedCompletedRef,
+    });
   };
 
   return (

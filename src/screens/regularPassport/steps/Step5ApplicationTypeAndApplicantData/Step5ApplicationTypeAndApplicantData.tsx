@@ -9,12 +9,15 @@ import {PassportAppointment} from '../../../../navigation/type';
 
 type Step5ApplicationTypeAndApplicantDataProps = {
   setStep: (step: number) => void;
-  setSubStep: (subStep: number) => void;
   showEditDataSheet: () => void;
+  navigation: any;
+  onSubStepValidation: (isValid: boolean) => void;
 };
 
-const Step5Content = (props: Step5ApplicationTypeAndApplicantDataProps) => {
-  const {setStep, setSubStep, showEditDataSheet} = props;
+const Step5ApplicationTypeAndApplicantData = (
+  props: Step5ApplicationTypeAndApplicantDataProps,
+) => {
+  const {setStep, showEditDataSheet, navigation, onSubStepValidation} = props;
 
   const [lastAppointment, setLastAppointment] = useState<PassportAppointment>();
 
@@ -31,6 +34,18 @@ const Step5Content = (props: Step5ApplicationTypeAndApplicantDataProps) => {
     };
     fetchData();
   }, []);
+
+  const onNextPress = () => {
+    onSubStepValidation(true);
+    setStep(6);
+  };
+
+  const onBackHomePress = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'NavigationRoute'}],
+    });
+  };
 
   return (
     <View style={styles.subStepContainer}>
@@ -104,20 +119,17 @@ const Step5Content = (props: Step5ApplicationTypeAndApplicantDataProps) => {
       <View style={[styles.subStepButtonContainer, {marginTop: 12}]}>
         <Button
           mode="contained"
-          onPress={() => setStep(6)}
+          onPress={onNextPress}
           style={styles.subStepButtonContained}
           textColor={Colors.neutral100.color}>
           Lanjut
         </Button>
         <Button
           mode="outlined"
-          onPress={() => {
-            setStep(4);
-            setSubStep(2);
-          }}
+          onPress={onBackHomePress}
           style={styles.subStepButtonOutlined}
           textColor={Colors.primary30.color}>
-          Kembali
+          Beranda
         </Button>
       </View>
     </View>
@@ -137,4 +149,4 @@ const DetailRow = ({
   </View>
 );
 
-export default Step5Content;
+export default Step5ApplicationTypeAndApplicantData;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {RefObject} from 'react';
 import {ScrollView, View, Pressable, Text} from 'react-native';
 import {Checkbox, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -9,17 +9,40 @@ import postalCodeData from '../../../../data/DropdownData/PostalCodeData';
 import districtData from '../../../../data/DropdownData/DistrictData';
 import cityData from '../../../../data/DropdownData/CityData';
 import provinceData from '../../../../data/DropdownData/ProvinceData';
+import {changeStep} from '../../../../utils/stepNavigation';
+import { StepValidationStatusSetter } from '../../../../../types/step';
 
 type Step4ApplicantAdditionalDataSubStep1Props = {
+  step: number;
   setStep: (step: number) => void;
   setSubStep: (subStep: number) => void;
+  setStepValidationStatus: StepValidationStatusSetter;
   checkedOption: boolean;
   setCheckedOption: React.Dispatch<React.SetStateAction<boolean>>;
+  editedCompletedRef: RefObject<Set<number>>;
 };
 
 const Step4ApplicantAdditionalDataSubStep1: React.FC<
   Step4ApplicantAdditionalDataSubStep1Props
-> = ({setStep, setSubStep, checkedOption, setCheckedOption}) => {
+> = ({
+  step,
+  setStep,
+  setSubStep,
+  setStepValidationStatus,
+  checkedOption,
+  setCheckedOption,
+  editedCompletedRef,
+}) => {
+  const onBackPress = () => {
+    changeStep({
+      currentStep: step,
+      targetStep: 3,
+      setStep,
+      setStepValidationStatus,
+      editedCompletedRef,
+    });
+  };
+
   return (
     <ScrollView>
       <View style={styles.subStepContainer}>
@@ -28,9 +51,7 @@ const Step4ApplicantAdditionalDataSubStep1: React.FC<
             transform: [{scale: pressed ? 0.99 : 1}],
             marginBottom: 12,
           })}
-          onPress={() => {
-            setStep(3);
-          }}>
+          onPress={onBackPress}>
           <Button
             mode="contained"
             icon="chevron-left"
