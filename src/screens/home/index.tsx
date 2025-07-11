@@ -242,8 +242,9 @@ const RenderContent = ({
                   appointmentDate={item.appointmentDate}
                   appointmentTime={item.appointmentTime}
                   serviceUnit={item.serviceUnit}
-                  status={item.status}
-                />
+                  status={item.status} navigate={function (arg0: string): void {
+                    throw new Error('Function not implemented.');
+                  } }                />
               </Pressable>
             )}
             keyExtractor={item => item.id ?? ''}
