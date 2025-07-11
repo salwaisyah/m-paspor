@@ -29,18 +29,18 @@ function NavigationRouteScreen() {
   const [routes] = useState([
     {
       key: 'home',
-      title: 'Home',
+      title: 'Beranda',
       focusedIcon: 'home',
       unfocusedIcon: 'home-outline',
     },
     {
       key: 'history',
-      title: 'History',
+      title: 'Riwayat',
       focusedIcon: 'history',
     },
     {
       key: 'profile',
-      title: 'Profile',
+      title: 'Profil',
       focusedIcon: 'account-circle',
       unfocusedIcon: 'account-circle-outline',
     },

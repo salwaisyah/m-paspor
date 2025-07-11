@@ -300,7 +300,7 @@ function HomeScreen(props: HomeScreenProps) {
     <View style={styles.container}>
       <View style={styles.appBarContainer}>
         <Text style={styles.appBarTitle} numberOfLines={1} ellipsizeMode="tail">
-          Halo, Salwa Aisyah Adhani!
+          Halo, Salwa!
         </Text>
         <Icon
           name="bell-outline"

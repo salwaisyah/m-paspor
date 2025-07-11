@@ -10,13 +10,14 @@ import {
 import styles from './styles';
 import {Button} from 'react-native-paper';
 import TextInputComponent from '../../components/TextInput';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {PassportAppointment, RootStackParamList} from '../../navigation/type';
 import Colors from '../../../assets/styles/Colors';
 import {getData, storeData} from '../../helper/asyncStorageHelper';
 import passportAppointmentData from '../../data/History/PassportAppointmentData';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import MDIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -24,7 +25,7 @@ type LoginScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 function LoginScreen() {
-  const welcomeImage = require('../../../assets/images/welcomeImage.png');
+  const welcomeImage = require('../../../assets/images/welcome-image.jpg');
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
   return (
@@ -75,11 +76,11 @@ function LoginScreen() {
         onPress={() => navigation.navigate('TermsAndConditions')}
         style={({pressed}) => [{transform: [{scale: pressed ? 0.975 : 1}]}]}>
         <View style={styles.termsAndConditionsContainer}>
-          <Icon
-            name="person"
+          <MDIcons
+            name="information-outline"
             size={20}
-            color="#000"
-            style={styles.personIcon}
+            color="#237D96"
+            style={styles.informationIcon}
           />
           <View style={styles.termsAndConditionsTextContainer}>
             <Text style={styles.termsAndConditionsTitle}>

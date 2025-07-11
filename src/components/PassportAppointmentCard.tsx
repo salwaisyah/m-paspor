@@ -1,12 +1,14 @@
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import WaitingForPaymentIcon from '../../assets/icons/waiting_for_payment.svg';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import FontFamily from '../../assets/styles/FontFamily';
 import Colors from '../../assets/styles/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 
 type PassportAppointmentCardProps = {
+  navigate(arg0: string): void;
   applicantName: string | undefined;
   applicantCode: string | undefined;
   appointmentDate: string | undefined;
@@ -18,6 +20,7 @@ type PassportAppointmentCardProps = {
 const renderStatusContent = (status: string | undefined) => {
   let backgroundColor;
   let IconComponent;
+  const navigation = useNavigation<PassportAppointmentCardProps>();
 
   switch (status) {
     case 'Permohonan Kadaluarsa':
@@ -41,9 +44,10 @@ const renderStatusContent = (status: string | undefined) => {
   return (
     <>
       {status === 'Sudah Terbayar' && (
-        <View style={styles.seeRequirementsWrapper}>
+        <Pressable style={styles.seeRequirementsWrapper}
+        onPress={() => navigation.navigate('SeeRequirements')}>
           <Text style={styles.appointmentStatusText}>Lihat Persyaratan</Text>
-        </View>
+        </Pressable>
       )}
       <View style={[styles.appointmentStatusWrapper, {backgroundColor}]}>
         <IconComponent />

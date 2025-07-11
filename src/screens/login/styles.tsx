@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   arrowRightIcon: {
     marginRight: 20,
   },
-  personIcon: {
+  informationIcon: {
     marginLeft: 20,
   },
 });
